@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 app.use(express.json());
+app.use(express.static('Images'));
 app.use(cookieParser());
 
 
@@ -24,6 +25,8 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     next()
 });
+
+
 
 const studentRoutes = require('./routes/studentRoutes');
 const staffRoutes = require('./routes/staffRoutes');

@@ -4,11 +4,11 @@ const router = express.Router();
 const StaffController = require('../controllers/staff-controllers')
 const AdminController = require('../controllers/admin-controllers')
 const common = require('../controllers/common-contollers');
-const adminControllers = require('../controllers/admin-controllers');
 
 router.post('/login',common.login)
 router.get('/logout',common.logout)
 router.get('/user',common.user)
+router.get('/get',AdminController.GetStudent)
 
 router.post('/addSchool',AdminController.addSchool)
 router.post('/addDep',AdminController.addDepartment)

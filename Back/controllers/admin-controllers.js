@@ -1,6 +1,8 @@
 const { reverse } = require('lodash');
 const { Op } = require('sequelize');
-const { Department , Post , Staff, School, Category } = require('../models/schema');
+const multer = require("multer");
+const path = require("path");
+const { Department , Post , Staff, School,Student, Category } = require('../models/schema');
 
 
 module.exports = {
@@ -124,6 +126,18 @@ module.exports = {
             return res.status(404).json({ message: 'Post not found' });
           }
           return res.json(post);
+        } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        }
+  },
+    async GetStudent(req,res){
+      try {
+          const student = await Student.findAll();
+          if (!student) {
+            return res.status(404).json({ message: 'Post not found' });
+          }
+          return res.json(student);
         } catch (err) {
           console.error(err);
           return res.status(500).json({ message: 'Internal Server Error' });

@@ -4,7 +4,7 @@ const router = express.Router();
 const StudentController = require('../controllers/student-controllers')
 const common = require('../controllers/common-contollers')
 
-router.post('/register',StudentController.Register)
+router.post('/register',StudentController.upload(),StudentController.Register)
 
 router.post('/likePost',common.LikePost)
 router.get('/seeLike',common.seeLike)

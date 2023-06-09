@@ -5,9 +5,9 @@ const StaffController = require('../controllers/staff-controllers')
 const AdminController = require('../controllers/admin-controllers')
 const common = require('../controllers/common-contollers')
 
-router.post('/stReg',StaffController.Register)
+router.post('/stReg',StaffController.upload(),StaffController.Register)
 
-router.post('/post',StaffController.AddPost)
+router.post('/post',StaffController.post(),StaffController.AddPost)
 router.put('/updatePost',StaffController.UpdatePost)
 router.delete('/deletePost',StaffController.DeletePost)
 router.delete('/deleteChat',common.DeleteChat)

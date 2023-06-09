@@ -1,16 +1,70 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 const {Staff , Post, Student, Category , RSVP, Department, School} = require('../models/schema');
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'Images/Staff_Image');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  });
+  
+  const upload =()=>{
+    return multer({
+    storage: storage,
+    limits: { fileSize: '10000000' },
+    fileFilter: (req, file, cb) => {
+      const fileTypes = /jpeg|jpg|png|gif/;
+      const mimeType = fileTypes.test(file.mimetype);
+      const extname = fileTypes.test(path.extname(file.originalname));
+      if (mimeType && extname) {
+        return cb(null, true);
+      }
+      cb('Give proper files format to upload');
+    },
+  }).single('picture');}
+
+  const postStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'Images/Post_Image');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  });
+  
+  const post =()=>{
+    return multer({
+    storage: postStorage,
+    limits: { fileSize: '10000000' },
+    fileFilter: (req, file, cb) => {
+      const fileTypes = /jpeg|jpg|png|gif/;
+      const mimeType = fileTypes.test(file.mimetype);
+      const extname = fileTypes.test(path.extname(file.originalname));
+      if (mimeType && extname) {
+        return cb(null, true);
+      }
+      cb('Give proper files format to upload');
+    },
+  }).single('image');}
 
 module.exports = {
     async Register(req,res){
-        const { fullname, email, password, picture } = req.body;
+        const { fullname, email, password} = req.body;
+        const picture = req.file ? req.file.path : null;
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         try {
             const existingStaff = await Staff.findOne({ where: { email } });
             if (existingStaff) {
+                if (req.file) {
+                    fs.unlinkSync(picture);
+                  }
                 return res.status(400).json({ message: 'User with this Email already exist', success: false });
             }
             const staff = await Staff.create({
@@ -39,7 +93,7 @@ module.exports = {
                }
             });
 
-              
+            const image = req.file ? req.file.path : null;
               
             if (!existingPost) {
               
@@ -49,6 +103,7 @@ module.exports = {
                   staffId: req.body.staffId,
                   categoryId: req.body.categoryId,
                   staffName: result.fullname,
+                  image
                 });
               
                 if(req.body.rsvp){
@@ -165,6 +220,11 @@ module.exports = {
           
 
             return res.status(201).json({ success:true, post: post })
+        }else{
+            if (req.file) {
+                fs.unlinkSync(image);
+              }
+            return res.status(400).json({ message: `Sorry You're entering Duplacted post!`, success: false });
         }
         } catch (error) {
             console.error(error);
@@ -214,6 +274,9 @@ module.exports = {
             return res.status(500).json({ error: 'Failed to delete post' });
         }
     },
+
+    upload,
+    post,
 
     async ChatBot(req,res){},
 }
