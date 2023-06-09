@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2023 at 11:00 AM
+-- Generation Time: Jun 09, 2023 at 08:22 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -55,13 +55,23 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`categoryId`, `name`, `createdAt`, `updatedAt`) VALUES
-(1, 'SOECE', '2023-04-03 09:41:22', '2023-04-03 09:41:22'),
-(3, 'PCE', '2023-04-03 09:42:16', '2023-04-03 09:42:16'),
-(4, 'ECE', '2023-04-03 09:42:34', '2023-04-03 09:42:34'),
-(5, 'CSE', '2023-04-03 09:42:56', '2023-04-03 09:42:56'),
-(6, 'STUDENT', '2023-04-03 09:43:06', '2023-04-03 09:43:06'),
-(7, 'STAFF', '2023-04-03 09:43:12', '2023-04-03 09:43:12'),
-(8, 'ALL', '2023-04-03 09:43:17', '2023-04-03 09:43:17');
+(1, 'ALL', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(2, 'STAFF', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(3, 'STUDENT', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(4, 'SOCAE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(5, 'SOMCME', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(6, 'SOEEC', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(7, 'SOANS', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(8, 'DOFP', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(9, 'ARCHITECTURE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(10, 'WRE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(11, 'ME', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(12, 'CE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(13, 'MSE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(14, 'CSE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(15, 'ECE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(16, 'EPCE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(17, 'FDP', '2023-06-08 06:03:31', '2023-06-08 06:03:31');
 
 -- --------------------------------------------------------
 
@@ -85,11 +95,9 @@ CREATE TABLE `chats` (
 --
 
 INSERT INTO `chats` (`chatId`, `creatorType`, `categoryId`, `topic`, `restrictedMode`, `createdAt`, `updatedAt`, `creatorId`) VALUES
-(1, 'student', 8, 'I love you my ethiopia', 0, '2023-04-03 12:55:54', '2023-04-03 12:55:54', 4),
-(10, 'staff', 8, 'Student Council', 0, '2023-05-21 12:18:34', '2023-05-21 12:18:34', 1),
-(11, 'staff', 8, 'Debate Club', 1, '2023-05-21 12:19:29', '2023-05-21 12:19:29', 1),
-(12, 'staff', 8, 'Section Meeting', 0, '2023-06-07 08:10:01', '2023-06-07 08:10:01', 5),
-(18, 'staff', 8, 'Meeting', 0, '2023-06-07 08:21:16', '2023-06-07 08:21:16', 5);
+(1, 'student', 8, 'hello everyone', 0, '2023-06-08 07:40:32', '2023-06-08 07:40:32', 4),
+(2, 'student', 8, 'hello student', 1, '2023-06-08 07:43:30', '2023-06-08 07:43:30', 4),
+(3, 'staff', 8, 'hello teacher', 1, '2023-06-08 07:43:50', '2023-06-08 07:43:50', 10);
 
 -- --------------------------------------------------------
 
@@ -100,38 +108,26 @@ INSERT INTO `chats` (`chatId`, `creatorType`, `categoryId`, `topic`, `restricted
 CREATE TABLE `conversations` (
   `convid` int(11) NOT NULL,
   `message` varchar(255) NOT NULL,
+  `from` varchar(255) NOT NULL,
   `userId` int(11) NOT NULL,
   `senderType` enum('Student','Staff') NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `chatId` int(11) DEFAULT NULL,
-  `from` varchar(255) NOT NULL
+  `chatId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `conversations`
 --
 
-INSERT INTO `conversations` (`convid`, `message`, `userId`, `senderType`, `createdAt`, `updatedAt`, `chatId`, `from`) VALUES
-(7, 'Controll how this works', 1, 'Staff', '2023-05-21 12:14:57', '2023-05-21 12:14:57', 1, 'Abraham Mekuria'),
-(15, 'This message is for chat id 1', 1, 'Staff', '2023-05-29 12:54:19', '2023-05-29 12:54:19', 1, 'Abraham Mekuria'),
-(17, 'Mine always is a try', 9, 'Student', '2023-05-29 12:59:18', '2023-05-29 12:59:18', 10, 'Yabets Abebaw'),
-(19, 'The student council is now open', 3, 'Student', '2023-05-29 12:59:52', '2023-05-29 12:59:52', 10, 'Fentahun Amare'),
-(20, 'Fortress is built', 5, 'Student', '2023-05-29 13:00:23', '2023-05-29 13:00:23', 10, 'Kifle Abebaw'),
-(21, 'wellcome to the Debate Club', 8, 'Student', '2023-05-29 13:01:21', '2023-05-29 13:01:21', 11, 'Yabets Urgo'),
-(22, 'the man on the ledge', 9, 'Student', '2023-06-01 13:36:29', '2023-06-01 13:36:29', 1, 'Yabets Abebaw'),
-(25, 'wow', 6, 'Student', '2023-06-01 13:40:40', '2023-06-01 13:40:40', 1, 'Kifle Abebaw'),
-(27, 'well, it works in chat 10 ig', 6, 'Student', '2023-06-01 14:00:57', '2023-06-01 14:00:57', 10, 'Kifle Abebaw'),
-(28, 'well, it works in 11 as well', 6, 'Student', '2023-06-01 14:01:18', '2023-06-01 14:01:18', 11, 'Kifle Abebaw'),
-(29, 'bye bye', 6, 'Student', '2023-06-01 14:16:25', '2023-06-01 14:16:25', 1, 'Kifle Abebaw'),
-(32, 'perfectly balanced ', 6, 'Student', '2023-06-01 14:19:26', '2023-06-01 14:19:26', 10, 'Kifle Abebaw'),
-(37, 'wellcome to the Debate Club', 8, 'Student', '2023-06-01 17:34:50', '2023-06-01 17:34:50', 11, 'Yabets Urgo'),
-(38, 'the man is gone', 6, 'Student', '2023-06-01 18:04:24', '2023-06-01 18:04:24', 11, 'Kifle Abebaw'),
-(39, 'Helo ', 9, 'Student', '2023-06-02 06:59:38', '2023-06-02 06:59:38', 1, 'Yabets Abebaw'),
-(40, 'The is working', 9, 'Student', '2023-06-02 10:08:08', '2023-06-02 10:08:08', 1, 'Yabets Abebaw'),
-(41, 'hello everyone', 6, 'Student', '2023-06-02 11:19:12', '2023-06-02 11:19:12', 1, 'Kifle Abebaw'),
-(42, 'mm', 10, 'Student', '2023-06-02 11:57:02', '2023-06-02 11:57:02', 1, 'maru'),
-(43, 'fdafda', 4, 'Staff', '2023-06-06 22:46:16', '2023-06-06 22:46:16', 11, 'Yabets');
+INSERT INTO `conversations` (`convid`, `message`, `from`, `userId`, `senderType`, `createdAt`, `updatedAt`, `chatId`) VALUES
+(1, 'hello', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-08 07:44:23', '2023-06-08 07:44:23', 1),
+(2, 'good morninig', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-08 07:44:56', '2023-06-08 07:44:56', 1),
+(3, 'hello', 'Milkias Solomon Gebrasilassie', 6, 'Student', '2023-06-08 07:47:51', '2023-06-08 07:47:51', 1),
+(4, 'hello', 'Tamiru Belachew Hailemariyam', 4, 'Student', '2023-06-08 07:48:44', '2023-06-08 07:48:44', 1),
+(5, 'hello', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-08 08:04:10', '2023-06-08 08:04:10', 1),
+(6, 'hello', 'Milkias Solomon Gebrasilassie', 6, 'Student', '2023-06-08 08:04:52', '2023-06-08 08:04:52', 1),
+(7, 'geej', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-08 08:05:38', '2023-06-08 08:05:38', 1);
 
 -- --------------------------------------------------------
 
@@ -153,9 +149,15 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`depId`, `name`, `ShortedName`, `createdAt`, `updatedAt`, `schoolId`) VALUES
-(1, 'Power and Control Engineering', 'PCE', '2023-04-03 09:42:16', '2023-04-03 09:42:16', 1),
-(2, 'Electronics and Communication Engineering', 'ECE', '2023-04-03 09:42:34', '2023-04-03 09:42:34', 1),
-(3, 'Computer Science and Engineering', 'CSE', '2023-04-03 09:42:56', '2023-04-03 09:42:56', 1);
+(1, 'Architecture', 'ARCHITECTURE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 1),
+(2, 'Water Resource Engineering', 'WRE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 1),
+(3, 'Mechanical Engineering', 'ME', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 2),
+(4, 'Chemical Engineering', 'CE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 2),
+(5, 'Materials Science Engineering', 'MSE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 2),
+(6, 'Computer Science and Engineering', 'CSE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 3),
+(7, 'Electronics and Communication Engineering', 'ECE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 3),
+(8, 'Electrical Power and Control Engineering', 'EPCE', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 3),
+(9, 'Freshman Division Program', 'FDP', '2023-06-08 06:03:31', '2023-06-08 06:03:31', 5);
 
 -- --------------------------------------------------------
 
@@ -172,17 +174,6 @@ CREATE TABLE `likes` (
   `postId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `likes`
---
-
-INSERT INTO `likes` (`likeId`, `liked_by_type`, `liked_by_id`, `createdAt`, `updatedAt`, `postId`) VALUES
-(19, 'student', '2', '2023-04-03 11:53:44', '2023-04-03 11:53:44', NULL),
-(21, 'student', '1', '2023-04-03 11:54:10', '2023-04-03 11:54:10', NULL),
-(25, 'student', '1', '2023-04-03 12:22:12', '2023-04-03 12:22:12', NULL),
-(26, 'student', '2', '2023-04-03 12:22:55', '2023-04-03 12:22:55', NULL),
-(27, 'student', '3', '2023-04-03 12:23:00', '2023-04-03 12:23:00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -191,33 +182,36 @@ INSERT INTO `likes` (`likeId`, `liked_by_type`, `liked_by_id`, `createdAt`, `upd
 
 CREATE TABLE `posts` (
   `postId` int(11) NOT NULL,
+  `summarizable` text DEFAULT NULL,
   `content` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `categoryId` int(11) NOT NULL,
   `staffName` varchar(255) NOT NULL,
   `eventLocation` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `staffId` int(11) DEFAULT NULL,
-  `summarizable` text DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL
+  `title` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`postId`, `content`, `categoryId`, `staffName`, `eventLocation`, `createdAt`, `updatedAt`, `staffId`, `summarizable`, `image`) VALUES
-(4, 'jalala', 1, 'Abraham Mekuria', 'Addis abbbaba', '2023-04-04 17:15:24', '2023-04-04 17:15:24', 1, '0', NULL),
-(5, 'one love ethiopia', 1, 'Abraham Mekuria', 'Addis abbbaba', '2023-04-04 17:15:39', '2023-04-04 17:15:39', 1, '0', NULL),
-(7, 'and ethiopia', 1, 'Abraham Mekuria', 'Addis abbbaba', '2023-04-04 18:41:00', '2023-04-04 18:41:00', 1, '0', NULL),
-(14, 'and ethiopia', 4, 'Abraham Mekuria', 'Addis abbbaba', '2023-06-02 15:28:59', '2023-06-02 15:28:59', 1, '0', NULL),
-(15, 'My First Post', 1, 'Yabets', 'Space', '2023-06-06 21:35:43', '2023-06-06 21:35:43', 4, '0', NULL),
-(16, 'dasdas', 1, 'Abraham Mekuria', NULL, '2023-06-06 22:16:38', '2023-06-06 22:16:38', 1, '0', NULL),
-(17, 'afafa', 1, 'Yabets', NULL, '2023-06-06 22:18:51', '2023-06-06 22:18:51', 4, '0', NULL),
-(18, 'qweqwe', 1, 'Abel Yk', NULL, '2023-06-06 22:51:22', '2023-06-06 22:51:22', 3, '0', NULL),
-(19, 'qweqwe', 1, 'Abel Yk', NULL, '2023-06-06 22:51:40', '2023-06-06 22:51:40', 3, '0', NULL),
-(20, 'qweqwe', 1, 'Abraham Mekuria', NULL, '2023-06-06 22:51:40', '2023-06-06 22:51:40', 1, '0', NULL),
-(21, 'dsDDsd', 1, 'Yabets', NULL, '2023-06-07 08:31:40', '2023-06-07 08:31:40', 4, '0', NULL);
+INSERT INTO `posts` (`postId`, `summarizable`, `content`, `image`, `categoryId`, `staffName`, `eventLocation`, `createdAt`, `updatedAt`, `staffId`, `title`) VALUES
+(1, '0', 'Exciting news! We are launching a new product next week. Stay tuned for more updates.', NULL, 1, 'Biruk Yonas Neway', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 1, NULL),
+(2, '0', 'Join us this weekend for a charity event at the local community center. Let\'s make a difference together!', NULL, 1, 'Ephrem Honelign Alene', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 2, NULL),
+(3, '0', 'We are excited to announce our partnership with a leading tech company. This collaboration will bring new opportunities for growth and innovation.', NULL, 1, 'Abel Jegnaw Mehari', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 3, NULL),
+(4, '0', 'Attention students! Don\'t forget to submit your applications for the upcoming internship program. This is a great opportunity to gain valuable work experience.', NULL, 4, 'Robel Belachew Hailemariyam', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 4, NULL),
+(5, '0', 'Let\'s celebrate World Environment Day by planting trees in our community. Join us this Saturday at the local park.', NULL, 4, 'Milkias Solomon Gebrasilassie', 'Local Park', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 5, NULL),
+(6, '0', 'Exciting update! Our company has been nominated for the Best Employer of the Year award. We are proud of our team\'s dedication and hard work.', NULL, 4, 'Selam Alebachew Debeb', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 6, NULL),
+(7, '0', 'Calling all talented artists! We are organizing an art competition with amazing prizes. Show us your creativity and passion.', NULL, 5, 'Yonas Muliye Fite', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 7, NULL),
+(8, '0', 'Are you interested in learning new languages? Join our language exchange program where you can meet language enthusiasts and improve your skills.', NULL, 6, 'Henok Belayneh Eridaw', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 8, NULL),
+(9, '0', 'Save the date! Our annual conference will take place on November 15th. Get ready for inspiring talks and valuable networking opportunities.', NULL, 9, 'Daniel Fantahun Gebremeskel', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 9, NULL),
+(10, '0', 'Attention graduates! We are organizing a career fair next month. Don\'t miss this chance to connect with top companies and explore job opportunities.', NULL, 10, 'Nebiyu Mohammed Bedaso', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 10, NULL),
+(11, '0', 'and ethiopia', 'Images\\Post_Image\\1686332036147.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 1, NULL),
+(13, '0', 'and ethiopiass', 'Images\\Post_Image\\1686333949309.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 1, NULL),
+(14, '0', 'and ethiopiassas ss', 'Images\\Post_Image\\1686334598989.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba  aa', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 1, 'astu bbb if');
 
 -- --------------------------------------------------------
 
@@ -240,58 +234,30 @@ CREATE TABLE `rsvps` (
 --
 
 INSERT INTO `rsvps` (`id`, `status`, `postId`, `userType`, `createdAt`, `updatedAt`, `forUser`) VALUES
-(1, 0, 1, 'Student', '2023-04-03 09:55:54', '2023-04-03 09:55:54', 2),
-(2, 0, 1, 'Student', '2023-04-03 09:55:54', '2023-04-03 09:55:54', 3),
-(3, 0, 1, 'Student', '2023-04-03 09:55:54', '2023-04-03 09:55:54', 4),
-(11, 0, 4, 'Student', '2023-04-04 17:15:24', '2023-04-04 17:15:24', 2),
-(12, 0, 4, 'Student', '2023-04-04 17:15:24', '2023-04-04 17:15:24', 3),
-(13, 0, 4, 'Student', '2023-04-04 17:15:24', '2023-04-04 17:15:24', 4),
-(14, 0, 4, 'Student', '2023-04-04 17:15:24', '2023-04-04 17:15:24', 5),
-(15, 0, 5, 'Student', '2023-04-04 17:15:39', '2023-04-04 17:15:39', 2),
-(16, 0, 5, 'Student', '2023-04-04 17:15:39', '2023-04-04 17:15:39', 3),
-(17, 0, 5, 'Student', '2023-04-04 17:15:39', '2023-04-04 17:15:39', 4),
-(18, 0, 5, 'Student', '2023-04-04 17:15:39', '2023-04-04 17:15:39', 5),
-(19, 0, 6, 'Student', '2023-04-04 17:15:49', '2023-04-04 17:15:49', 2),
-(20, 0, 6, 'Student', '2023-04-04 17:15:49', '2023-04-04 17:15:49', 3),
-(21, 0, 6, 'Student', '2023-04-04 17:15:49', '2023-04-04 17:15:49', 4),
-(22, 0, 6, 'Student', '2023-04-04 17:15:49', '2023-04-04 17:15:49', 5),
-(23, 0, 7, 'Student', '2023-04-04 18:41:00', '2023-04-04 18:41:00', 2),
-(24, 0, 7, 'Student', '2023-04-04 18:41:00', '2023-04-04 18:41:00', 3),
-(25, 0, 7, 'Student', '2023-04-04 18:41:00', '2023-04-04 18:41:00', 4),
-(26, 0, 7, 'Student', '2023-04-04 18:41:00', '2023-04-04 18:41:00', 5),
-(27, 0, 8, 'Student', '2023-04-10 15:39:19', '2023-04-10 15:39:19', 2),
-(28, 0, 8, 'Student', '2023-04-10 15:39:19', '2023-04-10 15:39:19', 3),
-(29, 0, 8, 'Student', '2023-04-10 15:39:19', '2023-04-10 15:39:19', 4),
-(30, 0, 8, 'Student', '2023-04-10 15:39:19', '2023-04-10 15:39:19', 5),
-(31, 0, 9, 'Student', '2023-04-10 15:43:27', '2023-04-10 15:43:27', 2),
-(32, 0, 9, 'Student', '2023-04-10 15:43:27', '2023-04-10 15:43:27', 3),
-(33, 0, 9, 'Student', '2023-04-10 15:43:27', '2023-04-10 15:43:27', 4),
-(34, 0, 9, 'Student', '2023-04-10 15:43:27', '2023-04-10 15:43:27', 5),
-(35, 0, 10, 'Student', '2023-04-10 15:45:35', '2023-04-10 15:45:35', 2),
-(36, 0, 10, 'Student', '2023-04-10 15:45:35', '2023-04-10 15:45:35', 3),
-(37, 0, 10, 'Student', '2023-04-10 15:45:35', '2023-04-10 15:45:35', 4),
-(38, 0, 10, 'Student', '2023-04-10 15:45:35', '2023-04-10 15:45:35', 5),
-(43, 0, 12, 'Student', '2023-04-10 15:55:16', '2023-04-10 15:55:16', 2),
-(44, 0, 12, 'Student', '2023-04-10 15:55:16', '2023-04-10 15:55:16', 3),
-(45, 0, 12, 'Student', '2023-04-10 15:55:16', '2023-04-10 15:55:16', 4),
-(46, 0, 12, 'Student', '2023-04-10 15:55:16', '2023-04-10 15:55:16', 5),
-(47, 0, 13, 'Student', '2023-04-10 15:56:31', '2023-04-10 15:56:31', 2),
-(48, 0, 13, 'Student', '2023-04-10 15:56:31', '2023-04-10 15:56:31', 3),
-(49, 0, 13, 'Student', '2023-04-10 15:56:31', '2023-04-10 15:56:31', 4),
-(50, 0, 13, 'Student', '2023-04-10 15:56:31', '2023-04-10 15:56:31', 5),
-(51, 0, 14, 'Student', '2023-06-02 15:28:59', '2023-06-02 15:28:59', 5),
-(52, 0, 14, 'Student', '2023-06-02 15:28:59', '2023-06-02 15:28:59', 6),
-(53, 0, 14, 'Student', '2023-06-02 15:28:59', '2023-06-02 15:28:59', 7),
-(54, 0, 14, 'Student', '2023-06-02 15:28:59', '2023-06-02 15:28:59', 11),
-(55, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 2),
-(56, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 3),
-(57, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 5),
-(58, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 6),
-(59, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 7),
-(60, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 8),
-(61, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 9),
-(62, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 10),
-(63, 0, 15, 'Student', '2023-06-06 21:35:44', '2023-06-06 21:35:44', 11);
+(1, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 1),
+(2, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 2),
+(3, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 3),
+(4, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 4),
+(5, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 22),
+(6, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 23),
+(7, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 1),
+(8, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 2),
+(9, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 3),
+(10, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 4),
+(11, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 22),
+(12, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 23),
+(13, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 1),
+(14, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 2),
+(15, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 3),
+(16, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 4),
+(17, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 22),
+(18, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 23),
+(19, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 1),
+(20, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 2),
+(21, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 3),
+(22, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 4),
+(23, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 22),
+(24, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 23);
 
 -- --------------------------------------------------------
 
@@ -312,8 +278,11 @@ CREATE TABLE `schools` (
 --
 
 INSERT INTO `schools` (`schoolId`, `name`, `ShortedName`, `createdAt`, `updatedAt`) VALUES
-(1, 'school of electrical and communication engineering', 'SOECE', '2023-04-03 09:41:22', '2023-04-03 09:41:22'),
-(2, 'school of power and control engineering', 'SOPCE', '2023-04-03 09:41:47', '2023-04-03 09:41:47');
+(1, 'School of civil and architecture engineering', 'SOCAE', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(2, 'School of Mechanical Chemical and Materials Engineering', 'SOMCME', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(3, 'School of Electrical Engineering and Computing', 'SOEEC', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(4, 'School of Applied Natural Science', 'SOANS', '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(5, 'Division of Freshman Program', 'DOFP', '2023-06-08 06:03:31', '2023-06-08 06:03:31');
 
 -- --------------------------------------------------------
 
@@ -337,9 +306,17 @@ CREATE TABLE `staffs` (
 --
 
 INSERT INTO `staffs` (`staffId`, `fullname`, `email`, `password`, `picture`, `isVerified`, `createdAt`, `updatedAt`) VALUES
-(1, 'Abraham Mekuria', 'abr@abc.com', '$2b$10$OUs4pb8al8s1FyCbZeFQO.YODpPBP8dNXU6CJn886hz6dAtOSl.4.', NULL, 0, '2023-04-03 09:55:43', '2023-04-03 09:55:43'),
-(3, 'Abel Yk', 'Abel@abc.com', '$2b$10$vd7JX0Nv7weyZkPSErZon.x9WD/i9Eg3rdwRRmWDpftSSmJ4nggNK', NULL, 0, '2023-06-01 11:39:56', '2023-06-01 11:39:56'),
-(4, 'Yabets', 'Yabets@abc.com', '$2b$10$NrWsq4YdheWa8CQd2Z9UMOags6E7Ld21ZKriOxuLbgcr2vhe.TArW', NULL, 0, '2023-06-03 09:59:52', '2023-06-03 09:59:52');
+(1, 'Biruk Yonas Neway', 'biruk@gmail.com', '$2b$10$gk4D1C4yjzoEmXMjUYtpGeq1kBeaCm4kfGUhQit/rNRhSdiNillVa', NULL, 0, '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(2, 'Ephrem Honelign Alene', 'ephrem@gmail.com', '$2b$10$7sVCV5FyI.5Ec1Zv2Qs.be9VzjQH5W6jbvx4eVnblNCGhs6/0Ycom', NULL, 0, '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
+(3, 'Abel Jegnaw Mehari', 'abel@gmail.com', '$2b$10$qqK16tYr1uPJf91roOca9uDptx.LRZDhiqI3rV5e0uqO1rDY5i4F6', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(4, 'Robel Belachew Hailemariyam', 'robel@gmail.com', '$2b$10$4SY3ah6cvF9YHNCrwAc.R.cF8d4SOciP.1SCGikGQMOYVgIL9lg8.', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(5, 'Milkias Solomon Gebrasilassie', 'milkias@gmail.com', '$2b$10$8hSqYJOTl.bkWDinyKSRROM6Z4dE5Eln./v4u7n/yt/3ChWiDrk0G', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(6, 'Selam Alebachew Debeb', 'selam@gmail.com', '$2b$10$hbXrUrhj6C2g2r3AfiH6oupiUN8ifK3NSVvPgP0.ZpRPGzg4mCi7K', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(7, 'Yonas Muliye Fite', 'yonas@gmail.com', '$2b$10$GjuwPQLB.iNzDM7l0yTmNeVFWv0PKFTItlziFL6LU2T4ELwLh0Jzu', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(8, 'Henok Belayneh Eridaw', 'henok@gmail.com', '$2b$10$up/i4O/GdcZtrlexRjAxNOER.BiGC/PxOSoi2gpdTQoolUuk4qZaC', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(9, 'Daniel Fantahun Gebremeskel', 'daniel@gmail.com', '$2b$10$3VFSmszY1qiuLeu2UkvhOOjYVKrkf5MtE8EO3.d4na01DyYCqd.dm', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(10, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$ehh0Wc7IHMprtnmWLMyN1OtErwQEpfqwgLReFZ/qHdZICH.ulKXCO', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(11, 'Milkias solomon', 'abr@abc.com', '$2b$10$Mtq5tjbr9cEUU/P7GF8w9OSzgqz27NPhGc45YgwCzp8fD.YMcgmjK', 'Images\\Staff_Image\\1686331192426.jpg', 0, '2023-06-09 17:19:52', '2023-06-09 17:19:52');
 
 -- --------------------------------------------------------
 
@@ -365,15 +342,28 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`studentId`, `fullname`, `email`, `password`, `picture`, `year`, `isVerified`, `createdAt`, `updatedAt`, `depId`) VALUES
-(2, 'Abraham Mekuria', 'AbrahamMekuria@gmail.com', '$2b$10$t0fNIapw33rN5MXuGNIBfe8bsPnwfwFeihgclhiJ3JPkGuGJofPMy', 'Abraham Mekuria', 5, 0, '2023-04-03 09:51:02', '2023-04-03 09:51:02', 3),
-(3, 'Fentahun Amare', 'Fentahun Amare@gmail.com', '$2b$10$BLx2V14tRIMeDibGpeqduu78KvMbfTxHxe4E4fxBZGw42zsXX/cC2', 'Fentahun Amare', 5, 0, '2023-04-03 09:52:13', '2023-04-03 09:52:13', 1),
-(5, 'Kifle Abebaw', 'Kifle Abebaw@gmail.com', '$2b$10$lYqbVT2wisTCDLdoUcCV3uP50ngyexjf2FPDZnv3y6f3aHYlAwrsi', 'Kifle Abebaw', 5, 0, '2023-04-03 10:03:51', '2023-04-03 10:03:51', 2),
-(6, 'Kifle Abebaw', 'kifle@gmail.com', '$2b$10$b5sC4.xNgkDDT59mruu0muFnr9Cz.vaqufz3rECq8TbQSYgxBE.5S', 'Kifle Abebaw', 5, 0, '2023-04-10 16:43:51', '2023-04-10 16:43:51', 2),
-(7, 'Kifle Abebaw', 'aaa', '$2b$10$YUiEJuxTQzuC0NqzH5zraOC/rVCRa6E6YLrtG.uVM7ZSXM9e9lvLa', 'Kifle Abebaw', 5, 0, '2023-04-10 17:09:01', '2023-04-10 17:09:01', 2),
-(8, 'Yabets Urgo', 'Yabets@astu.edu.et', '$2b$10$Vj95W4ZXhmcTDLZ2d6HLuO0g11lT5zWfQjxoKR8RlJX0po4RnBKna', 'Yab', 4, 0, '2023-05-16 20:08:27', '2023-05-16 20:08:27', 3),
-(9, 'Yabets Abebaw', 'Yabets@gmail.com', '$2b$10$7aphZS4dDAyzYfdQ5zGFJOOM1b35VYiIePKKJp6bHJtZoOqYmYf52', 'Abebaw', 5, 0, '2023-05-16 22:18:27', '2023-05-16 22:18:27', 1),
-(10, 'maru', 'maru@gmail.com', '$2b$10$gpabqd8zxwBx9R7.AP6YY.3vuEa4uaOQL7o.SuzGu47dK3/77k/G2', 'a', 2, 0, '2023-06-02 11:54:53', '2023-06-02 11:54:53', 1),
-(11, 'Kifle Abebaw', 'aaab', '$2b$10$M/NKh2bK2BDMAJEjnv.e1u5ccRxAmx8rpa.FSscoCgDgLQ4pd5OX.', 'Kifle Abebaw', 5, 0, '2023-06-02 13:23:52', '2023-06-02 13:23:52', 2);
+(1, 'Aysanew Yonas Neway', 'aysanew@gmail.com', '$2b$10$/0zHeV42w/0O7ljNyuneKOv4xP8G6tCrnmmfukRXR1dAHGm4v40iK', NULL, 5, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32', 1),
+(2, 'Bereket Honelign Alene', 'bereket@gmail.com', '$2b$10$Z65JemF7WoBj5EU5IC.CXe.iiMwkku5Rj3PjP5evagmMP5xPwoqEq', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 1),
+(3, 'Bekalu Jegnaw Mehari', 'bekalu@gmail.com', '$2b$10$GIAnAnRVeDjVD.kaBL0Wdu6TDGMKTnwFzZcDXzwgGDjXDk4crRXe2', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 2),
+(4, 'Tamiru Belachew Hailemariyam', 'tamiru@gmail.com', '$2b$10$GhuxAK5AfXYQTgb2CdvGBe7ETIs8T8lMXCb8Dwa9BAGlgn5/M37Xy', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 2),
+(5, 'Tinsae Hunegnaw Ambaneh', 'tinsae@gmail.com', '$2b$10$iLKg3tpw.iuLMKpTn.QYxesg3vWsrC5giBoUQlVwv6E4AEyUHg9wG', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 3),
+(6, 'Milkias Solomon Gebrasilassie', 'milkias@gmail.com', '$2b$10$caA6hyeVZN.j3BEgVVw2Fefc9lsMHA6k/yUgaEdkBtlwGdhPYPCh.', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 3),
+(7, 'Habtamu Alebachew Debeb', 'habtamu@gmail.com', '$2b$10$cz8A82/SNWZ4NX6ZYPfdYujKFZUY7465d1Bo0dXJZgT0gAfqwKQJG', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 4),
+(8, 'Samuel Muliye Fite', 'samuel@gmail.com', '$2b$10$morw/1UXIlYb.yO7HsuJqOLIva.WW2lfxryeg1DjMcUbVPai5dfNy', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 4),
+(9, 'Yehualashet Belayneh Eridaw', 'yehualashet@gmail.com', '$2b$10$Qx0CrCbdYWh/lCU6TFqufOHMNkP0Vgqf.0ujTzmqRur/GdJrV96mi', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 5),
+(10, 'Brook Fantahun Gebremeskel', 'brook@gmail.com', '$2b$10$MmfoMnIywZBvaFxwC4XAA.s7om9YzqkXN.agFFricKWTDTlwXcz/i', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 5),
+(11, 'Fuad Mohammed Bedaso', 'fuad@gmail.com', '$2b$10$mBnAaDr.d7m.SDFbdsoafeSHIZEtDZQ4/1AzS0BFXwk6CXmisOv6u', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 6),
+(12, 'Absra Girma Tenna', 'absra@gmail.com', '$2b$10$XwvGOJ99smiJFIgPwqvTT.cIHwzcQ2bQVksEQ/DICXAenEVWNuI9e', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 6),
+(13, 'Mentesenot Kibebew Kebede', 'mentesenot@gmail.com', '$2b$10$VXvr.oWqnz3arIIBR5oV6.XvgkukzEp4Sw3lNbCC5GerAeexxK256', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 7),
+(14, 'Ayantu Lemma Gizaw', 'ayantu@gmail.com', '$2b$10$vPTowXmPxW6/dgHuT1cwWOJdgGXQTvktUDfEkGGEAlsOyspwoz6hK', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 7),
+(15, 'Mekdem Alemu Gebre', 'mekdem@gmail.com', '$2b$10$RSktv78RyrYAnBiaeMZDbe6idVyxJWeS92RtNAXgnBWFQNRFYtEw2', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 8),
+(16, 'Abdi Adem Abdela', 'abdi@gmail.com', '$2b$10$GTprC9YPRERCfSONVL/i9Om2rdYseFFWcittYs.rOSwArcamkB4X2', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 8),
+(17, 'Naila Abdelah Hassen', 'naila@gmail.com', '$2b$10$zyyL0zOMaLfJKuMRP3RRqOtBB5Uy2TxGFngbqGpjrzQCisr1EvaBi', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 9),
+(18, 'Etsubsira Dirsha Demam', 'etsubsira@gmail.com', '$2b$10$OXbUcX1QeFxIHJ6.UV4hReyyQUVfH59ddDFp00hFJr2/1ypEB2JSu', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 9),
+(19, 'Yared Abera Mengistu', 'yared@gmail.com', '$2b$10$Pgr0hSgYYGjMQPyO2UbJeOeO3S3a5GJ6nq2o2WjzzdpoSZWEEOwN6', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 6),
+(20, 'Yafet Berhanu Garno', 'yafet@gmail.com', '$2b$10$vb1EPlZlrKxtTz4gDodXt.MdFp4Mdu/wHaLrd2zb/bJQNxLZa0hcO', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 6),
+(22, 'Kifle Abebaw', 'aaab', '$2b$10$76e/X15541pJwCjLKwmnP.QT44wkGeEJYDv2BUCs0U.3IFHy2IumS', 'Images\\Stud_Image\\1686325494930.jpg', 5, 0, '2023-06-09 15:44:55', '2023-06-09 15:44:55', 2),
+(23, 'yohanis', 'abragdag', '$2b$10$Mvvh2FLRStcCi6im7xSIVO4BiNriLJDdwea3uW3RyGA5ZcCUoexQq', 'Images\\Stud_Image\\1686329294370.jpg', 5, 0, '2023-06-09 16:48:14', '2023-06-09 16:48:14', 2);
 
 --
 -- Indexes for dumped tables
@@ -387,13 +377,7 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `adminId` (`adminId`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `email_2` (`email`),
-  ADD UNIQUE KEY `email_3` (`email`),
-  ADD UNIQUE KEY `email_4` (`email`),
-  ADD UNIQUE KEY `email_5` (`email`),
-  ADD UNIQUE KEY `email_6` (`email`),
-  ADD UNIQUE KEY `email_7` (`email`),
-  ADD UNIQUE KEY `email_8` (`email`),
-  ADD UNIQUE KEY `email_9` (`email`);
+  ADD UNIQUE KEY `email_3` (`email`);
 
 --
 -- Indexes for table `categories`
@@ -456,13 +440,7 @@ ALTER TABLE `staffs`
   ADD PRIMARY KEY (`staffId`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `email_2` (`email`),
-  ADD UNIQUE KEY `email_3` (`email`),
-  ADD UNIQUE KEY `email_4` (`email`),
-  ADD UNIQUE KEY `email_5` (`email`),
-  ADD UNIQUE KEY `email_6` (`email`),
-  ADD UNIQUE KEY `email_7` (`email`),
-  ADD UNIQUE KEY `email_8` (`email`),
-  ADD UNIQUE KEY `email_9` (`email`);
+  ADD UNIQUE KEY `email_3` (`email`);
 
 --
 -- Indexes for table `students`
@@ -472,16 +450,6 @@ ALTER TABLE `students`
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `email_2` (`email`),
   ADD UNIQUE KEY `email_3` (`email`),
-  ADD UNIQUE KEY `email_4` (`email`),
-  ADD UNIQUE KEY `email_5` (`email`),
-  ADD UNIQUE KEY `email_6` (`email`),
-  ADD UNIQUE KEY `email_7` (`email`),
-  ADD UNIQUE KEY `email_8` (`email`),
-  ADD UNIQUE KEY `email_9` (`email`),
-  ADD UNIQUE KEY `email_10` (`email`),
-  ADD UNIQUE KEY `email_11` (`email`),
-  ADD UNIQUE KEY `email_12` (`email`),
-  ADD UNIQUE KEY `email_13` (`email`),
   ADD KEY `depId` (`depId`);
 
 --
@@ -492,61 +460,61 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `categoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `chats`
 --
 ALTER TABLE `chats`
-  MODIFY `chatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `chatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `convid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `convid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `depId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `depId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `likeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `likeId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `postId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `rsvps`
 --
 ALTER TABLE `rsvps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `schools`
 --
 ALTER TABLE `schools`
-  MODIFY `schoolId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `schoolId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `staffs`
 --
 ALTER TABLE `staffs`
-  MODIFY `staffId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `staffId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `studentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `studentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
@@ -558,11 +526,7 @@ ALTER TABLE `students`
 ALTER TABLE `chats`
   ADD CONSTRAINT `chats_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `chats_ibfk_2` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `chats_ibfk_3` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `chats_ibfk_4` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `chats_ibfk_5` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `chats_ibfk_6` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `chats_ibfk_7` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `chats_ibfk_3` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `conversations`
@@ -570,33 +534,15 @@ ALTER TABLE `chats`
 ALTER TABLE `conversations`
   ADD CONSTRAINT `conversations_ibfk_1` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `conversations_ibfk_2` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `conversations_ibfk_3` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `conversations_ibfk_4` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `conversations_ibfk_5` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `conversations_ibfk_6` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `conversations_ibfk_7` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `conversations_ibfk_3` FOREIGN KEY (`chatId`) REFERENCES `chats` (`chatId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `departments`
 --
 ALTER TABLE `departments`
   ADD CONSTRAINT `departments_ibfk_1` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_10` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_11` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_12` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_13` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_14` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_15` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_16` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_17` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `departments_ibfk_2` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_3` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_4` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_5` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_6` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_7` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_8` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `departments_ibfk_9` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `departments_ibfk_3` FOREIGN KEY (`schoolId`) REFERENCES `schools` (`schoolId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `likes`
@@ -604,55 +550,26 @@ ALTER TABLE `departments`
 ALTER TABLE `likes`
   ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `likes_ibfk_3` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `likes_ibfk_4` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `likes_ibfk_5` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `likes_ibfk_6` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `likes_ibfk_7` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `likes_ibfk_8` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `likes_ibfk_3` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `posts`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_10` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_11` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_12` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_13` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_14` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_15` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_16` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_17` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_18` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_19` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `posts_ibfk_3` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `posts_ibfk_4` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `posts_ibfk_5` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_6` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_7` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_8` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `posts_ibfk_9` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`categoryId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `posts_ibfk_6` FOREIGN KEY (`staffId`) REFERENCES `staffs` (`staffId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `students`
 --
 ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_10` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_11` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_12` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_13` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_14` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_3` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_4` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_5` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_6` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_7` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_8` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_9` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `students_ibfk_3` FOREIGN KEY (`depId`) REFERENCES `departments` (`depId`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
