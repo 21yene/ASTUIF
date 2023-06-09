@@ -102,6 +102,7 @@ module.exports = {
                   eventLocation: req.body.eventLocation,
                   staffId: req.body.staffId,
                   categoryId: req.body.categoryId,
+                  title:req.body.title,
                   staffName: result.fullname,
                   image
                 });

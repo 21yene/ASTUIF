@@ -135,6 +135,12 @@ const Post = connection.define('Post', {
       type: DataTypes.TEXT,
       defaultValue: false,
     },
+    title: {
+      type: DataTypes.TEXT,
+      allowNull: function () {
+        return this.image !== null;
+      }
+    },
     content: {
       type: DataTypes.TEXT,
       allowNull: function () {
