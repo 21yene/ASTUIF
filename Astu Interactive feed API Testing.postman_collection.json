@@ -35,7 +35,7 @@
 			"response": []
 		},
 		{
-			"name": "Admin Adding department",
+			"name": "Admin Adding nn department",
 			"request": {
 				"method": "POST",
 				"header": [],
