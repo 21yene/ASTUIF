@@ -66,19 +66,10 @@
 		{
 			"name": "admin get staff",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"All\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "localhost:3000/api/admin/addCategory",
+					"raw": "localhost:3000/api/admin/getStaff",
 					"host": [
 						"localhost"
 					],
@@ -86,7 +77,28 @@
 					"path": [
 						"api",
 						"admin",
-						"addCategory"
+						"getStaff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Get all student",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/admin/get",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"get"
 					]
 				}
 			},
@@ -308,7 +320,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/getDep?d=d",
+					"raw": "localhost:3000/api/staff/getDep",
 					"host": [
 						"localhost"
 					],
@@ -317,12 +329,6 @@
 						"api",
 						"staff",
 						"getDep"
-					],
-					"query": [
-						{
-							"key": "d",
-							"value": "d"
-						}
 					]
 				}
 			},
@@ -334,8 +340,29 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"fullname\" : \"Milkias solomon\",\r\n    \"email\" : \"abr@abc.com\",\r\n    \"password\" : \"1234\"\r\n}",
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fullname",
+							"value": "Milkias solomon",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "abr@abc.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "picture",
+							"type": "file",
+							"src": "/C:/Users/Abraham Mekuria/Pictures/1504496.jpg"
+						}
+					],
 					"options": {
 						"raw": {
 							"language": "json"
@@ -363,8 +390,44 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"content\" : \"and ethiopia\",\r\n    \"eventLocation\" : \"Addis abbbaba\",\r\n    \"staffId\" : \"1\",\r\n    \"categoryId\":\"1\",\r\n    \"rsvp\":\"0\",\r\n    \"image\": \"D:\\\\project\\\\Abraham.jpg\"\r\n}\r\n",
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "astu bbb if",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "and ethiopiassas ss",
+							"type": "text"
+						},
+						{
+							"key": "eventLocation",
+							"value": "Addis abbbaba  aa",
+							"type": "text"
+						},
+						{
+							"key": "staffId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "categoryId",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "rsvp",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/Abraham Mekuria/Pictures/Screenshots/Screenshot (47).png"
+						}
+					],
 					"options": {
 						"raw": {
 							"language": "json"
@@ -372,7 +435,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/post",
+					"raw": "localhost:3000/api/staff/posts",
 					"host": [
 						"localhost"
 					],
@@ -380,7 +443,7 @@
 					"path": [
 						"api",
 						"staff",
-						"post"
+						"posts"
 					]
 				}
 			},
@@ -412,14 +475,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/viewPost?depName=ECE",
+					"raw": "localhost:3000/api/student/viewPost?depName=ECE",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"api",
-						"staff",
+						"student",
 						"viewPost"
 					],
 					"query": [
@@ -494,7 +557,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"postId\" : \"2\"\r\n}",
+					"raw": "{\r\n    \"postId\" : \"11\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -524,13 +587,80 @@
 			"response": []
 		},
 		{
+			"name": "Staff Delete Chat",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"creatorId\":\"1\",\r\n    \"chatId\":\"11\",\r\n    \"creatorType\":\"staff\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/staff/deleteChat",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"deleteChat"
+					],
+					"query": [
+						{
+							"key": "postId",
+							"value": "9",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "student Registeriation",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"fullname\" : \"Kifle Abebaw\",\r\n    \"email\" : \"kifle@gmail.com\",\r\n    \"password\" : \"Kifle\",\r\n    \"picture\" : \"Kifle Abebaw\",\r\n    \"year\" : \"5\",\r\n    \"depId\" : \"2\"\r\n}",
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fullname",
+							"value": "yohanis",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "abragdag",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "aaaaa",
+							"type": "text"
+						},
+						{
+							"key": "picture",
+							"type": "file",
+							"src": "/C:/Users/Abraham Mekuria/Pictures/110-1104934_high-quality-cool-desktop-backgrounds.jpg"
+						},
+						{
+							"key": "year",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "depId",
+							"value": "2",
+							"type": "text"
+						}
+					],
 					"options": {
 						"raw": {
 							"language": "json"
@@ -547,13 +677,6 @@
 						"api",
 						"student",
 						"register"
-					],
-					"query": [
-						{
-							"key": "postId",
-							"value": "9",
-							"disabled": true
-						}
 					]
 				}
 			},
@@ -607,7 +730,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"message\" : \"hello\",\r\n    \"userId\" : \"2\",\r\n    \"senderType\": \"staff\",\r\n    \"chatId\": \"6\"\r\n}",
+					"raw": "{\r\n    \"message\" : \"go daddy\",\r\n    \"userId\" : \"1\",\r\n    \"senderType\": \"staff\",\r\n    \"chatId\": \"5\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -635,7 +758,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getchat?creatorType=student",
+					"raw": "localhost:3000/api/student/getchat?userType=staff",
 					"host": [
 						"localhost"
 					],
@@ -647,8 +770,8 @@
 					],
 					"query": [
 						{
-							"key": "creatorType",
-							"value": "student"
+							"key": "userType",
+							"value": "staff"
 						}
 					]
 				}
@@ -691,7 +814,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getconv?chatId=7",
+					"raw": "localhost:3000/api/student/getconv?chatId=5",
 					"host": [
 						"localhost"
 					],
@@ -704,7 +827,7 @@
 					"query": [
 						{
 							"key": "chatId",
-							"value": "7"
+							"value": "5"
 						}
 					]
 				}
@@ -712,18 +835,35 @@
 			"response": []
 		},
 		{
-			"name": "login",
+			"name": "Get Current User",
 			"request": {
-				"method": "POST",
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"loginAs\":\"student\",\r\n    \"email\":\"aad@gmail.com\",\r\n    \"password\":\"sff\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": ""
 				},
 				"url": {
 					"raw": "localhost:3000/api/login",
@@ -736,15 +876,6 @@
 						"login"
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
 			},
 			"response": []
 		}
