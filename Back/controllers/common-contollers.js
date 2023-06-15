@@ -13,6 +13,7 @@ const { query } = require('express');
 
 const{sign}= require('jsonwebtoken');
 const jwt = require("jsonwebtoken");
+const { Console } = require('console');
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.user;
@@ -32,8 +33,29 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-module.exports = {
+async function myOption(req, res) {
+  try {
+    const get = await Preference.findOne({ where: { userId: req.query.userId, userType: req.query.userType } });
+    if (get) {
+      const result = await Option.findAll({ where: { preferenceId: get.preferenceId }, include: [Category] });
+      const data = result.map(result => ({
+        categoryId: result.categoryId,
+        optionId: result.optionId,
+        categoryName: result.Category.name
+      }));
 
+      return data;
+
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+module.exports = {
       async user(req, res) {
         try {
           await verifyUser(req, res, async () => {
@@ -115,7 +137,6 @@ module.exports = {
           return res.status(500).json({ message: 'Internal server error' });
         }
       },
-
 
     async ViewPost(req,res){
       try {
@@ -203,7 +224,6 @@ module.exports = {
         const get = await Preference.findOne({where:{userId:req.query.userId, userType:req.query.userType}});
         if(get){
           const result = await Option.findAll({where:{preferenceId:get.preferenceId},include: [Category]})
-          const go = await Category
           const data = result.map(result => ({
             categoryId:result.categoryId,
             optionId: result.optionId,
@@ -211,7 +231,7 @@ module.exports = {
               }
             ));
 
-          return res.status(200).json({ success: true, data:data });
+          return res.status(200).json({ success: true, data });
 
         }else{
           return res.status(400).json({ success: false, message: "No preference is Set for You!!" });
@@ -230,7 +250,7 @@ module.exports = {
         if(result){
           let go = await Option.count({where:{preferenceId:result.preferenceId}})
           let demo = await Option.findOne({where:{optionId:optionId}})
-          
+
           if(go===1 && demo){
            let opt = await Option.destroy({where:{optionId:optionId}})
            let pre = await Preference.destroy({where:{preferenceId:result.preferenceId}})
@@ -339,23 +359,34 @@ module.exports = {
       }
     },
 
+    myOption,
     async getChat(req, res){
         try {
-          const { userType } = req.query; 
+          const { userType, userId } = req.query; 
           let chats = await Chat.findAll();
-          if (userType) {
+          if (true) {
             chats = chats.filter(chat => {
               if (chat.creatorType === userType || !chat.restrictedMode) {
                 return true; }
               return false; 
             });
           }
-          res.status(200).json(chats);
+
+          let data= chats
+          if(userType && !userId){
+            res.status(200).json(data);
+          }
+
+          if (userType === 'Staff' && userId) {
+            const options = await myOption(req, res);
+            data = data.filter(chat => options.some(option => option.categoryId === chat.categoryId));
+          res.status(200).json(data);
+        }
         } catch (err){
           console.log(err);
           res.status(500).json({message: 'server error'});
         }
-      },
+    },
 
     async checkChat(req,res){
         try {
@@ -458,64 +489,5 @@ module.exports = {
           res.status(500).json({message: 'server error'});
       }
   },
-
 }
 
-
-    
-
-
-
-
-
-// async Chat(req,res){
-//   // res.status(200).json({message:'chat is running'})
-  
-//   io.on('connection', (socket) => {
-//     console.log('A client connected');
-//   });
-  
-//   // Listen for Chat events
-//   io.on('Chat', async (data) => {
-//     try {
-//       const check = await Chat.findOne({where:{
-//         topic: data.topic,
-//         categoryId: data.categoryId,
-//         creatorType: data.creatorType,
-//         creatorId: data.creatorId,
-//       }});
-  
-//       if (check) {
-//         socket.emit('ChatFailed', { message: 'Chat The same type created', success: false });
-//       } else {
-//         const result = await Chat.create(data);
-//         io.emit('ChatCreated', { chat: result, success: true });
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       socket.emit('ChatFailed', { message: 'server error' });
-//     }
-//   });
-// },
-
-// async Conv(req,res){
-//     io.on('connection', (socket) => {
-//       console.log('A client connected');
-//     });
-//       // Listen for Conv events
-//       io.on('Conv', async (data) => {
-//       try {
-//         const result = await Chat.findOne({where:{chatId:data.chatId}});
-//         if (result.restrictedMode) {
-//           console.log('restrictedMode is here');
-//         } else {
-//           const conv = await Conversation.create(data);
-//           io.emit('ConvCreated', { conversation: conv, success: true });
-//         }
-//         } catch (err) {
-//         console.log(err);
-//         socket.emit('ConvFailed', { message: 'server error' });
-//       }
-//   })
-
-// }
