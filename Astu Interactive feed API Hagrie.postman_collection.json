@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "c265d444-4357-4f80-8b3e-5cb8a6c9cf9c",
-		"name": "Astu Interactive feed API LocalHost",
+		"_postman_id": "e7b035d8-b1a7-4a2e-b3ed-f678ed950e71",
+		"name": "Astu Interactive feed API Hagrie",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -20,11 +20,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/admin/addSchool",
+					"raw": "https://astuifback.hagrie.com/api/admin/addSchool",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -49,11 +51,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/admin/addDep",
+					"raw": "https://astuifback.hagrie.com/api/admin/addDep",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -69,15 +73,39 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/admin/getStaff",
+					"raw": "https://astuifback.hagrie.com/api/admin/getStaff",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
 						"getStaff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin get all data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://astuifback.hagrie.com/api/admin/getAllData",
+					"protocol": "https",
+					"host": [
+						"astuifback",
+						"hagrie",
+						"com"
+					],
+					"path": [
+						"api",
+						"admin",
+						"getAllData"
 					]
 				}
 			},
@@ -89,12 +117,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/admin/get",
-					"protocol": "http",
+					"raw": "https://astuifback.hagrie.com/api/admin/get",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -119,11 +148,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/admin/addCategory",
+					"raw": "https://astuifback.hagrie.com/api/admin/addCategory",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -139,11 +170,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/admin/searchPost?keyword=love",
+					"raw": "https://astuifback.hagrie.com/api/admin/searchPost?keyword=love",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -174,11 +207,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/admin/approveAcc",
+					"raw": "https://astuifback.hagrie.com/api/admin/approveAcc",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -203,11 +238,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/admin/banAcc",
+					"raw": "https://astuifback.hagrie.com/api/admin/banAcc",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -232,11 +269,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/admin/deletePost",
+					"raw": "https://astuifback.hagrie.com/api/admin/deletePost",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"admin",
@@ -245,7 +284,7 @@
 					"query": [
 						{
 							"key": "postId",
-							"value": "9",
+							"value": "14",
 							"disabled": true
 						}
 					]
@@ -268,11 +307,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/student/likePost",
+					"raw": "https://astuifback.hagrie.com/api/student/likePost",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -300,11 +341,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/student/seeLike",
+					"raw": "https://astuifback.hagrie.com/api/student/seeLike",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -320,11 +363,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/getDep",
+					"raw": "https://astuifback.hagrie.com/api/staff/getDep",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -370,11 +415,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/stReg",
+					"raw": "https://astuifback.hagrie.com/api/staff/stReg",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -435,11 +482,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/posts",
+					"raw": "https://astuifback.hagrie.com/api/staff/posts",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -455,11 +504,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/viewPost",
+					"raw": "https://astuifback.hagrie.com/api/staff/viewPost",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -475,11 +526,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/viewPost?depName=ECE",
+					"raw": "https://astuifback.hagrie.com/api/student/viewPost?depName=ECE",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -501,11 +554,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/myPost?staffId=1",
+					"raw": "https://astuifback.hagrie.com/api/staff/myPost?staffId=1",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -536,11 +591,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/updatePost",
+					"raw": "https://astuifback.hagrie.com/api/staff/updatePost",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -565,11 +622,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/deletePost",
+					"raw": "https://astuifback.hagrie.com/api/staff/deletePost",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -601,11 +660,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/deleteChat",
+					"raw": "https://astuifback.hagrie.com/api/staff/deleteChat",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"staff",
@@ -632,23 +693,18 @@
 					"formdata": [
 						{
 							"key": "fullname",
-							"value": "yohanis",
+							"value": "yohanishhsdfs",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "abragdag",
+							"value": "abragdaghhasa",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "aaaaa",
+							"value": "aaaaann",
 							"type": "text"
-						},
-						{
-							"key": "picture",
-							"type": "file",
-							"src": "/C:/Users/Abraham Mekuria/Pictures/110-1104934_high-quality-cool-desktop-backgrounds.jpg"
 						},
 						{
 							"key": "year",
@@ -668,11 +724,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/student/register",
+					"raw": "https://astuifback.hagrie.com/api/student/register",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -697,11 +755,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/student/chat",
+					"raw": "https://astuifback.hagrie.com/api/student/chat",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -738,11 +798,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/student/conv",
+					"raw": "https://astuifback.hagrie.com/api/student/conv",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -758,11 +820,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getchat?userType=staff",
+					"raw": "https://astuifback.hagrie.com/api/student/getchat?userType=staff",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -784,11 +848,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/checkchat?chatId=8&userType=student",
+					"raw": "https://astuifback.hagrie.com/api/student/checkchat?chatId=8&userType=student",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -814,11 +880,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getconv?chatId=5",
+					"raw": "https://astuifback.hagrie.com/api/student/getconv?chatId=5",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"student",
@@ -840,11 +908,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/user",
+					"raw": "https://astuifback.hagrie.com/api/user",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"user"
@@ -855,22 +925,26 @@
 		},
 		{
 			"name": "login",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n    \"loginAs\":\"student\",\r\n    \"email\":\"aysanew@gmail.com\",\r\n    \"password\":\"aysanew\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/login",
+					"raw": "https://astuifback.hagrie.com/api/login",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"astuifback",
+						"hagrie",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"api",
 						"login"
