@@ -14,5 +14,5 @@ const connect = new Sequelize('hagriecom_astuif', 'hagriecom_abraham', '}$sbYc2n
     console.error('Unable to connect to the database:', error);
   }
 })();
-
+console.log('welcome')
 module.exports = connect;
