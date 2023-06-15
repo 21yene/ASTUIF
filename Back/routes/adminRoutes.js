@@ -5,6 +5,8 @@ const StaffController = require('../controllers/staff-controllers')
 const AdminController = require('../controllers/admin-controllers')
 const common = require('../controllers/common-contollers');
 
+router.get('/getAllData',AdminController.getAllData)
+
 router.post('/login',common.login)
 router.get('/logout',common.logout)
 router.get('/user',common.user)

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,logging
 
 app = Flask(__name__)
 
@@ -22,25 +22,29 @@ def main(text):
     return summary
 
 
+# Define the Flask endpoint
 @app.route('/', methods=['GET', 'POST'])
 def handle_request():
     if request.method == 'POST':
         data = request.get_json()
         if 'content' not in data:
             error_message = {'error': 'Missing required field "value"'}
+            
             return jsonify(error_message), 400
         
         result = main(data['content'])
 
-        response = {'summerized': result, 'satuts': 'true'}
-        return 
+        response = {'summerized': result, 'status': 'true'}
+        
+        return jsonify(response)
     
     else:
-        response = {'satuts': 'working'}
-        return jsonify(response)
+        response = {'status': 'working'}
+        return jsonify(response), 200 # Return a default response with a 200 status code
 
 # Start the server
 if __name__ == '__main__':
     port = 4000
-    app.run(port=port)
     print(f"Server is listening on port {port}")
+    app.run(port=port)
+    

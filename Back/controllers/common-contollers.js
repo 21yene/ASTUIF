@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = socket(server);
 
 const bcrypt = require('bcrypt');
-const {Staff , Post, Student, Category ,Chat, RSVP, Conversation, Department, Like,  School} = require('../models/schema');
+const {Staff , Post, Student, Category,Preference, Option ,Chat, RSVP, Conversation, Department, Like,  School} = require('../models/schema');
 const { query } = require('express');
 
 const{sign}= require('jsonwebtoken');
@@ -116,6 +116,7 @@ module.exports = {
         }
       },
 
+
     async ViewPost(req,res){
       try {
         const depName = req.query.depName;
@@ -148,6 +149,108 @@ module.exports = {
         return res.status(500).json({ message: 'Internal Server Error' });
       }
       
+    },
+
+    async CreateOption(req,res){
+      try {
+
+        const {categoryId, userId, userType} = req.body;
+
+        const result = await Preference.findOne({where:{userId:userId, userType:userType}})
+
+        if(result){
+          if(userType==='Student'){
+            return res.status(404).json({ success: false, message: "Student Can't have more than One Prefernece" });
+          }
+          else if(userType==='Staff'){
+            let check = await Option.findOne({
+              where:{preferenceId:result.preferenceId,categoryId:categoryId}
+            })
+            if(check){
+              return res.status(400).json({ success: false, message: "Option already Created!!" });
+            }else{
+            const done = await Option.create({
+              preferenceId: result.preferenceId,
+              categoryId:categoryId,
+            })
+            return res.status(200).json({ success: true, message: "Option Successfully Created" });
+          }
+        }
+          else{
+            return res.status(404).json({ success: false, message: "User Type Is Not Eligible" });
+          }
+        }else{
+          const go = await Preference.create({
+            userId:userId,
+            userType:userType
+          }) 
+          if(go){
+            const done = await Option.create({
+              preferenceId: go.preferenceId,
+              categoryId:categoryId,});
+              return res.status(200).json({ success: true, message: "Option Successfully Created" });
+          }
+        }
+        
+      }catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
+    },
+
+    async GetOption(req,res){
+      try {
+        const get = await Preference.findOne({where:{userId:req.query.userId, userType:req.query.userType}});
+        if(get){
+          const result = await Option.findAll({where:{preferenceId:get.preferenceId},include: [Category]})
+          const go = await Category
+          const data = result.map(result => ({
+            categoryId:result.categoryId,
+            optionId: result.optionId,
+            categoryName: result.Category.name
+              }
+            ));
+
+          return res.status(200).json({ success: true, data:data });
+
+        }else{
+          return res.status(400).json({ success: false, message: "No preference is Set for You!!" });
+        }
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
+    },
+
+    async DeleteOption(req,res){
+      try {
+        const {optionId,userId,userType} = req.query;
+
+        let result =await Preference.findOne({where:{userId:userId,userType:userType}});
+        if(result){
+          let go = await Option.count({where:{preferenceId:result.preferenceId}})
+          let demo = await Option.findOne({where:{optionId:optionId}})
+          
+          if(go===1 && demo){
+           let opt = await Option.destroy({where:{optionId:optionId}})
+           let pre = await Preference.destroy({where:{preferenceId:result.preferenceId}})
+           if(opt && pre){
+            return res.status(200).json({ success: true, message: "Successfully deleted!!" });
+           }
+          }else if(demo){
+            let opt = await Option.destroy({where:{optionId:optionId}})
+            if(opt){return res.status(200).json({ success: true, message: "Successfully deleted!!" });}
+          }else{
+            return res.status(400).json({ success: false, message: "There is No such Option" });
+        }
+        }else{
+          return res.status(400).json({ success: false, message: "There is No option deleted!!" });
+        }
+
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
     },
 
     async SearchPost(req,res){

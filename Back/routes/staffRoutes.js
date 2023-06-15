@@ -12,6 +12,10 @@ router.put('/updatePost',StaffController.UpdatePost)
 router.delete('/deletePost',StaffController.DeletePost)
 router.delete('/deleteChat',common.DeleteChat)
 
+router.post('/createOpt',common.CreateOption)
+router.get('/getOpt',common.GetOption)
+router.delete('/deleteOpt',common.DeleteOption)
+
 
 router.post('/likePost',common.LikePost)
 router.get('/seeLike',common.seeLike)

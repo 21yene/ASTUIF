@@ -12,6 +12,10 @@ router.get('/viewPost',common.ViewPost)  //for stud
 
 router.get('/getDep',common.getDep)
 
+router.post('/createOpt',common.CreateOption)
+router.get('/getOpt',common.GetOption)
+router.delete('/deleteOpt',common.DeleteOption)
+
 router.post('/chat',common.Chat)
 router.get('/getchat',common.getChat)
 router.get('/checkchat',common.checkChat)

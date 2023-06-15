@@ -10,16 +10,16 @@ app.use(express.static('Images'));
 app.use(cookieParser());
 
 
-app.use(session({
-    secret: 'iloveambFor@ver',
-    resave: false,
-    saveUninitialized: true
-}));
+// app.use(session({
+//     secret: 'iloveambFor@ver',
+//     resave: false,
+//     saveUninitialized: true
+// }));
 
 
 app.use(function(req, res, next) {
-    // res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Origin", "http://localhost:3001");
+    res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Origin", "http://localhost:3001");
     res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header('Access-Control-Allow-Credentials', true);
@@ -27,12 +27,10 @@ app.use(function(req, res, next) {
 });
 
 
-
 const studentRoutes = require('./routes/studentRoutes');
 const staffRoutes = require('./routes/staffRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const login = require('./routes/adminRoutes');
-
 
 app.use('/api', login);
 app.use('/api/student', studentRoutes);

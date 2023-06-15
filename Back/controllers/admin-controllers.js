@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 const multer = require("multer");
 const path = require("path");
 const { Department , Post , Staff, School,Student, Category } = require('../models/schema');
+const models = require('../models/schema')
 
 
 module.exports = {
@@ -143,6 +144,79 @@ module.exports = {
           return res.status(500).json({ message: 'Internal Server Error' });
         }
   },
+    async getAllData(req,res){
+      try {
+        const counts = {};
+        const data = {};
+
+        data.students = await models.Student.findAll({
+          attributes: { exclude: ['password', 'createdAt', 'updatedAt'] },
+          include: [{
+            model: models.Department,
+            attributes: ['name']
+          }]
+        });
+        data.students = data.students.map((student) => {
+          return {
+            ...student.toJSON(),
+            Department: student.Department.name
+          };
+        });
+        
+      
+        data.staff = await models.Staff.findAll({
+          attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+        });
+        data.departments = await models.Department.findAll({
+          include: [{
+            model: models.School,
+            attributes: ['name'],
+            as: 'School' 
+          }],
+          attributes: ['depId', 'name', 'ShortedName','schoolId'], // Include only the specified attributes of the Department model
+        });
+
+        data.departments = data.departments.map((department) => ({
+          ...department.toJSON(),
+          School: department.School.name // Extract the school name from the associated School model
+        }));
+        
+        data.posts = (await models.Post.findAll({
+          include: [
+            {
+              model: models.Staff,
+              attributes: ['fullname'],
+              as: 'Staff'
+            }
+          ],
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+          raw: true
+        }))
+        
+        
+        data.categories = await models.Category.findAll({
+          attributes: { exclude: ['createdAt', 'updatedAt'] }
+        });
+        data.schools = await models.School.findAll({
+          attributes: { exclude: ['createdAt', 'updatedAt'] }
+        });
+        
+
+        counts.students = await models.Student.count();
+        counts.staff = await models.Staff.count();
+        counts.departments = await models.Department.count();
+        counts.posts = await models.Post.count();
+        counts.categories = await models.Category.count();
+        counts.schools = await models.School.count();
+
+      
+    
+        return res.status(200).json({ success: true, counts, data });
+        } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        }
+    },
 
     async BanAccount(req, res) {
       try {

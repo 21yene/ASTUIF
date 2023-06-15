@@ -179,6 +179,42 @@ const Category = connection.define('Category', {
     },
   });
 
+const Option = connection.define('Option', {
+    optionId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
+    preferenceId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
+  });
+
+const Preference = connection.define('Preference', {
+    preferenceId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    userType: {
+      type: DataTypes.ENUM('Student', 'Staff'),
+      allowNull: false
+    }
+  });
+  
+  
+
 const Like = connection.define('Like',{
     likeId:{
         type:DataTypes.INTEGER,
@@ -265,6 +301,17 @@ const RSVP = connection.define('RSVP', {
       
   });
 
+Option.belongsTo(Category, { foreignKey: 'categoryId' });
+
+Preference.belongsTo(Student, { foreignKey: 'userId', constraints: false, scope: { userType: 'Student' } });
+Student.hasMany(Preference, { foreignKey: 'userId', constraints: false, scope: { userType: 'Student' } });
+
+Preference.belongsTo(Staff, { foreignKey: 'userId', constraints: false, scope: { userType: 'Staff' } });
+Staff.hasMany(Preference, { foreignKey: 'userId', constraints: false, scope: { userType: 'Staff' } });
+
+Preference.hasMany(Option, { foreignKey: 'preferenceId' });
+Option.belongsTo(Preference, { foreignKey: 'preferenceId' });
+
 //Association between Student and Department
 Department.hasMany(Student,{foreignKey:'depId'});
 Student.belongsTo(Department,{foreignKey:'depId'}); 
@@ -311,6 +358,8 @@ Staff.hasMany(Conversation, { foreignKey: 'userId', constraints: false, scope: {
 
 module.exports.Student = Student;
 module.exports.Staff = Staff;
+module.exports.Option = Option;
+module.exports.Preference = Preference;
 module.exports.Admin = Admin;
 module.exports.Department = Department;
 module.exports.Post = Post;
