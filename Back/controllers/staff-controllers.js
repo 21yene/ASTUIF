@@ -1,9 +1,9 @@
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const {Staff , Post, Student, Category , RSVP, Department, School} = require('../models/schema');
+const {Staff , Post, Student,Like, Category , RSVP, Department, School} = require('../models/schema');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -94,7 +94,7 @@ module.exports = {
             });
 
             const image = req.file ? req.file.path : null;
-              
+            
             if (!existingPost) {
               
             const post = await Post.create({
@@ -235,11 +235,37 @@ module.exports = {
 
     async MyPost(req,res){
         try {
-            const posts = await Post.findAll({ where: { staffId:req.query.staffId } });
-            if (posts.length === 0) {
-                return res.status(404).json({ message: 'No posts found' });
-            }
-            return res.json(posts);
+            const posts = await Post.findAll({where: { staffId:req.query.staffId } ,
+                include: [
+                  { model: Category, attributes: ['name'] },
+                  { model: Staff, attributes: ['picture'] }
+                ]
+              });
+              const likes = await Like.findAll({
+                attributes: [
+                  'postId',
+                  [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+                ],
+                group: ['postId']
+              });
+              const mappedPosts = posts.map(post => {
+                const postLikes = likes.find(like => like.postId === post.id);
+                const likesCount = postLikes ? postLikes.likes : 0;
+                const { Category, Staff, ...rest } = post.toJSON();
+              
+                return {
+                  ...rest,
+                  categoryName: post.Category.name,
+                  staffImage: post.Staff.picture,
+                  likes: likesCount
+                };
+              });
+              
+      
+              if (!posts) {
+                return res.status(404).json({ message: 'Posts not found' });
+              }
+              return res.json(mappedPosts);
         } catch (err) {
             console.error(err);
             return res.status(500).json({ message: 'Internal Server Error' });

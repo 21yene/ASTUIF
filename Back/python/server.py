@@ -29,7 +29,6 @@ def handle_request():
         data = request.get_json()
         if 'content' not in data:
             error_message = {'error': 'Missing required field "value"'}
-            
             return jsonify(error_message), 400
         
         result = main(data['content'])

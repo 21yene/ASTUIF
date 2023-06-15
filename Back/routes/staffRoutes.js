@@ -16,7 +16,6 @@ router.post('/createOpt',common.CreateOption)
 router.get('/getOpt',common.GetOption)
 router.delete('/deleteOpt',common.DeleteOption)
 
-
 router.post('/likePost',common.LikePost)
 router.get('/seeLike',common.seeLike)
 router.get('/viewPost',AdminController.ViewPost)  //for staff

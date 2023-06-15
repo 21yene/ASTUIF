@@ -1,8 +1,8 @@
 const { reverse } = require('lodash');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const multer = require("multer");
 const path = require("path");
-const { Department , Post , Staff, School,Student, Category } = require('../models/schema');
+const { Department , Post , Staff, School,Student, Like, Category } = require('../models/schema');
 const models = require('../models/schema')
 
 
@@ -122,11 +122,37 @@ module.exports = {
 
     async ViewPost(req,res){
       try {
-          const post = await Post.findAll();
-          if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-          }
-          return res.json(post);
+        const posts = await Post.findAll({
+          include: [
+            { model: Category, attributes: ['name'] },
+            { model: Staff, attributes: ['picture'] }
+          ]
+        });
+        const likes = await Like.findAll({
+          attributes: [
+            'postId',
+            [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+          ],
+          group: ['postId']
+        });
+        const mappedPosts = posts.map(post => {
+          const postLikes = likes.find(like => like.postId === post.id);
+          const likesCount = postLikes ? postLikes.likes : 0;
+          const { Category, Staff, ...rest } = post.toJSON();
+        
+          return {
+            ...rest,
+            categoryName: post.Category.name,
+            staffImage: post.Staff.picture,
+            likes: likesCount
+          };
+        });
+        
+
+        if (!posts) {
+          return res.status(404).json({ message: 'Posts not found' });
+        }
+        return res.json(mappedPosts);
         } catch (err) {
           console.error(err);
           return res.status(500).json({ message: 'Internal Server Error' });

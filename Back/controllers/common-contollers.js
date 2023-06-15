@@ -1,4 +1,4 @@
-const { Op, Sequelize } = require('sequelize');
+const { Op, Sequelize, where } = require('sequelize');
 const http = require('http');
 const express = require('express');
 const socket = require('socket.io');
@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = socket(server);
 
 const bcrypt = require('bcrypt');
-const {Staff , Post, Student, Category,Preference, Option ,Chat, RSVP, Conversation, Department, Like,  School} = require('../models/schema');
+const {Staff , Post, Student, Category,Chat, RSVP,Preference,Option, Conversation, Department, Like,  School} = require('../models/schema');
 const { query } = require('express');
 
 const{sign}= require('jsonwebtoken');
@@ -91,27 +91,47 @@ module.exports = {
           if (passwordMatch) {
             if(loginAs === 'student'){
               const { studentId, fullname, email, picture, year, depId } = user;
-              const { ShortedName: depName, name: Name } = await Department.findOne({ where: { depId: depId } });
+              const { ShortedName: depName} = await Department.findOne({ where: { depId: depId } });
+              const done = await Preference.findOne({where:{userId:studentId,userType:loginAs}})
+              let pref;
+              if(done){
+                const result= await Option.findAll({where:{preferenceId:done.preferenceId},include:[Category]})
+                const data = result.map(result => ({
+                  optionId: result.optionId,
+                  YourPreference: result.Category.name
+                    }
+                  ));
+                  pref=data;
+              }else{pref=done}
 
-            const accessToken = sign({ user: { studentId, fullname, email, picture, year, depId, Name, depName }}, "verySecretValue", { expiresIn: '1d' }); // Access token
+            const accessToken = sign({ user: { studentId, fullname, email, picture, year, depId, depName,pref }}, "verySecretValue", { expiresIn: '1d' }); // Access token
             res.cookie('user', accessToken, { httpOnly: true });
-            return res.status(200).json({ accessToken, user: { studentId, fullname, email, picture, year, depId, Name, depName } });
+            return res.status(200).json({ accessToken, user: { studentId, fullname, email, picture, year, depId, depName,pref } });
             }
             
             else if (loginAs === 'staff') {
               const { staffId, fullname, email, picture, isVerified } = user;
-            
-              const accessToken = sign({ user}, "verySecretValue", { expiresIn: '1d' }); // Access token
+              const done = await Preference.findOne({where:{userId:staffId,userType:loginAs}})
+              let pref;
+              if(done){
+                const result= await Option.findAll({where:{preferenceId:done.preferenceId},include:[Category]})
+                const data = result.map(result => ({
+                  optionId: result.optionId,
+                  YourPreference: result.Category.name
+                    }
+                  ));
+                  pref=data;
+              }else{pref=done}
+              const accessToken = sign({ user:{staffId, fullname, email, picture, isVerified,pref }}, "verySecretValue", { expiresIn: '1d' }); // Access token
               res.cookie('user', accessToken, { httpOnly: true });
-              return res.status(200).json({ accessToken, user: { staffId, fullname, email, picture, isVerified } });
+              return res.status(200).json({ accessToken, user: { staffId, fullname, email, picture, isVerified,pref } });
             } 
             
             else if (loginAs === 'admin') {
-              const { staffId, fullname, email, picture} = user;
-            
+              const { adminId, fullname, email, picture} = user;
               const accessToken = sign({ user}, "verySecretValue", { expiresIn: '1d' }); // Access token
               res.cookie('user', accessToken, { httpOnly: true });
-              return res.status(200).json({ accessToken, user: { staffId, fullname, email, picture} });
+              return res.status(200).json({ accessToken, user: { adminId, fullname, email, picture} });
             } else {
               return res.status(400).json({ message: 'Invalid request' });
             }
@@ -159,12 +179,42 @@ module.exports = {
           categoryIds.push(schoolCat.categoryId);
         }
 
-        const posts = await Post.findAll({ where: { categoryId: categoryIds } });
+        const posts = await Post.findAll({
+          where: { categoryId: categoryIds },
+          include: [
+            { model: Category, attributes: ['name'] },
+            { model: Staff, attributes: ['picture'] }
+          ]
+        });
+        
+        const likes = await Like.findAll({
+          attributes: [
+            'postId',
+            [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+          ],
+          group: ['postId']
+        });
+
+        
+        
+        const mappedPosts = posts.map(post => {
+          const postLikes = likes.find(like => like.postId === post.id);
+          const likesCount = postLikes ? postLikes.likes : 0;
+          const { Category, Staff, ...rest } = post.toJSON();
+        
+          return {
+            ...rest,
+            categoryName: post.Category.name,
+            staffImage: post.Staff.picture,
+            likes: likesCount
+          };
+        });
+        
 
         if (!posts) {
           return res.status(404).json({ message: 'Posts not found' });
         }
-        return res.json(posts);
+        return res.json(mappedPosts);
       } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Internal Server Error' });
@@ -377,8 +427,9 @@ module.exports = {
             res.status(200).json(data);
           }
 
-          if (userType === 'Staff' && userId) {
+          if (userType && userId) {
             const options = await myOption(req, res);
+            console.log(options)
             data = data.filter(chat => options.some(option => option.categoryId === chat.categoryId));
           res.status(200).json(data);
         }
