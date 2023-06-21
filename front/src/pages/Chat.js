@@ -338,7 +338,6 @@ function Chat() {
                             
                         {chats.map((chat, index) => (
                         <div key={index}>
-
                             <div className={`discussion ${activeChat === chat.chatId ? 'message-active' : ''}`}
                                     onClick={(event) => {
                                         handleChatClick(chat.chatId);
@@ -363,16 +362,10 @@ function Chat() {
                         </div>
                         ))}
 
-
-                        </div>
-                        
+                        </div>   
                     </section>
 
-
-
             {/* ====== CHAT SECTION ======= */}
-
-
                 {activeChat === activeChatID && activeChat !=='0' ? (
                 <>
                     <section class="chat" style={{ zIndex: zIndex2 }}>
@@ -411,11 +404,8 @@ function Chat() {
 
                             )}
 
-
-
                         </div>
 
-                        
                         <div class="messages-chat"> 
 
                         {message.map((messages, i) => (
