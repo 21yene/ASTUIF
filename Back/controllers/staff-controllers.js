@@ -1,6 +1,7 @@
 const { Op, Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
 const {Staff , Post, Student,Like, Category , RSVP, Department, School} = require('../models/schema');
@@ -94,9 +95,17 @@ module.exports = {
             });
 
             const image = req.file ? req.file.path : null;
-            
+
             if (!existingPost) {
-              
+            function canBeSummarized(text) {
+               var englishRegex = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$/;
+                var words = text.trim().split(/\s+/);
+                return englishRegex.test(text) && words.length >= 300;
+            }
+            
+            let summarizable= canBeSummarized(req.body.content);
+            
+
             const post = await Post.create({
                   content: req.body.content,
                   eventLocation: req.body.eventLocation,
@@ -104,8 +113,11 @@ module.exports = {
                   categoryId: req.body.categoryId,
                   title:req.body.title,
                   staffName: result.fullname,
-                  image
+                  summarizable,
+                  image 
                 });
+
+                summarizer();
               
                 if(req.body.rsvp){
                     const result = await Category.findOne({ where: { categoryId: req.body.categoryId } });
@@ -307,3 +319,36 @@ module.exports = {
 
     async ChatBot(req,res){},
 }
+
+
+
+let interval; 
+async function summarizer() {
+  const response = await axios.get('http://127.0.0.1:4000');
+  if (response.status === 200) {
+
+        let result = await Post.findAll({
+            where: { summarizable: true },
+            attributes: ['postId', 'summarizable', 'content'] 
+        });
+        const task = async () => {
+            for (const post of result) {
+            const summary = await axios.post('http://127.0.0.1:4000', { content: post.content })
+            if(summary.data.status){
+
+                await Post.update({ summarizable: summary.data.summerized }, { where: { postId: post.postId } });
+
+                result = result.filter((p) => p.postId !== post.postId);
+            }
+            }
+            if (result.length === 0) {
+            clearInterval(interval);
+            }
+        };
+        await task();
+        interval = setInterval(task, 5000); 
+  } else {
+    console.error('Failed to retrieve status from the Node.js API');
+  }
+}
+

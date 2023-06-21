@@ -186,7 +186,6 @@ module.exports = {
             { model: Staff, attributes: ['picture'] }
           ]
         });
-        
         const likes = await Like.findAll({
           attributes: [
             'postId',
@@ -429,7 +428,7 @@ module.exports = {
 
           if (userType && userId) {
             const options = await myOption(req, res);
-            console.log(options)
+            
             data = data.filter(chat => options.some(option => option.categoryId === chat.categoryId));
           res.status(200).json(data);
         }

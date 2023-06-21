@@ -48,7 +48,7 @@ function Home() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/student/ViewPost')
+        fetch('http://localhost:3000/api/staff/ViewPost')
         .then(response => response.json())
         .then(data => setPosts(data))
         .catch(err => console.log(err));
