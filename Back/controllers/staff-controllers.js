@@ -1,5 +1,5 @@
 const { Op, Sequelize } = require('sequelize');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const axios = require('axios');
 const path = require('path');

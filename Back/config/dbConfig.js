@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
-
-const connect = new Sequelize('hagriecom_astuif', 'hagriecom_abraham', '}$sbYc2nv9:J]_b', {
+require('dotenv').config()
+const connect = new Sequelize('hagriecom_astuif', 'root', 'Yerosen1892!', {
   host: 'localhost',
   dialect: 'mysql',
   logging:false

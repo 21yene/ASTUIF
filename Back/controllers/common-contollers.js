@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socket(server);
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const {Staff , Post, Student, Category,Chat, RSVP,Preference,Option, Conversation, Department, Like,  School} = require('../models/schema');
 const { query } = require('express');
 
