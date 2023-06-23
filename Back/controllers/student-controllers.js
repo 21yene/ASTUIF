@@ -1,34 +1,31 @@
-const { reverse } = require('lodash');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { Op } = require('sequelize');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 const { Student} = require('../models/schema');
+const {USER,PASSWORD,JWT_SECRET,HOST} = require('../config/verify.js')
 
 async function sendVerificationEmail(email) {
-  // Create a nodemailer transporter
   const transporter = nodemailer.createTransport({
-    // Configure the transporter settings (e.g., SMTP or sendmail)
-    // For example, using a Gmail account:
     service: 'gmail',
     auth: {
-      
+      user: USER,
+      pass: PASSWORD,
     },
   });
+  const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1w' });
+  const verificationLink = `${HOST}/api/student/verify?token=${token}`;
 
-  // Prepare the email message
   const mailOptions = {
     from: 'your_email@gmail.com',
     to: email,
-    subject: 'Email Verification',
-    text: 'Please verify your email address.',
-    // You can also include an HTML version of the message
-    // html: '<p>Please verify your email address.</p>'
+    subject: 'Email Verification For ASTU Interactive Feed',
+    text: `Please verify your email address by clicking the following link: ${verificationLink}`,
   };
 
-  // Send the email
   await transporter.sendMail(mailOptions);
 }
 
@@ -80,14 +77,37 @@ module.exports = {
           depId,
           password: hashedPassword,
         });
-
-        await sendVerificationEmail(student.email);
+        if(student){sendVerificationEmail(student.email);}
 
         res.status(200).json({ success: true });
      
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Failed to register Student' });
+    }
+  },
+
+  async VerifyStudent(req, res){
+    try {
+      const { token } = req.query;
+      const decodedToken = jwt.verify(token, 'JWT_SECRET');
+      const { email } = decodedToken;
+
+      const student = await Student.findOne({ where: { email } });
+  
+      if (!student) {
+        return res.status(400).json({ message: 'Invalid verification token' });
+      }
+      if (student.isVerified) {
+        res.status(200).json({ success: false });// Redirect to a page indicating that the email is already verified
+      }
+      student.isVerified = true;
+      await student.save();
+      res.status(200).json({ success: true });
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to verify email' });
     }
   },
 

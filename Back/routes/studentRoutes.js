@@ -5,6 +5,7 @@ const StudentController = require('../controllers/student-controllers')
 const Common = require('../controllers/common-contollers')
 
 router.post('/register',StudentController.upload(),StudentController.Register)
+router.get('/verify',StudentController.VerifyStudent)
 
 router.post('/likePost',Common.LikePost)
 router.get('/seeLike',Common.seeLike)
