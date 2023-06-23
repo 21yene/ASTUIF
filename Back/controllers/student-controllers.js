@@ -4,7 +4,33 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { Op } = require('sequelize');
+const nodemailer = require('nodemailer');
 const { Student} = require('../models/schema');
+
+async function sendVerificationEmail(email) {
+  // Create a nodemailer transporter
+  const transporter = nodemailer.createTransport({
+    // Configure the transporter settings (e.g., SMTP or sendmail)
+    // For example, using a Gmail account:
+    service: 'gmail',
+    auth: {
+      
+    },
+  });
+
+  // Prepare the email message
+  const mailOptions = {
+    from: 'your_email@gmail.com',
+    to: email,
+    subject: 'Email Verification',
+    text: 'Please verify your email address.',
+    // You can also include an HTML version of the message
+    // html: '<p>Please verify your email address.</p>'
+  };
+
+  // Send the email
+  await transporter.sendMail(mailOptions);
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -46,7 +72,6 @@ module.exports = {
           return res.status(400).json({ message: 'User with this Email already exists', success: false });
         }
         
-
         const student = await Student.create({
           fullname,
           email,
@@ -55,6 +80,8 @@ module.exports = {
           depId,
           password: hashedPassword,
         });
+
+        await sendVerificationEmail(student.email);
 
         res.status(200).json({ success: true });
      
@@ -65,7 +92,5 @@ module.exports = {
   },
 
   upload,
-
-  async ChatBot(req, res) {},
-  async RSVP(req, res) {},
 };
+
