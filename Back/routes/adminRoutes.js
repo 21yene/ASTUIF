@@ -18,9 +18,13 @@ router.post('/addCategory',AdminController.addCategory)
 
 router.get('/getDep',common.getDep)
 router.get('/getSchool',common.getSchool)
+router.get('/getCat',common.getCategory) //
 
 router.get('/ViewPost',AdminController.ViewPost)  // for admin only.
-router.get('/searchPost',common.SearchPost)  //????? not tested with post man
+
+router.get('/searchPost',common.SearchPost)
+router.get('/searchStaff',common.SearchStaff)
+router.get('/searchStudent',common.SearchStudent)  
 
 router.delete('/deletePost',StaffController.DeletePost)
 router.put('/approveAcc',AdminController.ApproveAccount)

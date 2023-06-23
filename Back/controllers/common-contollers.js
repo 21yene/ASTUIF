@@ -328,13 +328,85 @@ module.exports = {
             const posts = await Post.findAll({
             where: {
                 [Op.or]: [
-                { topic: { [Op.like]: `%${keyword}%` } },
-                { content: { [Op.like]: `%${keyword}%` } }
+                { title: { [Op.like]: `%${keyword}%` } },
+                { content: { [Op.like]: `%${keyword}%` } },
+                { staffName: { [Op.like]: `%${keyword}%` } },
+                { eventLocation: { [Op.like]: `%${keyword}%` } }
                 ]
             }
             });
             
             res.json(posts);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
+        }
+    },
+
+    async SearchStaff(req,res){
+        const keyword = req.query.keyword;
+        try {
+            const staff = await Staff.findAll({
+              attributes: [ 'staffId',
+              'fullname', 'email',
+              'picture',
+              'isVerified',
+            ],
+            where: {
+                [Op.or]: [
+                { fullname: { [Op.like]: `%${keyword}%` } }
+                ]
+            }
+            });
+            
+            res.json(staff);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
+        }
+    },
+
+    async SearchStudent(req,res){
+        const keyword = req.query.keyword;
+        try {
+            const student = await Student.findAll({
+              attributes: [ 'studentId',
+                'fullname', 'email',
+                'picture',
+                'year',
+                'isVerified',
+                'depId'
+              ],
+            where: {
+                [Op.or]: [
+                { fullname: { [Op.like]: `%${keyword}%` } },
+                { '$Department.name$': { [Op.like]: `%${keyword}%` } } ,
+                {
+                  '$Department.School.name$': { [Op.like]: `%${keyword}%` },
+                  '$Department.schoolId$': { [Op.col]: 'Student.depId' }
+                },
+                {'$Department.School.ShortedName$': { [Op.like]: `%${keyword}%` }}
+                ]
+            },
+            include: [{
+              model: Department,
+              required: true ,
+              attributes: [
+                'name',
+                'depId'
+              ],
+              include: [{
+                model: School,
+                required: true,
+                attributes: [
+                  'name',
+                  'schoolId'
+                ],
+              }]
+            }]
+            });
+            
+            res.json(student);
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: 'Server error' });

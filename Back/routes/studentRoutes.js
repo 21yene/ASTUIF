@@ -8,9 +8,11 @@ router.post('/register',StudentController.upload(),StudentController.Register)
 
 router.post('/likePost',common.LikePost)
 router.get('/seeLike',common.seeLike)
-router.get('/viewPost',common.ViewPost)  //for stud
+router.get('/viewPost',common.ViewPost)  //for student
 
 router.get('/getDep',common.getDep)
+router.get('/getSchool',common.getSchool)
+router.get('/getCat',common.getCategory)//
 
 router.post('/createOpt',common.CreateOption)
 router.get('/getOpt',common.GetOption)

@@ -839,7 +839,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getconv?chatId=5",
+					"raw": "localhost:3000/api/student/getconv?chatId=1",
 					"host": [
 						"localhost"
 					],
@@ -852,7 +852,7 @@
 					"query": [
 						{
 							"key": "chatId",
-							"value": "5"
+							"value": "1"
 						}
 					]
 				}
@@ -885,7 +885,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"loginAs\":\"staff\",\r\n    \"email\":\"ephrem@gmail.com\",\r\n    \"password\":\"ephrem\"\r\n}",
+					"raw": "{\r\n    \"loginAs\":\"student\",\r\n    \"email\":\"bereket@gmail.com\",\r\n    \"password\":\"bereket\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1070,7 +1070,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/getRsvp?userType&userId",
+					"raw": "localhost:3000/api/staff/getRsvp?userType=Student&userId=1",
 					"host": [
 						"localhost"
 					],
@@ -1083,11 +1083,11 @@
 					"query": [
 						{
 							"key": "userType",
-							"value": null
+							"value": "Student"
 						},
 						{
 							"key": "userId",
-							"value": null
+							"value": "1"
 						}
 					]
 				}
@@ -1101,7 +1101,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rsvpData\": [\r\n        {\r\n            \"postId\": 11,\r\n            \"text\": \"You have received a notification for jhjghh\"\r\n        },\r\n        {\r\n            \"postId\": 13,\r\n            \"text\": \"You have received a notification for null\"\r\n        }\r\n    ],\r\n    \"userType\":\"\",\r\n    \"userId\":\"\"\r\n}\r\n",
+					"raw": "{\r\n    \"rsvpData\": [\r\n        {\r\n            \"postId\": 11,\r\n            \"text\": \"You have received a notification for jhjghh\"\r\n        },\r\n        {\r\n            \"postId\": 13,\r\n            \"text\": \"You have received a notification for null\"\r\n        }\r\n    ],\r\n    \"userType\":\"Student\",\r\n    \"userId\":\"1\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1129,7 +1129,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/getMyRsvp?staffId",
+					"raw": "localhost:3000/api/staff/getMyRsvp?staffId=1",
 					"host": [
 						"localhost"
 					],
@@ -1142,7 +1142,85 @@
 					"query": [
 						{
 							"key": "staffId",
-							"value": null
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/admin/searchPost?keyword=",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"admin",
+						"searchPost"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search Staff",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/searchStaff?keyword=abel",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"searchStaff"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "abel"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search Student",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/searchStudent?keyword=soca",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"searchStudent"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "soca"
 						}
 					]
 				}

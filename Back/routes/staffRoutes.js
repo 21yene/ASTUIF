@@ -23,6 +23,12 @@ router.get('/myPost',StaffController.MyPost)
 
 router.get('/getDep',common.getDep)
 router.get('/getSchool',common.getSchool)
+router.get('/getCat',common.getCategory)
+
+router.get('/getRsvp',common.getRsvp)
+router.put('/putRsvp',common.putRsvp)
+router.get('/getMyRsvp',common.getMyPostRsvp)
+
 
 router.post('/chat',common.Chat)
 router.get('/getchat',common.getChat)
@@ -32,6 +38,8 @@ router.post('/conv',common.Conv)
 router.get('/getconv',common.getConv)
 
 router.get('/searchPost',common.SearchPost)
+router.get('/searchStaff',common.SearchStaff)
+router.get('/searchStudent',common.SearchStudent)
 
 router.get('/chatBot',StaffController.ChatBot)
 
