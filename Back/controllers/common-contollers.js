@@ -91,7 +91,7 @@ module.exports = {
           if (passwordMatch) {
             if(loginAs === 'student'){
               const { studentId, fullname, email, picture, year, depId } = user;
-              const { ShortedName: depName} = await Department.findOne({ where: { depId: depId } });
+              const { ShortedName: ShortedName,name: depName} = await Department.findOne({ where: { depId: depId } });
               const done = await Preference.findOne({where:{userId:studentId,userType:loginAs}})
               let pref;
               if(done){
@@ -104,9 +104,9 @@ module.exports = {
                   pref=data;
               }else{pref=done}
 
-            const accessToken = sign({ user: { studentId, fullname, email, picture, year, depId, depName,pref }}, "verySecretValue", { expiresIn: '1d' }); // Access token
+            const accessToken = sign({ user: { studentId, fullname, email, picture, year, depId, depName,ShortedName,pref}}, "verySecretValue", { expiresIn: '1d' }); // Access token
             res.cookie('user', accessToken, { httpOnly: true });
-            return res.status(200).json({ accessToken, user: { studentId, fullname, email, picture, year, depId, depName,pref } });
+            return res.status(200).json({ accessToken, user: { studentId, fullname, email, picture, year, depId, depName,ShortedName, pref } });
             }
             
             else if (loginAs === 'staff') {
@@ -501,48 +501,118 @@ module.exports = {
         }
     },
 
-    async getConv(req,res){
-        try{
-            const result = await Conversation.findAll({
-                where:{chatId:req.query.chatId},
-                attributes:['from','message','userid', 'senderType']
-            });
-            if (result) {
-                res.json(result) 
-            }else{
-                res.json({success:false}) 
+    async getConv(req, res) {
+      try {
+        const result = await Conversation.findAll({
+          where: { chatId: req.query.chatId },
+          attributes: ['from', 'message', 'userId', 'senderType'],
+        });
+    
+        if (result) {
+          const promises = result.map(async (result) => {
+            let picture;
+            if (result.senderType === 'Student') {
+              const student = await Student.findOne({
+                where: { studentId: result.userId },
+                attributes: ['picture'],
+              });
+              picture = student ? student.picture : null;
+            } else if (result.senderType === 'Staff') {
+              const staff = await Staff.findOne({
+                where: { staffId: result.userId },
+                attributes: ['picture'],
+              });
+              picture = staff ? staff.picture : null;
             }
-        }catch(err){
-            console.log(err);
-            res.status(500).json({message: 'server error'});
+            return { ...result.toJSON(), picture };
+          });
+    
+          const Results = await Promise.all(promises);
+
+          res.json({success:true, Results});
+        } else {
+          res.json({ success: false });
         }
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Server error' });
+      }
     },
 
-    async getDep(req,res){
-        try{
-            const result = await Department.findAll({attributes:['depId','name','ShortedName','schoolId']})
-            // console.log(result)
-            res.status(200).json(result)
-        }catch(err){
-            console.log(err);
-            res.status(500).json({message: 'server error'});
+    async getDep(req, res) {
+      try {
+        const departments = await Department.findAll({ attributes: ['depId', 'name', 'ShortedName', 'schoolId'] });
+    
+        const departmentData = [];
+        for (const department of departments) {
+          const category = await Category.findOne({ attributes: ['categoryId', 'name'], where: { name: department.ShortedName} });
+          const departmentWithCategory = {
+              ...department.toJSON(),
+              categoryId: category.categoryId
+            };
+            departmentData.push(departmentWithCategory);
         }
+    
+        res.status(200).json(departmentData);
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'server error' });
+      }
     },
-
+    
     async getSchool(req,res){
       try{
           const result = await School.findAll({attributes:['schoolId','name','ShortedName']})
           // console.log(result)
+          const schoolData = [];
+          for (const school of result) {
+          const category = await Category.findOne({ attributes: ['categoryId', 'name'], where: { name: school.ShortedName } });
+          const schoolWithCategory = {
+              ...school.toJSON(),
+              categoryId: category.categoryId
+            };
+    
+            schoolData.push(schoolWithCategory);
+        }
+    
+        res.status(200).json(schoolData);
+      }catch(err){
+          console.log(err);
+          res.status(500).json({message: 'server error'});
+      }
+  },
+
+    async getCategory(req,res){
+      try{
+          const result = await Category.findAll({attributes:['categoryId','name']})
           res.status(200).json(result)
       }catch(err){
           console.log(err);
           res.status(500).json({message: 'server error'});
       }
   },
-    async getCategory(req,res){
+
+    async getRsvp(req,res){
       try{
-          const result = await Category.findAll({attributes:['categoryId','name']})
-          res.status(200).json(result)
+          
+      }catch(err){
+          console.log(err);
+          res.status(500).json({message: 'server error'});
+      }
+  },
+
+    async putRsvp(req,res){
+      try{
+
+      }catch(err){
+          console.log(err);
+          res.status(500).json({message: 'server error'});
+      }
+  },
+
+    async getMyPostRsvp(req,res){
+      try{
+
       }catch(err){
           console.log(err);
           res.status(500).json({message: 'server error'});

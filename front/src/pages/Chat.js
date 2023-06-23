@@ -11,16 +11,19 @@ import { RxChevronLeft } from "react-icons/rx";
 import { MdPostAdd } from "react-icons/md";
 import { VscVerified } from "react-icons/vsc";
 
+import io from 'socket.io-client';
+
+
 function Chat() {
 
-    //Update Pop-Up Functionality
-
-    // const [delChat, setDelChat]=useState(false);
     const [deletePop, setDeletePop]=useState(false);
     const [settingPop, setSettingPop]=useState(false);
     const [create, setCreate]=useState(false);
 
     const dropdownRef = useRef(null);
+
+    const [activeChat, setActiveChat] = useState('0');
+    const [activeChatID, setActiveChatID] = useState(null);
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -74,28 +77,91 @@ function Chat() {
     }, []);
 
 
-
+    const socket = io("http://localhost:8000");
     // send message
 
     const [messages, setMessages] = useState('');
+
+    useEffect(() => {
+        socketOperation();
+      }, []);
+
+      function socketOperation() {
+            const type= userType;
+
+            let user = '';
+            let username = '';
+            if (userType === 'student') {
+                user = name.studentId;
+                username = name.fullname;
+            } else if (userType === 'staff') {
+                user = name.staffId;
+                username = name.fullname;
+            }
+
+            const chatId = activeChatID;
+
+            socket.on('connect', () => {
+                console.log('Connected to server');
+            });
+            // Event listener for receiving new messages
+            socket.on('messages', (message) => {
+              setMessages((prevMessages) => [...prevMessages, message]);
+            });
+              
+            socket.off('messages');
+
+            socket.on('connect', () => {
+                console.log('Connected to server');
+              });
+              
+              socket.on('userAdded', (users) => {
+                console.log('Users:', users);
+              });
+              
+              socket.on('messageSent', (data) => {
+                console.log('Received message:', data.msg);
+                setMessages((prevMessages) => [...prevMessages, data.msg]);
+              });
+              
+              socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+              });
+
+            if (activeChatID) {
+              socket.emit('joinChat', activeChatID);
+
+              socket.emit('openChat', { id: user, from: username });
+              
+              socket.emit('leaveChat', activeChatID);
+            }
+      }
+ 
 
     const sendMessage = async () => {
         const type= userType;
 
         let user = '';
+        let username = '';
         if (userType === 'student') {
             user = name.studentId;
+            username = name.fullname;
         } else if (userType === 'staff') {
             user = name.staffId;
+            username = name.fullname;
         }
 
         const chatId = activeChatID;
         const message = messages;
         try {
         const data = {message: message, userId: user, senderType: type, chatId: chatId};
+        const soc = {message: message, from: username, senderType: type};
 
         const response = await axios.post('http://localhost:3000/api/student/conv', data);
         console.log(response.data);
+
+        socket.emit('sendMessage', soc);
+
         setMessages('');        // clear input field
         } catch (error) {
             console.error(error);
@@ -229,6 +295,7 @@ function Chat() {
     // Get Conversation API
 
     const [message, setMessage] = useState([]);
+    
     const [chatId, setChatId] = useState(null);
     const [topic, setTopic] = useState([]);
     const [creatorId, setCreatorId] = useState([]);
@@ -249,8 +316,7 @@ function Chat() {
 
     // Active Click Chat
 
-    const [activeChat, setActiveChat] = useState('0');
-    const [activeChatID, setActiveChatID] = useState(null);
+    
 
     const handleChatClick = (chat) => {
         setActiveChat(chat);
@@ -467,7 +533,7 @@ function Chat() {
 
 
                         <div class="footer-chat">
-                            <input type="text" className="write-message" placeholder="Type your message here" value={messages} onChange={handleMessageChange}/>
+                            <input type="text" className="write-message" placeholder="Type your message here" value={messages} onChange={handleMessageChange} />
                             <button className='send_button' onClick={sendMessage}><IoSend className="icon"/></button>
                         </div>
 
