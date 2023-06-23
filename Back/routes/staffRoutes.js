@@ -3,43 +3,43 @@ const router = express.Router();
 
 const StaffController = require('../controllers/staff-controllers')
 const AdminController = require('../controllers/admin-controllers')
-const common = require('../controllers/common-contollers')
+const Common = require('../controllers/common-contollers')
 
 router.post('/stReg',StaffController.upload(),StaffController.Register)
 
 router.post('/post',StaffController.post(),StaffController.AddPost)
 router.put('/updatePost',StaffController.UpdatePost)
 router.delete('/deletePost',StaffController.DeletePost)
-router.delete('/deleteChat',common.DeleteChat)
+router.delete('/deleteChat',Common.DeleteChat)
 
-router.post('/createOpt',common.CreateOption)
-router.get('/getOpt',common.GetOption)
-router.delete('/deleteOpt',common.DeleteOption)
+router.post('/createOpt',Common.CreateOption)
+router.get('/getOpt',Common.GetOption)
+router.delete('/deleteOpt',Common.DeleteOption)
 
-router.post('/likePost',common.LikePost)
-router.get('/seeLike',common.seeLike)
+router.post('/likePost',Common.LikePost)
+router.get('/seeLike',Common.seeLike)
 router.get('/viewPost',AdminController.ViewPost)  //for staff
 router.get('/myPost',StaffController.MyPost)
 
-router.get('/getDep',common.getDep)
-router.get('/getSchool',common.getSchool)
-router.get('/getCat',common.getCategory)
+router.get('/getDep',Common.getDep)
+router.get('/getSchool',Common.getSchool)
+router.get('/getCat',Common.getCategory)
 
-router.get('/getRsvp',common.getRsvp)
-router.put('/putRsvp',common.putRsvp)
-router.get('/getMyRsvp',common.getMyPostRsvp)
+router.get('/getRsvp',Common.getRsvp)
+router.put('/putRsvp',Common.putRsvp)
+router.get('/getMyRsvp',Common.getMyPostRsvp)
 
 
-router.post('/chat',common.Chat)
-router.get('/getchat',common.getChat)
-router.get('/checkconv',common.checkChat)
+router.post('/chat',Common.Chat)
+router.get('/getchat',Common.getChat)
+router.get('/checkconv',Common.checkChat)
 
-router.post('/conv',common.Conv)
-router.get('/getconv',common.getConv)
+router.post('/conv',Common.Conv)
+router.get('/getconv',Common.getConv)
 
-router.get('/searchPost',common.SearchPost)
-router.get('/searchStaff',common.SearchStaff)
-router.get('/searchStudent',common.SearchStudent)
+router.get('/searchPost',Common.SearchPost)
+router.get('/searchStaff',Common.SearchStaff)
+router.get('/searchStudent',Common.SearchStudent)
 
 router.get('/chatBot',StaffController.ChatBot)
 

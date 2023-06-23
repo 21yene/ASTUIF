@@ -2,33 +2,33 @@ const express = require('express');
 const router = express.Router();
 
 const StudentController = require('../controllers/student-controllers')
-const common = require('../controllers/common-contollers')
+const Common = require('../controllers/common-contollers')
 
 router.post('/register',StudentController.upload(),StudentController.Register)
 
-router.post('/likePost',common.LikePost)
-router.get('/seeLike',common.seeLike)
-router.get('/viewPost',common.ViewPost)  //for student
+router.post('/likePost',Common.LikePost)
+router.get('/seeLike',Common.seeLike)
+router.get('/viewPost',Common.ViewPost)  //for student
 
-router.get('/getDep',common.getDep)
-router.get('/getSchool',common.getSchool)
-router.get('/getCat',common.getCategory)//
+router.get('/getDep',Common.getDep)
+router.get('/getSchool',Common.getSchool)
+router.get('/getCat',Common.getCategory)//
 
-router.post('/createOpt',common.CreateOption)
-router.get('/getOpt',common.GetOption)
-router.delete('/deleteOpt',common.DeleteOption)
+router.post('/createOpt',Common.CreateOption)
+router.get('/getOpt',Common.GetOption)
+router.delete('/deleteOpt',Common.DeleteOption)
 
-router.post('/chat',common.Chat)
-router.get('/getchat',common.getChat)
-router.get('/checkchat',common.checkChat)
-router.delete('/deleteChat',common.DeleteChat)
+router.post('/chat',Common.Chat)
+router.get('/getchat',Common.getChat)
+router.get('/checkchat',Common.checkChat)
+router.delete('/deleteChat',Common.DeleteChat)
 
-router.post('/conv',common.Conv)
-router.get('/getconv',common.getConv)
+router.post('/conv',Common.Conv)
+router.get('/getconv',Common.getConv)
 
-router.get('/searchPost',common.SearchPost)
+router.get('/searchPost',Common.SearchPost)
 
-router.get('/chatBot',StudentController.ChatBot)
-router.post('/rsvp',StudentController.RSVP)
+router.get('/getRsvp',Common.getRsvp)
+router.put('/putRsvp',Common.putRsvp)
 
 module.exports = router;
