@@ -84,28 +84,7 @@
 			"response": []
 		},
 		{
-			"name": "Admin Get all student",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/admin/get",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"admin",
-						"get"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Admin Get all student Copy 2",
+			"name": "Admin Get all data",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -126,7 +105,7 @@
 			"response": []
 		},
 		{
-			"name": "Admin Get all student Copy",
+			"name": "Admin Get all student",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -441,12 +420,12 @@
 						},
 						{
 							"key": "content",
-							"value": "and ethiopiassas ss",
+							"value": "hello d hh  hello bb again mm The world we inhabit is a complex and ever-evolving place, filled with limitless potential for exploration and discovery. From the vast expanse of the universe to the intricate workings of the human mind and body, there is an abundance of wonders to uncover. Humans have sought to comprehend the world around them throughout history, striving to understand their place in it and establish meaning and purpose in their lives. From the earliest groups of hunter-gatherers to the most advanced technological societies, people have developed a myriad of customs, beliefs, and methods to navigate the challenges of their existence and search for happiness and fulfillment.Throughout history, humans have faced countless obstacles and setbacks, including wars, famines, diseases, and natural disasters. Yet, through perseverance and determination, they have continued to progress and flourish, always aiming to create a brighter tomorrow for themselves and future generations. Today, we face unprecedented global challenges like climate change, inequality, and the threat of nuclear war. However, we also have unparalleled opportunities to cultivate a more equitable, sustainable, and harmonious world, harnessing the strength of science, technology, and human collaboration.In recent years, technological advancements have facilitated a rapid acceleration of progress in many fields, from medicine to communications to transportation. However, these advancements have also brought new challenges and concerns, such as the impact of automation on job markets and the potential consequences of unchecked artificial intelligence. Moreover, many global challenges, such as climate change and inequality, require coordinated efforts and cooperation at the international level to address.In the face of these challenges, it is critical that we work together to create a more just and sustainable world. This will require investment in education and scientific research, as well as greater collaboration and communication among nations. It will also require a commitment to protecting the environment, prioritizing social justice, and promoting peace. By working together, we can build a brighter future for all, one in which the wonders of the world are preserved, and human potential is fully realized.",
 							"type": "text"
 						},
 						{
 							"key": "eventLocation",
-							"value": "Addis abbbaba  aa",
+							"value": "Addis abbbaba  aadd",
 							"type": "text"
 						},
 						{
@@ -467,7 +446,7 @@
 						{
 							"key": "image",
 							"type": "file",
-							"src": "/C:/Users/Abraham Mekuria/Pictures/Screenshots/Screenshot (47).png"
+							"src": "/C:/Users/Abraham Mekuria/Pictures/110-1104934_high-quality-cool-desktop-backgrounds.jpg"
 						}
 					],
 					"options": {
@@ -477,7 +456,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/api/staff/posts",
+					"raw": "localhost:3000/api/staff/post",
 					"host": [
 						"localhost"
 					],
@@ -485,7 +464,7 @@
 					"path": [
 						"api",
 						"staff",
-						"posts"
+						"post"
 					]
 				}
 			},
@@ -800,7 +779,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getchat?userType=Staff&userId=2",
+					"raw": "localhost:3000/api/student/getchat?userType=Staff&userId=",
 					"host": [
 						"localhost"
 					],
@@ -817,7 +796,7 @@
 						},
 						{
 							"key": "userId",
-							"value": "2"
+							"value": ""
 						}
 					]
 				}
@@ -901,15 +880,17 @@
 		},
 		{
 			"name": "login",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n    \"loginAs\":\"staff\",\r\n    \"email\":\"ephrem@gmail.com\",\r\n    \"password\":\"ephrem\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "localhost:3000/api/login",
@@ -932,7 +913,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"categoryId\":\"8\",\r\n    \"userId\":\"2\",\r\n    \"userType\":\"Staff\"\r\n}",
+					"raw": "{\r\n    \"categoryId\":\"8\",\r\n    \"userId\":\"1\",\r\n    \"userType\":\"Student\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -995,7 +976,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/deleteOpt?userId=2&userType=Staff&optionId=10",
+					"raw": "localhost:3000/api/staff/deleteOpt?userId=2&userType=Staff&optionId=18",
 					"host": [
 						"localhost"
 					],
@@ -1016,7 +997,152 @@
 						},
 						{
 							"key": "optionId",
-							"value": "10"
+							"value": "18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Dep",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/getDep",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"getDep"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get School",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/getSchool",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"getSchool"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/getCat",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"getCat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get rsvp",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/getRsvp?userType&userId",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"getRsvp"
+					],
+					"query": [
+						{
+							"key": "userType",
+							"value": null
+						},
+						{
+							"key": "userId",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put status of rsvp",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rsvpData\": [\r\n        {\r\n            \"postId\": 11,\r\n            \"text\": \"You have received a notification for jhjghh\"\r\n        },\r\n        {\r\n            \"postId\": 13,\r\n            \"text\": \"You have received a notification for null\"\r\n        }\r\n    ],\r\n    \"userType\":\"\",\r\n    \"userId\":\"\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/staff/putRsvp",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"putRsvp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get my rsvp for post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/staff/getMyRsvp?staffId",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"staff",
+						"getMyRsvp"
+					],
+					"query": [
+						{
+							"key": "staffId",
+							"value": null
 						}
 					]
 				}

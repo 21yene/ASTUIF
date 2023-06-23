@@ -592,26 +592,77 @@ module.exports = {
       }
   },
 
-    async getRsvp(req,res){
+  async getRsvp(req, res) {
+    try {
+      const { userType, userId } = req.query;
+      const totalRsvp = await RSVP.count({
+        where: { status: false, userType: userType, forUser: userId }
+      });
+  
+      const result = await RSVP.findAll({
+        where: { status: false, userType: userType, forUser: userId },
+        attributes: ['postId']
+      });
+  
+      const rsvpData = [];
+      for (const rsvp of result) {
+        const post = await Post.findOne({
+          attributes: ['title'],
+          where: { postId: rsvp.postId }
+        });
+
+        if (post) {
+          const Text = {
+            ...rsvp.toJSON(),
+            text: `You have received a notification for ${post.title}`
+          };
+          rsvpData.push(Text);
+        } else {
+          console.log(`Post not found for postId: ${rsvp.postId}`);
+        }
+      }
+      res.status(200).json({success:true,totalRsvp,rsvpData});
+  
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: 'server error' });
+    }
+  },
+
+  async putRsvp(req,res){
       try{
-          
+        const {rsvpData, userType, userId  } = req.body;
+
+        console.log(rsvpData, userType, userId )
+
+        for(const rsvp of rsvpData){
+          if (rsvp.postId){
+            const result = await RSVP.update({status:true},{where:{
+            userType:userType, forUser:userId,postId:rsvp.postId
+          }})
+        }}
+        res.status(200).json({success:true});
       }catch(err){
           console.log(err);
           res.status(500).json({message: 'server error'});
       }
   },
 
-    async putRsvp(req,res){
+  async getMyPostRsvp(req,res){
       try{
+        const {staffId} = req.query;
+        const posts = await Post.findAll({where:{staffId:staffId}, attributes:['postId']})
+        myRsvpData = [];
+        if(posts){
+          for(const post of posts){
+            const total = await RSVP.count({
+              where: { status: true, postId:post.postId}
+            });
+            myRsvpData.push({ postId: post.postId, total: total })
+          }
+        }
 
-      }catch(err){
-          console.log(err);
-          res.status(500).json({message: 'server error'});
-      }
-  },
-
-    async getMyPostRsvp(req,res){
-      try{
+        res.status(200).json(myRsvpData);
 
       }catch(err){
           console.log(err);
