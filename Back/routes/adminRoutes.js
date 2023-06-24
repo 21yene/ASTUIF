@@ -11,6 +11,7 @@ router.post('/login',Common.login)
 router.get('/logout',Common.logout)
 router.get('/user',Common.user)
 router.get('/get',AdminController.GetStudent)
+router.get('/getStaff',AdminController.GetStaff)
 
 router.post('/addSchool',AdminController.addSchool)
 router.post('/addDep',AdminController.addDepartment)

@@ -162,9 +162,21 @@ module.exports = {
       try {
           const student = await Student.findAll();
           if (!student) {
-            return res.status(404).json({ message: 'Post not found' });
+            return res.status(404).json({ message: 'student not found' });
           }
           return res.json(student);
+        } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        }
+  },
+    async GetStaff(req,res){
+      try {
+          const staff = await Staff.findAll();
+          if (!staff) {
+            return res.status(404).json({ message: 'staff not found' });
+          }
+          return res.json(staff);
         } catch (err) {
           console.error(err);
           return res.status(500).json({ message: 'Internal Server Error' });

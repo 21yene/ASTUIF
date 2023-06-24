@@ -6,7 +6,11 @@ import ip from '../helpers/Config.js';
 
 import SideBar from '../components/SideBar';      //SideBar
 import HeadIcon from '../components/HeadIcon';      //HeadIcon
-// import ip from '../helpers/Config.js';
+import Notify from '../components/Notify';
+
+import user_avatar from '../assets/user_avatar.png';
+
+import { RiUploadCloud2Fill } from "react-icons/ri";
 
 
 function Profile() {
@@ -15,6 +19,8 @@ function Profile() {
     // Get Current User
     const [name, setName] = useState('');
     const [senderType, setSenderType] = useState('');
+    const [userType, setUserType] = useState('');
+    const [userId, setUserId] = useState('');
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
@@ -25,8 +31,12 @@ function Profile() {
 
                 if (res.data.user.user.hasOwnProperty('studentId')) {
                     setSenderType ('Student');
+                    setUserType('student');
+                    setUserId(res.data.user.user.studentId);
                 } else {
                     setSenderType ('Staff');
+                    setUserType('staff');
+                    setUserId(res.data.user.user.staffId);
                 }
             }
             else{
@@ -34,6 +44,54 @@ function Profile() {
             } 
         })
     }, []);
+
+
+    // Update Profile
+
+
+    // Upload Image Preview
+
+    const [file, setFile] = useState();
+
+    function getFile(e) {
+        setFile(URL.createObjectURL(e.target.files[0]));
+    }
+
+
+    const twoFunctions = (e) => {
+        getFile(e);
+        // handleImageChange(e);
+    }
+
+
+
+
+
+    // Create Option/Preference
+
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+
+    const createOption = async () => {
+
+        try {
+            const data = {
+                categoryId: document.getElementById('depId').value,
+                userId: userId,
+                userType: senderType,
+            };
+        
+            const response = await axios.post('http://localhost:3000/api/staff/createOpt', data);
+            window.location.reload();
+            setMessage(response.data.message);
+            setError('');
+        } catch (error) {
+            setError(error.response.data.message);
+            setMessage('');
+        }
+    };
+
+
 
 
     // Get Department
@@ -45,6 +103,55 @@ function Profile() {
         .then(response => setDepts(response.data))
         .catch(err => console.log(err));
     }, []);
+
+
+
+    // Get Option/Preference
+
+    const [options, setOptions] = useState([]);
+
+    useEffect(() => { 
+        ip.get('/api/staff/getOpt', {
+            params: {
+                userType: senderType,
+                userId: userId,
+            },
+        })
+        .then(response => setOptions(response.data.data))
+        .catch(err => console.log(err));
+    }, [senderType, userId]);
+
+
+
+    // Delete Options/Preference
+
+    const deleteOption = (optionId) => {
+        ip.delete('/api/staff/deleteOpt', {
+            params: {
+                userId: userId,
+                userType: senderType,
+                optionId: optionId,
+            },
+        })
+        .then(response => {
+            window.location.reload();
+        })
+        .catch(err => console.log(err));
+    };
+
+
+
+    // Default User image
+
+    let user_img = '';
+    let user_image = name.picture;
+
+    if (user_image === null || user_image === undefined) {
+        user_img = user_avatar;
+    } else {
+        user_img = user_image.replace('Images', '');
+        user_img = `http://localhost:3000${user_img}`;
+    }
 
 
 
@@ -66,9 +173,13 @@ function Profile() {
                         <input type="email" name="email" id="email" placeholder="example@astu.edu.et" value={name.email}   required />
                     </div>
 
-                    <div className="account-div">
-                        <label htmlFor="Picture">Picture</label>
-                        <input type="file" name="picture" id="picture" accept="image/*" />
+                    <div className="account-div-box">
+                        <input type="file" name="picture" id="picture" accept="image/*" onChange={twoFunctions} />
+                        <label htmlFor="picture" className='upload'><RiUploadCloud2Fill className='icon'/>Upload Image</label>
+
+                        {file && (
+                                    <img src={file} alt="Uploaded" className="image staff-img" />
+                        )}
                     </div>
 
 
@@ -129,15 +240,16 @@ function Profile() {
 
                         <div className='Preference'>
                             <select id="depId" name="depId">
-                                <option hidden>Category</option>
                                 {depts.map((Depart, i) => (
-                                    <option key={i} value={Depart.depId}>{Depart.name}</option>
+                                    <option key={i} value={Depart.categoryId}>{Depart.name}</option>
                                     )
                                 )}
                             </select>
 
-                            <div className='add'>Add+</div>
+                            <div className='add' onClick={createOption}>Add+</div>
                         </div>
+                        <p className='add-message'>{message}</p>
+                        <p className='add-error'>{error}</p>
 
                     </div>
 
@@ -152,19 +264,30 @@ function Profile() {
 
 
                 <div className="card-banner">
-                    <img src="https://i.pinimg.com/564x/bf/d6/b5/bfd6b5ead3e81c7d0ff530a2a6c98de3.jpg" alt="account-user-img" className="account-user-img"/>
+                    <img src={user_img} alt="account-user-img" className="account-user-img"/>
 
                     <div className="card-banner-space"></div>
                     <div className="card-banner-big">{name.fullname}</div>
-                    <div className="card-banner-small">Computer Science</div>
+                    <div className="card-banner-small">{name.depName}</div>
                     <div className="card-banner-tag">{senderType}</div>
-                    <div className="card-banner-text">Doloremque, nihil! At ea atque quidem! Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae.</div>
+                    <div className="card-banner-text">Doloremque, nihil! At ea atque quidem! Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+
+                    <div className="card-banner-options">
+                    {options.map((option, i) => (
+                            <span key={i}>
+                                {option.categoryName}
+                                <div className='close' onClick={() => deleteOption(option.optionId)}>x</div>
+                            </span>
+                        )
+                    )}
+                    </div>
                     
                 </div>
 
             </div>
 
             <HeadIcon />
+            <Notify />
 
         </div>
     );

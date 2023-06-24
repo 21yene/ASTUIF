@@ -1,31 +1,65 @@
 import React from "react";
 import {useState, useEffect, useRef} from 'react';
 import Modal from 'react-modal';
+import ip from '../helpers/Config.js';
+import axios from "axios";
 
 import date_icon from "../assets/date_icon.png";
 import map_icon from "../assets/map_icon.png";
+import avatar_img1 from "../assets/img_avatar.png";
+// import avatar_img1 from '../assets/user_avatar.png';
+// import Staff_badge from "../assets/badges/Staff_badge.png";
 
-import { BsFillBookmarkPlusFill, BsFillPeopleFill, BsFillHeartFill, BsRobot } from "react-icons/bs";
+import { BsFillBookmarkPlusFill, BsFillPeopleFill, BsFillHeartFill, BsRobot, BsPinMapFill, BsBookmarkCheckFill } from "react-icons/bs";
 import { IoOptionsOutline } from "react-icons/io5";
 import { RiUploadCloud2Fill } from "react-icons/ri";
 import { FaWalking, FaSchool } from "react-icons/fa";
 import { IoWarningOutline } from "react-icons/io5"; 
+import { MdVerified, MdDescription } from "react-icons/md";
+import { HiPencilAlt } from "react-icons/hi";
 
 
-import ip from '../helpers/Config.js';
+// Maps
 import logo from "../assets/logo1.png";
 import B507 from "../assets/loc/b507.png";
 import B508 from "../assets/loc/b508.png";
 import B509 from "../assets/loc/b509.png";
 
 
-function PostItem({ user_image, user_name, user_badge, card_image, tag, title, desc, sum, time, date, loc, day, postId}) {
+function PostItem({ user_image, user_name, user_badge, card_image, tag, title, desc, sum, time, date, loc, day, postId, summarizable, posterId}) {
 
 
     const [Popup, setPopup] = useState(false); 
     const [deletePop, setDeletePop]=useState(false);
 
+    // Get Current User
+
+    const [name, setName] = useState('');
+    const [userType, setUserType] = useState('');
+
+	axios.defaults.withCredentials = true;
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/user')
+        .then(res => {
+            if(res.data.status === "Success"){
+                setName(res.data.user.user);
+
+                if (res.data.user.user.hasOwnProperty('studentId')) {
+                    setUserType('Student');
+                } else {
+                    setUserType('Staff');
+                }
+            }
+            else{
+                setName("Something went wrong");
+            } 
+        })
+    }, []);
+
+
+
     //Update Pop-Up Functionality
+
     const [open, setOpen]=useState(false);          //Update Functionality
     const [locate, setLocate]=useState(false);          //Map Functionality
     const [summary, setSummary]=useState(false);          //Summary Functionality
@@ -50,23 +84,6 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
     }, []);
     
 
-    // Upload Image Preview
-
-    const [file, setFile] = useState();
-
-    function getFile(e) {
-        setFile(URL.createObjectURL(e.target.files[0]));
-    }
-
-
-    // Radio Button Functionality
-
-    const [answer, setAnswer] = useState('');
-
-    const handlePostChange = (e) => {
-        const selectedAnswer = e.target.value;
-        setAnswer(selectedAnswer);
-    };
 
 
     // mapping location to image
@@ -77,11 +94,90 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
             case 'B-508': return B508;
             case 'B-509': return B509;
             case 'Space': return B507;
+            case 'Astu Stadium': return B508;
             default: return null;
         }
     };
 
     const imageSrc = getImageByLoc(loc)
+
+
+
+
+    // Update Post
+
+    const [image, setImage] = useState(null);
+
+    const [formData, setFormData] = useState({
+        title: "",
+        content: "",
+        // staffId: "",
+        // categoryId: "",
+        eventLocation: "",
+    });
+
+    const handleUpdatePost = async (event) => {
+        event.preventDefault();
+        try {
+            const updatedFormData = {
+                ...formData,
+                // staffId: name.staffId,
+                postId: "20",
+                image: image,
+            };
+    
+            const response = await ip.put("/api/staff/updatePost", updatedFormData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+    
+            setFormData({});
+            setImage("");
+    
+            console.log(response.data);
+            console.log(updatedFormData)
+            // setVisible(false);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+    
+
+    const handleUpdateChange = (event) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+    };
+
+
+    // Upload Image Preview
+
+    const [file, setFile] = useState();
+
+    function getFile(e) {
+        setFile(URL.createObjectURL(e.target.files[0]));
+    }
+
+
+    const twoFunctions = (e) => {
+        getFile(e);
+        handleImageChange(e);
+    }
+
+    // Radio Button Functionality
+
+    const [answer, setAnswer] = useState('');
+
+    const handlePostChange = (e) => {
+        const selectedAnswer = e.target.value;
+        setAnswer(selectedAnswer);
+    };
+
 
 
     // Delete Post
@@ -102,6 +198,30 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
     };
 
 
+    // Fix Post Image Path
+
+    let newPath = '';
+
+    if (card_image === null || card_image === undefined) {
+        newPath = null;
+    } else {
+        newPath = card_image.replace('Images', '');
+    }
+
+    
+    // Default Staff image
+
+    let Staff_img = '';
+
+    if (user_image === null || user_image === undefined) {
+        Staff_img = avatar_img1;
+    } else {
+        Staff_img = user_image.replace('Images', '');
+        Staff_img = `http://localhost:3000${Staff_img}`;
+    }
+
+
+
     return (
         <div className="card">
 
@@ -109,15 +229,25 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
                         
                         <div className="card__header">
                             <div className="user_info">
-                                <img src={user_image} alt="user_image" className="user_image"/>
+                                <img src={Staff_img} alt="user_image" className="user_image"/>
                                 <h5 className="user_name">{user_name}</h5>
-                                <img src={user_badge} alt="user_badge" className="user_badge"/>
+                                {/* <img src={user_badge} alt="user_badge" className="user_badge"/> */}
+                                <MdVerified className="user_badge"/>
+                                
+                                {userType === "Staff" && posterId === name.staffId && (
+                                <BsBookmarkCheckFill className="my-post-icon"/>
+                                )}
+
                                 <IoOptionsOutline className="options" onClick={()=> setOpen(!open)}/>
 
                                 {open && (
                                 <div className="update" ref={dropdownRef}>
+                                    {userType === "Staff" && posterId === name.staffId && (
+                                    <>
                                     <div className="line" onClick={()=>{setPopup(true); setOpen(!open);}} >Update</div>
                                     <div className="line" onClick={()=>{setOpen(!open); setDeletePop(!deletePop);}} >Delete</div>
+                                    </>
+                                    )}
                                     <div className="line" onClick={()=> setOpen(!open)}>Exit</div>
                                 </div>
                                 )}
@@ -142,21 +272,22 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
 
                                     <img src={logo} alt='Astu-logo' className='logo'/>
 
-                                    <form className='publish-form'>
+                                    <form className='publish-form' onSubmit={handleUpdatePost}>
+
                                         <div className="publish-box">
-                                            <label htmlFor="staffId">Title</label>
-                                            <input className="inputs" type='text' name="staffId" placeholder={title}/>
+                                            <label htmlFor="title">Title<HiPencilAlt/></label>
+                                            <input className="inputs" type='text' name="title" placeholder={title} onChange={handleUpdateChange} />
                                         </div>
 
                                         <div className="publish-box">
-                                            <label htmlFor="content">Description</label>
-                                            <textarea className="input"  name="content" placeholder="Enter Description" required>{desc}</textarea>
+                                            <label htmlFor="content">Description<MdDescription/></label>
+                                            <textarea name="content" placeholder="Enter Description" onChange={handleUpdateChange}>{desc}</textarea>
                                         </div>
 
                                     {/* -- Upload Button -- */}
 
                                         <div className="publish-box">
-                                            <input  className="inputs" type="file" id="image" accept='image/*' onChange={getFile} />
+                                            <input  className="inputs" type="file" id="image" accept='image/*' onChange={twoFunctions} />
                                             <label htmlFor="image" className='upload'><RiUploadCloud2Fill className='icon'/>Upload Image</label>
 
                                             {file && (
@@ -217,7 +348,25 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
 
                                         </div>
 
-                                {/* -- Radio-Button Ends -- */}
+                                        {/* -- Location -- */}
+
+                                        <div className='switch-box'>
+                                            <span>Location<BsPinMapFill/></span>
+                                            <select id="eventLocation" name="eventLocation" className='location-box' onChange={handleUpdateChange}>
+                                                <option hidden>Area</option>
+                                                <option value='Space'>Space</option>
+                                                <option value='B-507'>B-507</option>
+                                                <option value='B-508'>B-508</option>
+                                                <option value='Registrar'>Registrar</option>
+                                                <option value='Library'>Library</option>
+                                                <option value='Lab'>Lab</option>
+                                                <option value='Finance'>Finance</option>
+                                                <option value='Astu Stadium'>Astu Stadium</option>
+                                            </select>
+                                        </div>
+
+
+                                        {/* -- Radio-Button Ends -- */}
 
                                         <div className='bottom-btn'>
                                             <button className='publish'>Update<BsFillBookmarkPlusFill/></button>
@@ -233,7 +382,11 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
 
 
                             </div>
-                            <img src={card_image} alt="card_image" className="card_image" width="600"/>
+
+                            {newPath !== null &&(
+                                <img src={`http://localhost:3000${newPath}`} alt="card_image" className="card_image" width="600"/>
+                            )}
+
                         </div>
 
                         <div className="card__body">
@@ -241,9 +394,12 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
                             <h4 className='title'>{title}</h4>
                             <p className='desc'>{desc}</p>
 
+
+                            {summarizable === "1" &&(
                             <button className="summary-btn" onClick={()=> setSummary(!open)}>
                                 <p>Summarize</p>
                             </button>
+                            )}
 
                             {summary && (
                             <div className="summary" ref={dropdownRef}>

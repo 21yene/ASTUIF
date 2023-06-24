@@ -11,19 +11,20 @@ import { RxChevronLeft } from "react-icons/rx";
 import { MdPostAdd } from "react-icons/md";
 import { VscVerified } from "react-icons/vsc";
 
-import io from 'socket.io-client';
+
+
 
 
 function Chat() {
 
+    //Update Pop-Up Functionality
+
+    // const [delChat, setDelChat]=useState(false);
     const [deletePop, setDeletePop]=useState(false);
     const [settingPop, setSettingPop]=useState(false);
     const [create, setCreate]=useState(false);
 
     const dropdownRef = useRef(null);
-
-    const [activeChat, setActiveChat] = useState('0');
-    const [activeChatID, setActiveChatID] = useState(null);
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -66,9 +67,6 @@ function Chat() {
                     setUserId(res.data.user.user.staffId);
                 }
 
-                // if (res.data.user.user.pref !== null) {
-                //     setPrefer(true);
-                // }
             }
             else{
                 setName("Something went wrong");
@@ -77,91 +75,28 @@ function Chat() {
     }, []);
 
 
-    const socket = io("http://localhost:8000");
+
     // send message
 
     const [messages, setMessages] = useState('');
-
-    useEffect(() => {
-        socketOperation();
-      }, []);
-
-      function socketOperation() {
-            const type= userType;
-
-            let user = '';
-            let username = '';
-            if (userType === 'student') {
-                user = name.studentId;
-                username = name.fullname;
-            } else if (userType === 'staff') {
-                user = name.staffId;
-                username = name.fullname;
-            }
-
-            const chatId = activeChatID;
-
-            socket.on('connect', () => {
-                console.log('Connected to server');
-            });
-            // Event listener for receiving new messages
-            socket.on('messages', (message) => {
-              setMessages((prevMessages) => [...prevMessages, message]);
-            });
-              
-            socket.off('messages');
-
-            socket.on('connect', () => {
-                console.log('Connected to server');
-              });
-              
-              socket.on('userAdded', (users) => {
-                console.log('Users:', users);
-              });
-              
-              socket.on('messageSent', (data) => {
-                console.log('Received message:', data.msg);
-                setMessages((prevMessages) => [...prevMessages, data.msg]);
-              });
-              
-              socket.on('disconnect', () => {
-                console.log('Disconnected from server');
-              });
-
-            if (activeChatID) {
-              socket.emit('joinChat', activeChatID);
-
-              socket.emit('openChat', { id: user, from: username });
-              
-              socket.emit('leaveChat', activeChatID);
-            }
-      }
- 
 
     const sendMessage = async () => {
         const type= userType;
 
         let user = '';
-        let username = '';
         if (userType === 'student') {
             user = name.studentId;
-            username = name.fullname;
         } else if (userType === 'staff') {
             user = name.staffId;
-            username = name.fullname;
         }
 
         const chatId = activeChatID;
         const message = messages;
         try {
         const data = {message: message, userId: user, senderType: type, chatId: chatId};
-        const soc = {message: message, from: username, senderType: type};
 
         const response = await axios.post('http://localhost:3000/api/student/conv', data);
         console.log(response.data);
-
-        socket.emit('sendMessage', soc);
-
         setMessages('');        // clear input field
         } catch (error) {
             console.error(error);
@@ -245,6 +180,7 @@ function Chat() {
                 userId: userId,
             },
         })
+
         .then(res => {
             if (res.data.success === true) {
                 setPrefer(true);
@@ -295,7 +231,6 @@ function Chat() {
     // Get Conversation API
 
     const [message, setMessage] = useState([]);
-    
     const [chatId, setChatId] = useState(null);
     const [topic, setTopic] = useState([]);
     const [creatorId, setCreatorId] = useState([]);
@@ -303,7 +238,7 @@ function Chat() {
 
     useEffect(() => {
         ip.get(`/api/student/getconv?chatId=${chatId}`)
-        .then(res => {setMessage(res.data);})
+        .then(res => {setMessage(res.data.Results);})
         .catch(err => console.log(err));
     }, [chatId]);
 
@@ -316,7 +251,8 @@ function Chat() {
 
     // Active Click Chat
 
-    
+    const [activeChat, setActiveChat] = useState('0');
+    const [activeChatID, setActiveChatID] = useState(null);
 
     const handleChatClick = (chat) => {
         setActiveChat(chat);
@@ -335,6 +271,26 @@ function Chat() {
         .then(response => setDepts(response.data))
         .catch(err => console.log(err));
     }, []);
+
+
+    // Delete Chat
+
+    const deleteChat = () => {
+        const requestBody = {
+            chatId: chatId,
+            creatorId: userId,
+            creatorType: userType,
+        };
+
+        ip.delete('/api/staff/deleteChat', { data: requestBody })
+        .then(response => {
+            console.log(response.data);
+            // console.log(requestBody);
+            setDeletePop(!deletePop);
+            window.location.reload();
+        })
+        .catch(err => console.log(err));
+    };
 
 
 
@@ -388,9 +344,9 @@ function Chat() {
 
                                         <select name="categoryId" id="categoryId" value={chatData.categoryId} onChange={handleChatChange} required>
                                             <option hidden>Type</option>
-                                            <option value="8">Open</option>
+                                            <option value="1">Open</option>
                                             {depts.map((Depart, i) => (
-                                                <option key={i} value={Depart.depId}>{Depart.name}</option>
+                                                <option key={i} value={Depart.categoryId}>{Depart.name}</option>
                                                 )
                                             )}
                                         </select>
@@ -404,6 +360,7 @@ function Chat() {
                             
                         {chats.map((chat, index) => (
                         <div key={index}>
+
                             <div className={`discussion ${activeChat === chat.chatId ? 'message-active' : ''}`}
                                     onClick={(event) => {
                                         handleChatClick(chat.chatId);
@@ -428,10 +385,16 @@ function Chat() {
                         </div>
                         ))}
 
-                        </div>   
+
+                        </div>
+                        
                     </section>
 
+
+
             {/* ====== CHAT SECTION ======= */}
+
+
                 {activeChat === activeChatID && activeChat !=='0' ? (
                 <>
                     <section class="chat" style={{ zIndex: zIndex2 }}>
@@ -465,19 +428,22 @@ function Chat() {
                                 
                                 <div className='icon'><IoWarningOutline className="image"/></div>
                                 <p>Are you sure you want to delete this chat ?</p>
-                                <button onClick={()=> setDeletePop(!deletePop)}>Delete</button>
+                                <button onClick={deleteChat}>Delete</button>
                             </div>
 
                             )}
 
+
+
                         </div>
 
+                        
                         <div class="messages-chat"> 
 
                         {message.map((messages, i) => (
                         <div key={i}>
 
-                            {messages.senderType === 'Student' && messages.userid === name.studentId ? (
+                            {messages.senderType === 'Student' && messages.userId === name.studentId ? (
 
                             <div class="message-container-right">
                                 <div class="message text-only">
@@ -488,7 +454,7 @@ function Chat() {
                                 {/* <div class="response-time"> 15h04</div> */}
                             </div>
 
-                            ) : messages.senderType === 'Staff' && messages.userid === name.staffId ? (
+                            ) : messages.senderType === 'Staff' && messages.userId === name.staffId ? (
 
                             <div class="message-container-right">
                                 <div class="message text-only">
@@ -533,7 +499,7 @@ function Chat() {
 
 
                         <div class="footer-chat">
-                            <input type="text" className="write-message" placeholder="Type your message here" value={messages} onChange={handleMessageChange} />
+                            <input type="text" className="write-message" placeholder="Type your message here" value={messages} onChange={handleMessageChange}/>
                             <button className='send_button' onClick={sendMessage}><IoSend className="icon"/></button>
                         </div>
 
