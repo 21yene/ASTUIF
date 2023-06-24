@@ -316,8 +316,6 @@ module.exports = {
 
     upload,
     post,
-
-    async ChatBot(req,res){},
 }
 
 

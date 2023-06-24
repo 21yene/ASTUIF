@@ -658,7 +658,7 @@
 						},
 						{
 							"key": "email",
-							"value": "abragdag",
+							"value": "seifegabriel9@gmail.com",
 							"type": "text"
 						},
 						{
@@ -1222,6 +1222,110 @@
 							"key": "keyword",
 							"value": "soca"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Verification for Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"seifegabriel9@gmail.com\",\r\n    \"userType\":\"Staff\",\r\n    \"userId\":\"43\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/student/getVerification",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"student",
+						"getVerification"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "forgot password for all",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"seifegabriel9@gmail.com\",\r\n    \"userType\":\"Staff\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/student/forgetPassword",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"student",
+						"forgetPassword"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change password for staff and student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"seifegabriel9@gmail.com\",\r\n    \"userType\":\"Admin\",\r\n    \"oldPassword\":\"sfsafasffsd\",\r\n    \"newPassword\":\"seifegabriel9\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/student/changePassword",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"student",
+						"changePassword"
 					]
 				}
 			},

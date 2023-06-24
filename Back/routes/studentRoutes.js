@@ -29,6 +29,10 @@ router.get('/getconv',Common.getConv)
 
 router.get('/searchPost',Common.SearchPost)
 
+router.post('/getVerification',StudentController.getVerification)
+router.post('/forgetPassword',StudentController.forgetPassword)
+router.post('/changePassword',StudentController.changePassword)
+
 router.get('/getRsvp',Common.getRsvp)
 router.put('/putRsvp',Common.putRsvp)
 
