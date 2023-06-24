@@ -61,10 +61,6 @@ function Chat() {
 
     socket.on("messageSent", ({ msg }) => {});
 
-    socket.on("onlines", (msg) => {
-      console.log(msg);
-    });
-
     socket.on("breadcastMessage", (data) => {
       const msg = {
         from: data.from,
@@ -72,7 +68,9 @@ function Chat() {
         senderType: data.senderType,
         userId: data.userId,
       };
+
       getAllMessages();
+
       // setMessage((oldMessage) => [...oldMessage, msg]);
       // console.log(data);
     });
@@ -161,6 +159,7 @@ function Chat() {
         data,
         name,
       });
+
       console.log(response.data);
       setMessages(""); // clear input field
     } catch (error) {
@@ -170,6 +169,12 @@ function Chat() {
 
   const handleMessageChange = (event) => {
     setMessages(event.target.value);
+  };
+
+  const onInputKeyDown = (event) => {
+    if (event.target.KEY === "enter") {
+      sendMessage();
+    }
   };
 
   // Create Chat
@@ -592,6 +597,7 @@ function Chat() {
                     placeholder="Type your message here"
                     value={messages}
                     onChange={handleMessageChange}
+                    onKeyDown={onInputKeyDown}
                   />
                   <button className="send_button" onClick={sendMessage}>
                     <IoSend className="icon" />

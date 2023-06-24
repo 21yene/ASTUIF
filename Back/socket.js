@@ -33,7 +33,6 @@ function findSocketByUsername(username) {
 
 io.on("connection", (socket) => {
   socket.on("activeChatClicked", ({ name, userId, userType }) => {
-    // console.log({ name, userId, userType });
     storeSocket(userId, name.email, userType, socket.id);
 
     socket.broadcast.emit("onlines", { users });
@@ -41,11 +40,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("messageSent", ({ data, name }) => {
-    // console.log(users);
-    // console.log({ data, name });
-
-    // io.to().emit("breadcastMessage");
-
     data.from = name.fullname;
     // console.log(data);
     socket.broadcast.emit("breadcastMessage", data);
