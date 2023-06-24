@@ -24,9 +24,15 @@ function Chat() {
   const [settingPop, setSettingPop] = useState(false);
   const [create, setCreate] = useState(false);
 
+  const [message, setMessage] = useState([]);
+  const [chatId, setChatId] = useState(null);
+  const [topic, setTopic] = useState([]);
+  const [creatorId, setCreatorId] = useState([]);
+  const [creatorType, setCreatorType] = useState([]);
+
   const dropdownRef = useRef(null);
 
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState(io("http://localhost:8000"));
 
   useEffect(() => {
     const skt = io("http://localhost:8000");
@@ -37,10 +43,12 @@ function Chat() {
 
   function socketOperation() {
     const currentUser = { id: 1, username: "username" };
+
     const myInfo = {
       id: currentUser?.id,
       username: currentUser.studentId,
     };
+
     socket.emit("openChat", myInfo);
 
     socket.on("userAdded", (users) => {
@@ -52,6 +60,22 @@ function Chat() {
     });
 
     socket.on("messageSent", ({ msg }) => {});
+
+    socket.on("onlines", (msg) => {
+      console.log(msg);
+    });
+
+    socket.on("breadcastMessage", (data) => {
+      const msg = {
+        from: data.from,
+        message: data.message,
+        senderType: data.senderType,
+        userId: data.userId,
+      };
+      getAllMessages();
+      // setMessage((oldMessage) => [...oldMessage, msg]);
+      // console.log(data);
+    });
   }
 
   useEffect(() => {
@@ -78,6 +102,7 @@ function Chat() {
   const [userId, setUserId] = useState("");
 
   axios.defaults.withCredentials = true;
+
   useEffect(() => {
     axios.get("http://localhost:3000/api/user").then((res) => {
       if (res.data.status === "Success") {
@@ -131,6 +156,11 @@ function Chat() {
         "http://localhost:3000/api/student/conv",
         data
       );
+
+      socket.emit("messageSent", {
+        data,
+        name,
+      });
       console.log(response.data);
       setMessages(""); // clear input field
     } catch (error) {
@@ -253,19 +283,17 @@ function Chat() {
 
   // Get Conversation API
 
-  const [message, setMessage] = useState([]);
-  const [chatId, setChatId] = useState(null);
-  const [topic, setTopic] = useState([]);
-  const [creatorId, setCreatorId] = useState([]);
-  const [creatorType, setCreatorType] = useState([]);
-
   useEffect(() => {
+    getAllMessages();
+  }, [chatId]);
+
+  function getAllMessages() {
     ip.get(`/api/student/getconv?chatId=${chatId}`)
       .then((res) => {
         setMessage(res.data);
       })
       .catch((err) => console.log(err));
-  }, [chatId]);
+  }
 
   const handleChatBtn = (newChatId) => {
     // Function to handle changing chatId
@@ -281,6 +309,12 @@ function Chat() {
     setActiveChat(chat);
     // setConversation(false);
     handleClickDiv1();
+
+    socket.emit("activeChatClicked", {
+      name,
+      userId,
+      userType,
+    });
   };
 
   // Get Department
@@ -490,6 +524,7 @@ function Chat() {
                 <div class="messages-chat">
                   {message.map((messages, i) => (
                     <div key={i}>
+                      {console.log(message)}
                       {messages.senderType === "Student" &&
                       messages.userid === name.studentId ? (
                         <div class="message-container-right">

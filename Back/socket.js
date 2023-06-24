@@ -2,14 +2,15 @@ const socketio = require("socket.io");
 
 const io = socketio(8000, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3001",
   },
 });
 
 const users = [];
 
-function storeSocket(userId, username, socketId) {
+function storeSocket(userId, username, userType, socketId) {
   let found = false;
+
   users.forEach((user) => {
     if (user.username == username) {
       found = true;
@@ -17,7 +18,7 @@ function storeSocket(userId, username, socketId) {
   });
 
   if (!found) {
-    users.push({ userId, username, socketId });
+    users.push({ userId, username, userType, socketId });
   }
 }
 
@@ -31,6 +32,25 @@ function findSocketByUsername(username) {
 }
 
 io.on("connection", (socket) => {
+  socket.on("activeChatClicked", ({ name, userId, userType }) => {
+    // console.log({ name, userId, userType });
+    storeSocket(userId, name.email, userType, socket.id);
+
+    socket.broadcast.emit("onlines", { users });
+    // console.log("active chat clicked by ", socket.id);
+  });
+
+  socket.on("messageSent", ({ data, name }) => {
+    // console.log(users);
+    // console.log({ data, name });
+
+    // io.to().emit("breadcastMessage");
+
+    data.from = name.fullname;
+    // console.log(data);
+    socket.broadcast.emit("breadcastMessage", data);
+  });
+
   socket.on("openChat", (user) => {
     storeSocket(user.id, user.username, socket.id);
 

@@ -8,6 +8,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(express.static("Images"));
 app.use(cookieParser());
+// app.use(cors({ origin: "http://localhost:3001", credentials: true }));
 
 // app.use(session({
 //     secret: 'iloveambFor@ver',
@@ -17,7 +18,7 @@ app.use(cookieParser());
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  // res.header("Access-Control-Allow-Origin", "http://localhost:3001");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3001");
   res.header(
     "Access-Control-Allow-Methods",
     "PUT, POST, GET, DELETE, PATCH, OPTIONS"
