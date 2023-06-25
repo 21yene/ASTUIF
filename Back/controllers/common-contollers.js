@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = socket(server);
 
 const bcrypt = require('bcrypt');
-const {Staff , Post, Student, Category,Chat, RSVP,Preference,Option, Conversation, Department, Like,  School} = require('../models/schema');
+const {Staff , Post, Student, Category,Chat,Admin, RSVP,Preference,Option, Conversation, Department, Like,  School} = require('../models/schema');
 const { query } = require('express');
 
 const{sign}= require('jsonwebtoken');
@@ -160,7 +160,8 @@ module.exports = {
 
     async ViewPost(req,res){
       try {
-        const depName = req.query.depName;
+        
+        const {depName,keyword} = req.query;
         const depCat = await Category.findOne({ where: { name: depName } });
 
         const form = await Department.findOne({ where: { ShortedName: depName } });
@@ -178,9 +179,15 @@ module.exports = {
         if (schoolCat) {
           categoryIds.push(schoolCat.categoryId);
         }
-
         const posts = await Post.findAll({
-          where: { categoryId: categoryIds },
+          where: { categoryId: categoryIds,
+            [Op.or]: [
+              { title: { [Op.like]: `%${keyword}%` } },
+              { content: { [Op.like]: `%${keyword}%` } },
+              { staffName: { [Op.like]: `%${keyword}%` } },
+              { eventLocation: { [Op.like]: `%${keyword}%` } }
+              ]
+          },
           include: [
             { model: Category, attributes: ['name'] },
             { model: Staff, attributes: ['picture'] }

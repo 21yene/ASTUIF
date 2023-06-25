@@ -122,7 +122,16 @@ module.exports = {
 
     async ViewPost(req,res){
       try {
+        const keyword = req.query.keyword;
         const posts = await Post.findAll({
+          where: {
+            [Op.or]: [
+            { title: { [Op.like]: `%${keyword}%` } },
+            { content: { [Op.like]: `%${keyword}%` } },
+            { staffName: { [Op.like]: `%${keyword}%` } },
+            { eventLocation: { [Op.like]: `%${keyword}%` } }
+            ]
+           },
           include: [
             { model: Category, attributes: ['name'] },
             { model: Staff, attributes: ['picture'] }
@@ -134,7 +143,7 @@ module.exports = {
             [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
           ],
           group: ['postId']
-        });
+         });
         const mappedPosts = posts.map(post => {
           const postLikes = likes.find(like => like.postId === post.id);
           const likesCount = postLikes ? postLikes.likes : 0;

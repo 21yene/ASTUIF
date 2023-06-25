@@ -33,8 +33,14 @@ function Login() {
             if (response.data.error) {
                 alert(response.data.error);
             } else {
+                if (response.data.user.hasOwnProperty('adminId')){
+                    console.log('welcome admin')
+                    navigate("/admin");
+                }else{
                 setAuthState(true);
-                navigate("/");
+                navigate("/"); 
+                }
+                
             }
         } catch (error) {
             if (error.response.status === 401) {
@@ -107,7 +113,6 @@ function Login() {
                             <option hidden>Login As</option>
                             <option value="student">Student</option>
                             <option value="staff">Staff</option>
-                            <option value="admin">Admin</option>
                         </select>
                     </div>
 

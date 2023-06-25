@@ -11,11 +11,14 @@ import Notify from '../components/Notify';
 import PostItem from "../helpers/PostItem";
 import ip from '../helpers/Config.js';
 
-import { MdEmail, MdAddLocationAlt, MdCall, MdVerified, MdOutlineCreate, MdDescription } from "react-icons/md";
-import { BsFillBookmarkPlusFill, BsFillPeopleFill, BsPersonFill, BsPinMapFill } from "react-icons/bs";
-import { FaWalking, FaSchool } from "react-icons/fa";
+import { MdEmail, MdAddLocationAlt, MdVerified, MdOutlineCreate, MdDescription, MdSchool } from "react-icons/md";
+import { BsFillBookmarkPlusFill, BsFillPeopleFill, BsPersonFill, BsPinMapFill} from "react-icons/bs";
+import { FaWalking, FaSchool, FaBook } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
+import { BiBook, BiSearchAlt } from "react-icons/bi";
 import { RiUploadCloud2Fill } from "react-icons/ri";
+
+
 
 import logo from "../assets/logo1.png";
 import Student_badge from "../assets/badges/Student_badge.png";
@@ -41,8 +44,10 @@ function Dashboard() {
 
                 if (res.data.user.user.hasOwnProperty('studentId')) {
                     setSenderType ('Student');
+                    setActiveTab(1);
                 } else {
                     setSenderType ('Staff');
+                    setActiveTab(2);
                 }
             }
             else{
@@ -66,29 +71,63 @@ function Dashboard() {
     
     // Get Student Post
 
-    const [letter, setLetter] = useState([]);
-
     let depart = name.ShortedName;
 
+    const [letter, setLetter] = useState([]);
+    const [write, setWrite] = useState('');
+
+    const handleSearchChange = (event) => {
+        setWrite(event.target.value);
+    };
+
     useEffect(() => {
-        ip.get(`/api/student/viewPost?depName=${depart}`)
+
+        // ip.get('/api/student/viewPost', {
+        //     params: {
+        //         depName: depart,
+        //         keyword: write,
+        //     },
+        // })
+
+        ip.get('/api/admin/searchPost', {
+            params: {
+                keyword: write,
+            },
+        })
         .then(res => {setLetter(res.data);})
         .catch(err => console.log(err));
-    }, [depart]);
+    }, [write, depart]);
 
 
 
     // Get MyPost
 
     const [myPost, SetMyPost] = useState([]);
+    const [staffWrite, setStaffWrite] = useState('');
+
+    const handleSearchStaffChange = (event) => {
+        setStaffWrite(event.target.value);
+    };
 
     useEffect(() => {
-        ip.get(`/api/staff/myPost?staffId=${name.staffId}`)
+        // ip.get('/api/staff/myPost', {
+        //     params: {
+        //         staffId: name.staffId,
+        //         keyword: staffWrite,
+        //     },
+        // })
+
+        ip.get('/api/admin/searchPost', {
+            params: {
+                keyword: staffWrite,
+            },
+        })
         .then(res => {SetMyPost(res.data);})
         .catch(err => 
             console.log("there is something wrong in get MyPost")
         );
-    }, [name.staffId]);
+    }, [name.staffId, staffWrite]);
+
 
 
     // Get Department
@@ -224,11 +263,30 @@ function Dashboard() {
             <SideBar />
             <div className='Dashboard'>
 
+                {/* -- Search Bar -- */}
+
+                {senderType === "Student" ?(
+                <div class="search-bar" >
+                    <BiSearchAlt className='icon'/>
+                    <input placeholder="Search" type="search" class="input" onInput={handleSearchChange}/>
+                </div>
+                ):(
+                <div class="search-bar search-staff" >
+                    <BiSearchAlt className='icon'/>
+                    <input placeholder="Bamboo" type="search" class="input" onInput={handleSearchStaffChange}/>
+                </div>
+                )}
+                
+                {/* -- -- */}
+
                 <div className='Dashboard-nav'>
+
+                    {senderType === "Staff" &&(
                     <button className='create-btn' onClick={()=>setVisible(true)}>
                         <p>Create Post</p>
                         <MdOutlineCreate className='icon'/>
                     </button>
+                    )}
 
 
                 {/* Modal Body */}
@@ -373,7 +431,7 @@ function Dashboard() {
                                 <>
                                     <div className="big">{name.fullname}<MdVerified className='verified-student'/></div>
                                     <img src={Student_badge} alt="role" className="role"/>
-                                    <div className="small">{name.depName}</div>
+                                    <div className="small"><MdSchool className='icon'/>{name.depName}</div>
                                 </>
                                 ):(
                                 <>
@@ -436,6 +494,7 @@ function Dashboard() {
                                             tag={item.categoryName}
                                             summarizable={item.summarizable}
                                             posterId={item.staffId}
+                                            likes={item.likes}
                                         />
                                     );
                                 })}
@@ -477,6 +536,7 @@ function Dashboard() {
                                             tag={item.categoryName}
                                             summarizable={item.summarizable}
                                             posterId={item.staffId}
+                                            likes={item.likes}
                                         />
                                     );
                                 })}
@@ -516,6 +576,7 @@ function Dashboard() {
                                         tag={item.categoryName}
                                         summarizable={item.summarizable}
                                         posterId={item.staffId}
+                                        likes={item.likes}
                                     />
                                 );
                                 })}
@@ -542,8 +603,8 @@ function Dashboard() {
                         <p>About</p>
                         <div className='entry'><MdEmail className='icon'/>{name.email}</div>
                         <div className='entry'><BsPersonFill className='icon'/>{senderType}</div>
-                        <div className='entry'><MdCall className='icon'/>+251-953-6459-08</div>
-                        <div className='entry'><MdAddLocationAlt className='icon'/>Ethiopia, Addis Abeba</div>
+                        <div className='entry'><BiBook className='icon'/>{name.depName}</div>
+                        <div className='entry'><MdAddLocationAlt className='icon'/>Ethiopia, Adama</div>
                     </div>
 
                 </div>
@@ -554,7 +615,10 @@ function Dashboard() {
 
                 <HeadIcon/>
 
-                <Notify/>
+                {senderType === "Student" &&(
+                    <Notify/>
+                )}
+
 
 
             </div>

@@ -476,7 +476,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/staff/viewPost",
+					"raw": "localhost:3000/api/staff/viewPost?keyword=",
 					"host": [
 						"localhost"
 					],
@@ -485,6 +485,12 @@
 						"api",
 						"staff",
 						"viewPost"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": ""
+						}
 					]
 				}
 			},
@@ -496,7 +502,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/viewPost?depName=ECE",
+					"raw": "localhost:3000/api/student/viewPost?depName=ECE&keyword=hghjg",
 					"host": [
 						"localhost"
 					],
@@ -510,6 +516,10 @@
 						{
 							"key": "depName",
 							"value": "ECE"
+						},
+						{
+							"key": "keyword",
+							"value": "hghjg"
 						}
 					]
 				}
@@ -733,47 +743,6 @@
 			"response": []
 		},
 		{
-			"name": "sending message",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"message\" : \"go daddy\",\r\n    \"userId\" : \"1\",\r\n    \"senderType\": \"staff\",\r\n    \"chatId\": \"5\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:3000/api/student/conv",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"student",
-						"conv"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "getting chat",
 			"request": {
 				"method": "GET",
@@ -834,12 +803,53 @@
 			"response": []
 		},
 		{
+			"name": "sending message",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\" : \"go daddy\",\r\n    \"userId\" : \"1\",\r\n    \"senderType\": \"staff\",\r\n    \"chatId\": \"5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/student/conv",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"student",
+						"conv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get messages",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/api/student/getconv?chatId=1",
+					"raw": "localhost:3000/api/student/getconv?chatId=2",
 					"host": [
 						"localhost"
 					],
@@ -852,7 +862,7 @@
 					"query": [
 						{
 							"key": "chatId",
-							"value": "1"
+							"value": "2"
 						}
 					]
 				}
@@ -1101,7 +1111,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"rsvpData\": [\r\n        {\r\n            \"postId\": 11,\r\n            \"text\": \"You have received a notification for jhjghh\"\r\n        },\r\n        {\r\n            \"postId\": 13,\r\n            \"text\": \"You have received a notification for null\"\r\n        }\r\n    ],\r\n    \"userType\":\"Student\",\r\n    \"userId\":\"1\"\r\n}\r\n",
+					"raw": "{\r\n    \"rsvpData\": [\r\n        {\r\n            \"postId\": 11,\r\n            \"text\": \"You have received a notification for jhjghh\"\r\n        },\r\n        {\r\n            \"postId\": 13,\r\n            \"text\": \"You have received a notification for null\"\r\n        },\r\n        {\r\n            \"postId\": 14,\r\n            \"text\": \"You have received a notification for astu bbb if\"\r\n        },\r\n        {\r\n            \"postId\": 15,\r\n            \"text\": \"You have received a notification for astu bbb if\"\r\n        }\r\n    ],\r\n    \"userType\":\"Student\",\r\n    \"userId\":\"2\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
