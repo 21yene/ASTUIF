@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2023 at 08:19 PM
+-- Generation Time: Jun 26, 2023 at 06:59 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admins` (
-  `adminId` varchar(255) NOT NULL,
+  `adminId` int(255) NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -36,6 +36,14 @@ CREATE TABLE `admins` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`adminId`, `fullname`, `email`, `password`, `picture`, `createdAt`, `updatedAt`) VALUES
+(1, 'Abraham Mekuria Bayssie', 'biruk@gmail.com', '$2b$10$gk4D1C4yjzoEmXMjUYtpGeq1kBeaCm4kfGUhQit/rNRhSdiNillVa', NULL, '2023-06-25 12:17:43', '2023-06-25 12:17:43'),
+(2, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$ehh0Wc7IHMprtnmWLMyN1OtErwQEpfqwgLReFZ/qHdZICH.ulKXCO', NULL, '2023-06-25 12:17:43', '2023-06-25 12:17:43');
 
 -- --------------------------------------------------------
 
@@ -140,7 +148,129 @@ INSERT INTO `conversations` (`convid`, `message`, `from`, `userId`, `senderType`
 (17, 'helloaa', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-23 09:06:55', '2023-06-23 09:06:55', 1),
 (18, 'hellozdsdf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-23 09:29:47', '2023-06-23 09:29:47', 1),
 (19, 'hsahfdsdflsdah', 'Bereket Honelign Alene', 2, 'Student', '2023-06-23 09:30:10', '2023-06-23 09:30:10', 1),
-(20, 'sdfdsf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-23 09:46:41', '2023-06-23 09:46:41', 1);
+(20, 'sdfdsf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-23 09:46:41', '2023-06-23 09:46:41', 1),
+(21, 'kk', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-24 19:20:11', '2023-06-24 19:20:11', 1),
+(22, 'sgs', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-24 20:19:01', '2023-06-24 20:19:01', 1),
+(23, 'dfgd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-24 20:22:20', '2023-06-24 20:22:20', 1),
+(24, 'hhh', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-24 20:23:03', '2023-06-24 20:23:03', 1),
+(25, 'sfsf', 'Biruk Yonas Neway', 1, 'Staff', '2023-06-25 05:21:23', '2023-06-25 05:21:23', 1),
+(26, 'HI Asayeynew', 'Biruk Yonas Neway', 1, 'Staff', '2023-06-25 05:49:06', '2023-06-25 05:49:06', 1),
+(27, 'hi', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 05:50:18', '2023-06-25 05:50:18', 1),
+(28, 'asdfasdf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 05:50:38', '2023-06-25 05:50:38', 1),
+(29, 'HIII', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 05:55:50', '2023-06-25 05:55:50', 1),
+(30, 'Abrhaam ^ ', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 05:56:34', '2023-06-25 05:56:34', 1),
+(31, 'Sara', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 05:58:21', '2023-06-25 05:58:21', 1),
+(32, 'Hi', 'Biruk Yonas Neway', 1, 'Staff', '2023-06-25 06:06:10', '2023-06-25 06:06:10', 3),
+(33, 'Masikno', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:10:49', '2023-06-25 06:10:49', 1),
+(34, 'hi man', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:16:43', '2023-06-25 06:16:43', 2),
+(35, 'afsdfasdf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:17:48', '2023-06-25 06:17:48', 2),
+(36, 'hi', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:20:26', '2023-06-25 06:20:26', 2),
+(37, 'hijjj', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:22:48', '2023-06-25 06:22:48', 2),
+(38, 'adgdag', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:24:49', '2023-06-25 06:24:49', 2),
+(39, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:24:56', '2023-06-25 06:24:56', 2),
+(40, 'dagdeg', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:25:37', '2023-06-25 06:25:37', 2),
+(41, 'absra', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:25:53', '2023-06-25 06:25:53', 2),
+(42, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:26:59', '2023-06-25 06:26:59', 2),
+(43, 'abraham', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:27:59', '2023-06-25 06:27:59', 2),
+(44, 'akkam', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:28:59', '2023-06-25 06:28:59', 2),
+(45, 'naga', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:32:13', '2023-06-25 06:32:13', 2),
+(46, 'hello', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:33:58', '2023-06-25 06:33:58', 2),
+(47, 'jjj', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:38:59', '2023-06-25 06:38:59', 2),
+(48, 'mmm', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:39:07', '2023-06-25 06:39:07', 2),
+(49, 'kkkk', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:39:21', '2023-06-25 06:39:21', 2),
+(50, 'hallo', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:39:32', '2023-06-25 06:39:32', 2),
+(51, 'jewewe', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:40:05', '2023-06-25 06:40:05', 2),
+(52, 'asjfasjg', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:40:20', '2023-06-25 06:40:20', 2),
+(53, 'adgda', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:40:28', '2023-06-25 06:40:28', 1),
+(54, 'zdhzdfhzdrr', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:40:55', '2023-06-25 06:40:55', 1),
+(55, 'dsfgsdfhd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:41:51', '2023-06-25 06:41:51', 2),
+(56, 'dsgf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:42:10', '2023-06-25 06:42:10', 2),
+(57, 'dsgfdhsdf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:42:34', '2023-06-25 06:42:34', 2),
+(58, 'dsgdsf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:42:46', '2023-06-25 06:42:46', 2),
+(59, 'love', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:42:55', '2023-06-25 06:42:55', 2),
+(60, 'love everyone', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:43:11', '2023-06-25 06:43:11', 1),
+(61, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:44:02', '2023-06-25 06:44:02', 2),
+(62, 'd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:44:18', '2023-06-25 06:44:18', 2),
+(63, 'sda', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:44:49', '2023-06-25 06:44:49', 2),
+(64, 'go', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:45:05', '2023-06-25 06:45:05', 2),
+(65, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:47:24', '2023-06-25 06:47:24', 2),
+(66, 'dgd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:47:35', '2023-06-25 06:47:35', 2),
+(67, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:48:43', '2023-06-25 06:48:43', 2),
+(68, 'sdf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:52:00', '2023-06-25 06:52:00', 2),
+(69, 'asas', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:52:35', '2023-06-25 06:52:35', 2),
+(70, 'hello', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:55:48', '2023-06-25 06:55:48', 1),
+(71, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:56:29', '2023-06-25 06:56:29', 2),
+(72, 'd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:56:34', '2023-06-25 06:56:34', 2),
+(73, 'jjdf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:57:09', '2023-06-25 06:57:09', 2),
+(74, 'hello abraham', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 06:59:36', '2023-06-25 06:59:36', 1),
+(75, 'jjads', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 06:59:50', '2023-06-25 06:59:50', 1),
+(76, 'jsdfjsdkh yabets', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 07:05:20', '2023-06-25 07:05:20', 2),
+(77, 'afagre', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 07:05:37', '2023-06-25 07:05:37', 2),
+(78, 'afagre', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 07:05:37', '2023-06-25 07:05:37', 2),
+(79, 'fgfsd', 'Bekalu Jegnaw Mehari', 3, 'Student', '2023-06-25 07:05:58', '2023-06-25 07:05:58', 2),
+(80, 'dgsd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-25 07:13:25', '2023-06-25 07:13:25', 2),
+(81, 'hejj', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 04:55:08', '2023-06-26 04:55:08', 1),
+(82, 'jhe', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 04:55:24', '2023-06-26 04:55:24', 1),
+(83, 'hsafg', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 04:56:43', '2023-06-26 04:56:43', 1),
+(84, 'asgfd', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 04:57:06', '2023-06-26 04:57:06', 1),
+(85, 'jashfas', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 04:57:35', '2023-06-26 04:57:35', 1),
+(86, 'whfyrR', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 04:58:00', '2023-06-26 04:58:00', 2),
+(87, 'SDVDG', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:02:38', '2023-06-26 05:02:38', 1),
+(88, '', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:02:40', '2023-06-26 05:02:40', 1),
+(89, 'SDGDA', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:02:48', '2023-06-26 05:02:48', 1),
+(90, 'H', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:04:48', '2023-06-26 05:04:48', 1),
+(91, 'SGHH', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:05:22', '2023-06-26 05:05:22', 1),
+(92, 'DFHD', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:06:53', '2023-06-26 05:06:53', 3),
+(93, 'sdgdaf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:13:59', '2023-06-26 05:13:59', 1),
+(94, 'asdfsad', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:14:12', '2023-06-26 05:14:12', 1),
+(95, 'sgsd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:15:01', '2023-06-26 05:15:01', 1),
+(96, 'jjf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:15:12', '2023-06-26 05:15:12', 1),
+(97, 'asda', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:15:25', '2023-06-26 05:15:25', 1),
+(98, 'agdasdg', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:15:33', '2023-06-26 05:15:33', 1),
+(99, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:15:44', '2023-06-26 05:15:44', 1),
+(100, 'hhh', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:15:49', '2023-06-26 05:15:49', 1),
+(101, 'qtwe', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:16:36', '2023-06-26 05:16:36', 1),
+(102, 'qwetqwe', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:16:42', '2023-06-26 05:16:42', 1),
+(103, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:17:14', '2023-06-26 05:17:14', 1),
+(104, 'hello as', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:17:25', '2023-06-26 05:17:25', 1),
+(105, 'hghhgj', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:17:56', '2023-06-26 05:17:56', 1),
+(106, 'hello', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:22:00', '2023-06-26 05:22:00', 1),
+(107, 'jel', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:22:42', '2023-06-26 05:22:42', 1),
+(108, 'jsfg', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:28:09', '2023-06-26 05:28:09', 1),
+(109, 'hello ayse', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:29:11', '2023-06-26 05:29:11', 1),
+(110, 'helo teac', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:30:00', '2023-06-26 05:30:00', 1),
+(111, 'sfsf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:30:22', '2023-06-26 05:30:22', 1),
+(112, 'hsfhsa', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:31:09', '2023-06-26 05:31:09', 3),
+(113, 'teacheer', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:32:02', '2023-06-26 05:32:02', 3),
+(114, 'sdgdh', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:38:27', '2023-06-26 05:38:27', 1),
+(115, '', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:38:31', '2023-06-26 05:38:31', 1),
+(116, '', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:38:33', '2023-06-26 05:38:33', 1),
+(117, 'wet', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:38:41', '2023-06-26 05:38:41', 1),
+(118, 'dg', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:39:30', '2023-06-26 05:39:30', 1),
+(119, 'sgs', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:39:36', '2023-06-26 05:39:36', 1),
+(120, 'hallo', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:40:12', '2023-06-26 05:40:12', 1),
+(121, 'sdfj', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:43:42', '2023-06-26 05:43:42', 1),
+(122, 'kfs', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:44:13', '2023-06-26 05:44:13', 1),
+(123, 'saff', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:44:23', '2023-06-26 05:44:23', 1),
+(124, 'asfsa', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:44:31', '2023-06-26 05:44:31', 1),
+(125, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:44:43', '2023-06-26 05:44:43', 1),
+(126, 'gfs', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:44:55', '2023-06-26 05:44:55', 1),
+(127, 'jjr', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:45:04', '2023-06-26 05:45:04', 1),
+(128, 'dsg', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:45:22', '2023-06-26 05:45:22', 3),
+(129, 'ad', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:45:33', '2023-06-26 05:45:33', 2),
+(130, 'hello', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:47:57', '2023-06-26 05:47:57', 1),
+(131, 'gobeze', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:48:09', '2023-06-26 05:48:09', 1),
+(132, 'hol', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:48:21', '2023-06-26 05:48:21', 1),
+(133, 'leba', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 05:48:29', '2023-06-26 05:48:29', 1),
+(134, 'halo evey', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 05:49:09', '2023-06-26 05:49:09', 1),
+(135, 'hsdfh', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 06:16:32', '2023-06-26 06:16:32', 1),
+(136, 'jsdjh', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 06:16:46', '2023-06-26 06:16:46', 1),
+(137, 'ajsdfh', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 06:17:10', '2023-06-26 06:17:10', 2),
+(138, 'sdghhd', 'Nebiyu Mohammed Bedaso', 10, 'Staff', '2023-06-26 06:18:26', '2023-06-26 06:18:26', 1),
+(139, 'jd', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 06:38:09', '2023-06-26 06:38:09', 1),
+(140, 'sgf', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 06:39:37', '2023-06-26 06:39:37', 1),
+(141, 'kkdfg', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 06:39:43', '2023-06-26 06:39:43', 1),
+(142, 'hello neba', 'Aysanew Yonas Neway', 1, 'Student', '2023-06-26 09:28:25', '2023-06-26 09:28:25', 1);
 
 -- --------------------------------------------------------
 
@@ -187,6 +317,15 @@ CREATE TABLE `likes` (
   `postId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`likeId`, `liked_by_type`, `liked_by_id`, `createdAt`, `updatedAt`, `postId`) VALUES
+(2, 'student', '3', '2023-06-26 11:17:19', '2023-06-26 11:17:19', 1),
+(3, 'student', '3', '2023-06-26 11:22:34', '2023-06-26 11:22:34', 2),
+(4, 'student', '3', '2023-06-26 12:45:55', '2023-06-26 12:45:55', 8);
+
 -- --------------------------------------------------------
 
 --
@@ -216,7 +355,8 @@ INSERT INTO `options` (`optionId`, `preferenceId`, `categoryId`, `createdAt`, `u
 (15, 7, 5, '2023-06-15 17:17:38', '2023-06-15 17:17:38'),
 (16, 8, 5, '2023-06-15 17:17:43', '2023-06-15 17:17:43'),
 (17, 9, 5, '2023-06-15 17:18:05', '2023-06-15 17:18:05'),
-(19, 10, 8, '2023-06-15 20:50:50', '2023-06-15 20:50:50');
+(19, 10, 8, '2023-06-15 20:50:50', '2023-06-15 20:50:50'),
+(22, 12, 12, '2023-06-26 04:58:35', '2023-06-26 04:58:35');
 
 -- --------------------------------------------------------
 
@@ -243,18 +383,16 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`postId`, `summarizable`, `content`, `image`, `categoryId`, `staffName`, `eventLocation`, `createdAt`, `updatedAt`, `staffId`, `title`) VALUES
-(1, '0', 'Exciting news! We are launching a new product next week. Stay tuned for more updates.', NULL, 1, 'Biruk Yonas Neway', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 1, NULL),
+(1, '0', 'hello d hh  hello bb again mm The world we inhabit is a complex and ever-evolving place, filled with limitless potential for exploration and discovery. From the vast expanse of the universe to the intricate workings of the human mind and body, there is an abundance of wonders to uncover. Humans have sought to comprehend the world around them throughout history, striving to understand their place in it and establish meaning and purpose in their lives. From the earliest groups of hunter-gatherers to the most advanced technological societies, people have developed a myriad of customs, beliefs, and methods to navigate the challenges of their existence and search for happiness and fulfillment.Throughout history, humans have faced countless obstacles and setbacks, including wars, famines, diseases, and natural disasters. Yet, through perseverance and determination, they have continued to progress and flourish, always aiming to create a brighter tomorrow for themselves and future generations. Today, we face unprecedented global challenges like climate change, inequality, and the threat of nuclear war. However, we also have unparalleled opportunities to cultivate a more equitable, sustainable, and harmonious world, harnessing the strength of science, technology, and human collaboration.In recent years, technological advancements have facilitated a rapid acceleration of progress in many fields, from medicine to communications to transportation. However, these advancements have also brought new challenges and concerns, such as the impact of automation on job markets and the potential consequences of unchecked artificial intelligence. Moreover, many global challenges, such as climate change and inequality, require coordinated efforts and cooperation at the international level to address.In the face of these challenges, it is critical that we work together to create a more just and sustainable world. This will require investment in education and scientific research, as well as greater collaboration and communication among nations. It will also require a commitment to protecting the environment, prioritizing social justice, and promoting peace. By working together, we can build a brighter future for all, one in which the wonders of the world are preserved, and human potential is fully realized.', 'Images\\Post_Image\\1687791391968.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba  aadd', '2023-06-08 06:03:34', '2023-06-26 14:56:31', 1, 'astu bbb if'),
 (2, '0', 'Join us this weekend for a charity event at the local community center. Let\'s make a difference together!', NULL, 1, 'Ephrem Honelign Alene', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 2, NULL),
 (3, '0', 'We are excited to announce our partnership with a leading tech company. This collaboration will bring new opportunities for growth and innovation.', NULL, 1, 'Abel Jegnaw Mehari', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 3, NULL),
 (4, '0', 'Attention students! Don\'t forget to submit your applications for the upcoming internship program. This is a great opportunity to gain valuable work experience.', NULL, 4, 'Robel Belachew Hailemariyam', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 4, NULL),
-(5, '0', 'Let\'s celebrate World Environment Day by planting trees in our community. Join us this Saturday at the local park.', NULL, 4, 'Milkias Solomon Gebrasilassie', 'Local Park', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 5, NULL),
 (6, '0', 'Exciting update! Our company has been nominated for the Best Employer of the Year award. We are proud of our team\'s dedication and hard work.', NULL, 4, 'Selam Alebachew Debeb', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 6, NULL),
 (7, '0', 'Calling all talented artists! We are organizing an art competition with amazing prizes. Show us your creativity and passion.', NULL, 5, 'Yonas Muliye Fite', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 7, NULL),
 (8, '0', 'Are you interested in learning new languages? Join our language exchange program where you can meet language enthusiasts and improve your skills.', NULL, 6, 'Henok Belayneh Eridaw', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 8, NULL),
 (9, '0', 'Save the date! Our annual conference will take place on November 15th. Get ready for inspiring talks and valuable networking opportunities.', NULL, 9, 'Daniel Fantahun Gebremeskel', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 9, NULL),
 (10, '0', 'Attention graduates! We are organizing a career fair next month. Don\'t miss this chance to connect with top companies and explore job opportunities.', NULL, 10, 'Nebiyu Mohammed Bedaso', 'Astu Stadium', '2023-06-08 06:03:34', '2023-06-08 06:03:34', 10, NULL),
 (11, '0', 'and ethiopia', 'Images\\Post_Image\\1686332036147.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 1, 'jhjghh'),
-(13, '0', 'and ethiopiass', 'Images\\Post_Image\\1686333949309.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 1, NULL),
 (14, '0', 'and ethiopiassas ss', 'Images\\Post_Image\\1686334598989.png', 4, 'Biruk Yonas Neway', 'Addis abbbaba  aa', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 1, 'astu bbb if'),
 (15, '0', '', NULL, 4, 'Biruk Yonas Neway', 'Addis abbbaba  aa', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 1, 'astu bbb if'),
 (16, '0', 'hello', NULL, 4, 'Biruk Yonas Neway', 'Addis abbbaba  aa', '2023-06-15 17:57:50', '2023-06-15 17:57:50', 1, 'astu bbb if'),
@@ -291,7 +429,8 @@ INSERT INTO `preferences` (`preferenceId`, `userId`, `userType`, `createdAt`, `u
 (7, 2, '', '2023-06-15 17:17:38', '2023-06-15 17:17:38'),
 (8, 2, '', '2023-06-15 17:17:43', '2023-06-15 17:17:43'),
 (9, 2, 'Student', '2023-06-15 17:18:05', '2023-06-15 17:18:05'),
-(10, 1, 'Student', '2023-06-15 20:50:50', '2023-06-15 20:50:50');
+(10, 1, 'Student', '2023-06-15 20:50:50', '2023-06-15 20:50:50'),
+(12, 10, 'Staff', '2023-06-26 04:58:35', '2023-06-26 04:58:35');
 
 -- --------------------------------------------------------
 
@@ -314,81 +453,75 @@ CREATE TABLE `rsvps` (
 --
 
 INSERT INTO `rsvps` (`id`, `status`, `postId`, `userType`, `createdAt`, `updatedAt`, `forUser`) VALUES
-(1, 1, 11, 'Student', '2023-06-09 17:33:56', '2023-06-23 13:45:08', 1),
-(2, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 2),
-(3, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 3),
+(1, 1, 11, 'Student', '2023-06-09 17:33:56', '2023-06-25 07:28:53', 1),
+(2, 1, 11, 'Student', '2023-06-09 17:33:56', '2023-06-25 07:30:25', 2),
+(3, 1, 11, 'Student', '2023-06-09 17:33:56', '2023-06-26 10:54:43', 3),
 (4, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 4),
 (5, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 22),
 (6, 0, 11, 'Student', '2023-06-09 17:33:56', '2023-06-09 17:33:56', 23),
-(7, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 1),
-(8, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 2),
-(9, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 3),
-(10, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 4),
-(11, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 22),
-(12, 0, 12, 'Student', '2023-06-09 18:04:05', '2023-06-09 18:04:05', 23),
-(13, 1, 13, 'Student', '2023-06-09 18:05:49', '2023-06-23 13:45:08', 1),
-(14, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 2),
-(15, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 3),
+(13, 1, 13, 'Student', '2023-06-09 18:05:49', '2023-06-25 07:28:53', 1),
+(14, 1, 13, 'Student', '2023-06-09 18:05:49', '2023-06-25 07:30:25', 2),
+(15, 1, 13, 'Student', '2023-06-09 18:05:49', '2023-06-26 10:54:43', 3),
 (16, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 4),
 (17, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 22),
 (18, 0, 13, 'Student', '2023-06-09 18:05:49', '2023-06-09 18:05:49', 23),
-(19, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 1),
-(20, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 2),
-(21, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 3),
+(19, 1, 14, 'Student', '2023-06-09 18:16:39', '2023-06-25 07:28:53', 1),
+(20, 1, 14, 'Student', '2023-06-09 18:16:39', '2023-06-25 07:30:25', 2),
+(21, 1, 14, 'Student', '2023-06-09 18:16:39', '2023-06-26 10:54:43', 3),
 (22, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 4),
 (23, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 22),
 (24, 0, 14, 'Student', '2023-06-09 18:16:39', '2023-06-09 18:16:39', 23),
-(25, 0, 15, 'Student', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 1),
-(26, 0, 15, 'Student', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 2),
-(27, 0, 15, 'Student', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 3),
+(25, 1, 15, 'Student', '2023-06-15 17:57:04', '2023-06-25 07:28:53', 1),
+(26, 1, 15, 'Student', '2023-06-15 17:57:04', '2023-06-25 07:30:25', 2),
+(27, 1, 15, 'Student', '2023-06-15 17:57:04', '2023-06-26 10:54:43', 3),
 (28, 0, 15, 'Student', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 4),
 (29, 0, 15, 'Student', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 22),
 (30, 0, 15, 'Student', '2023-06-15 17:57:04', '2023-06-15 17:57:04', 23),
-(31, 0, 16, 'Student', '2023-06-15 17:57:51', '2023-06-15 17:57:51', 1),
-(32, 0, 16, 'Student', '2023-06-15 17:57:51', '2023-06-15 17:57:51', 2),
-(33, 0, 16, 'Student', '2023-06-15 17:57:51', '2023-06-15 17:57:51', 3),
+(31, 1, 16, 'Student', '2023-06-15 17:57:51', '2023-06-26 10:37:07', 1),
+(32, 1, 16, 'Student', '2023-06-15 17:57:51', '2023-06-26 10:36:43', 2),
+(33, 1, 16, 'Student', '2023-06-15 17:57:51', '2023-06-26 10:54:43', 3),
 (34, 0, 16, 'Student', '2023-06-15 17:57:51', '2023-06-15 17:57:51', 4),
 (35, 0, 16, 'Student', '2023-06-15 17:57:51', '2023-06-15 17:57:51', 22),
 (36, 0, 16, 'Student', '2023-06-15 17:57:51', '2023-06-15 17:57:51', 23),
-(37, 0, 17, 'Student', '2023-06-15 17:58:26', '2023-06-15 17:58:26', 1),
-(38, 0, 17, 'Student', '2023-06-15 17:58:26', '2023-06-15 17:58:26', 2),
-(39, 0, 17, 'Student', '2023-06-15 17:58:26', '2023-06-15 17:58:26', 3),
+(37, 1, 17, 'Student', '2023-06-15 17:58:26', '2023-06-26 10:37:07', 1),
+(38, 1, 17, 'Student', '2023-06-15 17:58:26', '2023-06-26 10:36:43', 2),
+(39, 1, 17, 'Student', '2023-06-15 17:58:26', '2023-06-26 10:54:43', 3),
 (40, 0, 17, 'Student', '2023-06-15 17:58:26', '2023-06-15 17:58:26', 4),
 (41, 0, 17, 'Student', '2023-06-15 17:58:26', '2023-06-15 17:58:26', 22),
 (42, 0, 17, 'Student', '2023-06-15 17:58:26', '2023-06-15 17:58:26', 23),
-(43, 0, 18, 'Student', '2023-06-15 18:01:27', '2023-06-15 18:01:27', 1),
-(44, 0, 18, 'Student', '2023-06-15 18:01:27', '2023-06-15 18:01:27', 2),
-(45, 0, 18, 'Student', '2023-06-15 18:01:27', '2023-06-15 18:01:27', 3),
+(43, 1, 18, 'Student', '2023-06-15 18:01:27', '2023-06-26 10:37:07', 1),
+(44, 1, 18, 'Student', '2023-06-15 18:01:27', '2023-06-26 10:36:43', 2),
+(45, 1, 18, 'Student', '2023-06-15 18:01:27', '2023-06-26 10:54:43', 3),
 (46, 0, 18, 'Student', '2023-06-15 18:01:27', '2023-06-15 18:01:27', 4),
 (47, 0, 18, 'Student', '2023-06-15 18:01:27', '2023-06-15 18:01:27', 22),
 (48, 0, 18, 'Student', '2023-06-15 18:01:27', '2023-06-15 18:01:27', 23),
-(49, 0, 19, 'Student', '2023-06-19 16:16:10', '2023-06-19 16:16:10', 1),
-(50, 0, 19, 'Student', '2023-06-19 16:16:10', '2023-06-19 16:16:10', 2),
-(51, 0, 19, 'Student', '2023-06-19 16:16:10', '2023-06-19 16:16:10', 3),
+(49, 1, 19, 'Student', '2023-06-19 16:16:10', '2023-06-26 10:37:07', 1),
+(50, 1, 19, 'Student', '2023-06-19 16:16:10', '2023-06-26 10:36:43', 2),
+(51, 1, 19, 'Student', '2023-06-19 16:16:10', '2023-06-26 10:54:43', 3),
 (52, 0, 19, 'Student', '2023-06-19 16:16:10', '2023-06-19 16:16:10', 4),
 (53, 0, 19, 'Student', '2023-06-19 16:16:10', '2023-06-19 16:16:10', 22),
 (54, 0, 19, 'Student', '2023-06-19 16:16:10', '2023-06-19 16:16:10', 23),
-(55, 0, 20, 'Student', '2023-06-19 16:18:46', '2023-06-19 16:18:46', 1),
-(56, 0, 20, 'Student', '2023-06-19 16:18:46', '2023-06-19 16:18:46', 2),
-(57, 0, 20, 'Student', '2023-06-19 16:18:46', '2023-06-19 16:18:46', 3),
+(55, 1, 20, 'Student', '2023-06-19 16:18:46', '2023-06-26 10:37:07', 1),
+(56, 1, 20, 'Student', '2023-06-19 16:18:46', '2023-06-26 10:36:43', 2),
+(57, 1, 20, 'Student', '2023-06-19 16:18:46', '2023-06-26 10:54:43', 3),
 (58, 0, 20, 'Student', '2023-06-19 16:18:46', '2023-06-19 16:18:46', 4),
 (59, 0, 20, 'Student', '2023-06-19 16:18:46', '2023-06-19 16:18:46', 22),
 (60, 0, 20, 'Student', '2023-06-19 16:18:46', '2023-06-19 16:18:46', 23),
-(61, 0, 21, 'Student', '2023-06-19 16:23:50', '2023-06-19 16:23:50', 1),
-(62, 0, 21, 'Student', '2023-06-19 16:23:50', '2023-06-19 16:23:50', 2),
-(63, 0, 21, 'Student', '2023-06-19 16:23:50', '2023-06-19 16:23:50', 3),
+(61, 1, 21, 'Student', '2023-06-19 16:23:50', '2023-06-26 10:37:07', 1),
+(62, 1, 21, 'Student', '2023-06-19 16:23:50', '2023-06-26 10:36:43', 2),
+(63, 1, 21, 'Student', '2023-06-19 16:23:50', '2023-06-26 10:54:43', 3),
 (64, 0, 21, 'Student', '2023-06-19 16:23:50', '2023-06-19 16:23:50', 4),
 (65, 0, 21, 'Student', '2023-06-19 16:23:50', '2023-06-19 16:23:50', 22),
 (66, 0, 21, 'Student', '2023-06-19 16:23:50', '2023-06-19 16:23:50', 23),
-(67, 0, 22, 'Student', '2023-06-19 16:25:57', '2023-06-19 16:25:57', 1),
-(68, 0, 22, 'Student', '2023-06-19 16:25:57', '2023-06-19 16:25:57', 2),
-(69, 0, 22, 'Student', '2023-06-19 16:25:57', '2023-06-19 16:25:57', 3),
+(67, 1, 22, 'Student', '2023-06-19 16:25:57', '2023-06-26 10:37:07', 1),
+(68, 1, 22, 'Student', '2023-06-19 16:25:57', '2023-06-26 10:36:43', 2),
+(69, 1, 22, 'Student', '2023-06-19 16:25:57', '2023-06-26 10:54:43', 3),
 (70, 0, 22, 'Student', '2023-06-19 16:25:57', '2023-06-19 16:25:57', 4),
 (71, 0, 22, 'Student', '2023-06-19 16:25:57', '2023-06-19 16:25:57', 22),
 (72, 0, 22, 'Student', '2023-06-19 16:25:57', '2023-06-19 16:25:57', 23),
-(73, 0, 24, 'Student', '2023-06-19 17:36:04', '2023-06-19 17:36:04', 1),
-(74, 0, 24, 'Student', '2023-06-19 17:36:04', '2023-06-19 17:36:04', 2),
-(75, 0, 24, 'Student', '2023-06-19 17:36:04', '2023-06-19 17:36:04', 3),
+(73, 1, 24, 'Student', '2023-06-19 17:36:04', '2023-06-26 10:37:07', 1),
+(74, 1, 24, 'Student', '2023-06-19 17:36:04', '2023-06-26 10:36:43', 2),
+(75, 1, 24, 'Student', '2023-06-19 17:36:04', '2023-06-26 10:54:43', 3),
 (76, 0, 24, 'Student', '2023-06-19 17:36:04', '2023-06-19 17:36:04', 4),
 (77, 0, 24, 'Student', '2023-06-19 17:36:04', '2023-06-19 17:36:04', 22),
 (78, 0, 24, 'Student', '2023-06-19 17:36:04', '2023-06-19 17:36:04', 23);
@@ -442,7 +575,7 @@ CREATE TABLE `staffs` (
 INSERT INTO `staffs` (`staffId`, `fullname`, `email`, `password`, `picture`, `isVerified`, `createdAt`, `updatedAt`) VALUES
 (1, 'Biruk Yonas Neway', 'biruk@gmail.com', '$2b$10$gk4D1C4yjzoEmXMjUYtpGeq1kBeaCm4kfGUhQit/rNRhSdiNillVa', NULL, 0, '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
 (2, 'Ephrem Honelign Alene', 'ephrem@gmail.com', '$2b$10$7sVCV5FyI.5Ec1Zv2Qs.be9VzjQH5W6jbvx4eVnblNCGhs6/0Ycom', NULL, 0, '2023-06-08 06:03:31', '2023-06-08 06:03:31'),
-(3, 'Abel Jegnaw Mehari', 'abel@gmail.com', '$2b$10$qqK16tYr1uPJf91roOca9uDptx.LRZDhiqI3rV5e0uqO1rDY5i4F6', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
+(3, 'yohanis', 'abel@gmail.com', '$2b$10$qqK16tYr1uPJf91roOca9uDptx.LRZDhiqI3rV5e0uqO1rDY5i4F6', 'Images\\Staff_Image\\1687789287106.png', 0, '2023-06-08 06:03:32', '2023-06-26 14:21:27'),
 (4, 'Robel Belachew Hailemariyam', 'robel@gmail.com', '$2b$10$4SY3ah6cvF9YHNCrwAc.R.cF8d4SOciP.1SCGikGQMOYVgIL9lg8.', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
 (5, 'Milkias Solomon Gebrasilassie', 'milkias@gmail.com', '$2b$10$8hSqYJOTl.bkWDinyKSRROM6Z4dE5Eln./v4u7n/yt/3ChWiDrk0G', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
 (6, 'Selam Alebachew Debeb', 'selam@gmail.com', '$2b$10$hbXrUrhj6C2g2r3AfiH6oupiUN8ifK3NSVvPgP0.ZpRPGzg4mCi7K', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
@@ -450,7 +583,7 @@ INSERT INTO `staffs` (`staffId`, `fullname`, `email`, `password`, `picture`, `is
 (8, 'Henok Belayneh Eridaw', 'henok@gmail.com', '$2b$10$up/i4O/GdcZtrlexRjAxNOER.BiGC/PxOSoi2gpdTQoolUuk4qZaC', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
 (9, 'Daniel Fantahun Gebremeskel', 'daniel@gmail.com', '$2b$10$3VFSmszY1qiuLeu2UkvhOOjYVKrkf5MtE8EO3.d4na01DyYCqd.dm', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
 (10, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$ehh0Wc7IHMprtnmWLMyN1OtErwQEpfqwgLReFZ/qHdZICH.ulKXCO', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
-(11, 'Milkias solomon', 'abr@abc.com', '$2b$10$Mtq5tjbr9cEUU/P7GF8w9OSzgqz27NPhGc45YgwCzp8fD.YMcgmjK', 'Images\\Staff_Image\\1686331192426.jpg', 0, '2023-06-09 17:19:52', '2023-06-09 17:19:52');
+(11, 'Milkias solomon', 'seifegabriel9@gmail.com', '$2b$10$0rLpGp9/h6N/gFpA/euJqeqCqN7DAO0mdFqKJM50f6PqfkCBRkXUS', 'Images\\Staff_Image\\1686331192426.jpg', 0, '2023-06-09 17:19:52', '2023-06-24 09:30:14');
 
 -- --------------------------------------------------------
 
@@ -478,7 +611,7 @@ CREATE TABLE `students` (
 INSERT INTO `students` (`studentId`, `fullname`, `email`, `password`, `picture`, `year`, `isVerified`, `createdAt`, `updatedAt`, `depId`) VALUES
 (1, 'Aysanew Yonas Neway', 'aysanew@gmail.com', '$2b$10$/0zHeV42w/0O7ljNyuneKOv4xP8G6tCrnmmfukRXR1dAHGm4v40iK', 'jjj', 5, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32', 1),
 (2, 'Bereket Honelign Alene', 'bereket@gmail.com', '$2b$10$Z65JemF7WoBj5EU5IC.CXe.iiMwkku5Rj3PjP5evagmMP5xPwoqEq', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 1),
-(3, 'Bekalu Jegnaw Mehari', 'bekalu@gmail.com', '$2b$10$GIAnAnRVeDjVD.kaBL0Wdu6TDGMKTnwFzZcDXzwgGDjXDk4crRXe2', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 2),
+(3, 'yohanis', 'bekalu@gmail.com', '$2b$10$GIAnAnRVeDjVD.kaBL0Wdu6TDGMKTnwFzZcDXzwgGDjXDk4crRXe2', 'Images\\Stud_Image\\1687788778437.png', 3, 0, '2023-06-08 06:03:33', '2023-06-26 14:12:58', 2),
 (4, 'Tamiru Belachew Hailemariyam', 'tamiru@gmail.com', '$2b$10$GhuxAK5AfXYQTgb2CdvGBe7ETIs8T8lMXCb8Dwa9BAGlgn5/M37Xy', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 2),
 (5, 'Tinsae Hunegnaw Ambaneh', 'tinsae@gmail.com', '$2b$10$iLKg3tpw.iuLMKpTn.QYxesg3vWsrC5giBoUQlVwv6E4AEyUHg9wG', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 3),
 (6, 'Milkias Solomon Gebrasilassie', 'milkias@gmail.com', '$2b$10$caA6hyeVZN.j3BEgVVw2Fefc9lsMHA6k/yUgaEdkBtlwGdhPYPCh.', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 3),
@@ -498,7 +631,7 @@ INSERT INTO `students` (`studentId`, `fullname`, `email`, `password`, `picture`,
 (20, 'Yafet Berhanu Garno', 'yafet@gmail.com', '$2b$10$vb1EPlZlrKxtTz4gDodXt.MdFp4Mdu/wHaLrd2zb/bJQNxLZa0hcO', NULL, 5, 0, '2023-06-08 06:03:34', '2023-06-08 06:03:34', 6),
 (22, 'Kifle Abebaw', 'aaab', '$2b$10$76e/X15541pJwCjLKwmnP.QT44wkGeEJYDv2BUCs0U.3IFHy2IumS', 'Images\\Stud_Image\\1686325494930.jpg', 5, 0, '2023-06-09 15:44:55', '2023-06-09 15:44:55', 2),
 (23, 'yohanis', 'abragdag', '$2b$10$Mvvh2FLRStcCi6im7xSIVO4BiNriLJDdwea3uW3RyGA5ZcCUoexQq', 'Images\\Stud_Image\\1686329294370.jpg', 5, 0, '2023-06-09 16:48:14', '2023-06-09 16:48:14', 2),
-(24, 'yohanis', 'seifegabriel9@gmail.com', '$2b$10$XEkJz/KK4Z1cz2dUzWWBPOoJF5OtKn58RKLOJ7HrPUnJS4caCP/s6', NULL, 5, 0, '2023-06-23 18:18:49', '2023-06-23 18:18:49', 2);
+(43, 'yohanis', 'seifegabriel9@gmail.com', '$2b$10$rrEw1HMMaN5XpWcaG1QZjeWY0QqRIMSDQDUzo3iVg6fOssyM95wcq', NULL, 5, 0, '2023-06-23 20:03:29', '2023-06-26 12:28:09', 2);
 
 --
 -- Indexes for dumped tables
@@ -648,6 +781,12 @@ ALTER TABLE `students`
 --
 
 --
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `adminId` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
@@ -663,7 +802,7 @@ ALTER TABLE `chats`
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `convid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `convid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -675,13 +814,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `likeId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `likeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `options`
 --
 ALTER TABLE `options`
-  MODIFY `optionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `optionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -693,7 +832,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `preferences`
 --
 ALTER TABLE `preferences`
-  MODIFY `preferenceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `preferenceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `rsvps`
@@ -717,7 +856,7 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `studentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `studentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables

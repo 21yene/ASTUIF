@@ -154,7 +154,7 @@ module.exports = {
           
           let user = null;
           if (userType === 'Student') {
-            user = await Student.findOne({ where: { userId } });
+            user = await Student.findOne({ where: { studentId:userId } });
           } else if (userType === 'Staff') {
             user = await Staff.findOne({ where: { staffId:userId } });
           } 
@@ -168,7 +168,7 @@ module.exports = {
 
           if(userType){
             if(userType === 'Student'){
-                const { studentId, fullname, email, picture, year, depId } = user;
+                const { studentId, fullname, email, picture, year, depId ,isVerified} = user;
                 const { ShortedName: ShortedName,name: depName} = await Department.findOne({ where: { depId: depId } });
                 const done = await Preference.findOne({where:{userId:studentId,userType:userType}})
                 let pref;
@@ -183,7 +183,7 @@ module.exports = {
                 }else{pref=done}
 
           
-              return res.status(200).json({user: { studentId, fullname, email, picture, year, depId, depName,ShortedName, pref } });
+              return res.status(200).json({user: { studentId, fullname, email, picture,isVerified, year, depId, depName,ShortedName, pref } });
               }
             
             else if (userType === 'Staff') {
@@ -262,37 +262,54 @@ module.exports = {
         const likes = await Like.findAll({
           attributes: [
             'postId',
-            [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+            [Sequelize.fn('GROUP_CONCAT', Sequelize.col('liked_by_type')), 'likedTypes'],
+            [Sequelize.fn('GROUP_CONCAT', Sequelize.col('liked_by_id')), 'likedIds']
           ],
           group: ['postId'],
           raw: true
-         });
-
-         const likesObj = likes.reduce((acc, like) => {
-          const postId = like.postId.toString(); // Convert postId to string for comparison
-          const likesCount = like.likes;
-          acc[postId] = likesCount;
-          return acc;
-        }, {});
-        
-        const mappedPosts = posts.map(post => {
-          const postId = post.postId.toString(); // Convert postId to string for comparison
-          const likesCount = likesObj[postId] || 0;
-          const { Category, Staff, ...rest } = post.toJSON();
-        
-          return {
-            ...rest,
-            categoryName: Category.name,
-            staffImage: Staff.picture,
-            likes: likesCount
-          };
         });
+
+
+       const likesObj = likes.reduce((acc, like) => {
+        const postId = like.postId.toString();
+        const likedTypes = like.likedTypes.split(',');
+        const likedIds = like.likedIds.split(',');
+        const likesData = { studentLikes: [], staffLikes: [] };
+  
+        likedTypes.forEach((type, index) => {
+          if (type === 'student') {
+            likesData.studentLikes.push(likedIds[index]);
+          } else if (type === 'staff') {
+            likesData.staffLikes.push(likedIds[index]);
+          }
+        });
+  
+        acc[postId] = likesData;
+        return acc;
+      }, {});
+        
+      const mappedPosts = posts.map(post => {
+        const postId = post.postId.toString();
+        const likesData = likesObj[postId] || { studentLikes: [], staffLikes: [] };
+        const likesCount = likesData.studentLikes.length + likesData.staffLikes.length;
+        const { Category, Staff, ...rest } = post.toJSON();
+        return {
+          ...rest,
+          categoryName: Category.name,
+          staffImage: Staff.picture,
+          likes: likesCount,
+          studentIds: likesData.studentLikes,
+          staffIds: likesData.staffLikes
+        };
+      });
         
 
-        if (!posts) {
-          return res.status(404).json({ message: 'Posts not found' });
-        }
-        return res.json(mappedPosts);
+      if (!posts) {
+        return res.status(404).json({ message: 'Posts not found' });
+      }
+  
+      return res.json(mappedPosts);
+
       } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Internal Server Error' });
@@ -300,48 +317,72 @@ module.exports = {
       
     },
 
-    async CreateOption(req,res){
+    async CreateOption(req, res) {
       try {
+        const { categoryId, userId, userType } = req.body;
+    
+        const preferences = await Preference.findAll({ where: { userId: userId, userType: userType } });
+    
+        if (preferences.length > 0) {
+          const preferenceId = preferences[0].preferenceId;
+          const existing = await Option.findAll({
+            where: {preferenceId:preferenceId}
+          });
 
-        const {categoryId, userId, userType} = req.body;
-
-        const result = await Preference.findOne({where:{userId:userId, userType:userType}})
-
-        if(result){
-          if(userType==='Student'){
-            return res.status(404).json({ success: false, message: "Student Can't have more than One Prefernece" });
+          const count = existing.length;
+    
+          if (userType === 'Student' && count >= 2) {
+            return res.status(404).json({ success: false, message: "Student can't have more than two preferences" });
+          } 
+          else if (userType === 'Student' && count < 2) {
+            const existingOption = await Option.findOne({
+              where: { preferenceId: preferenceId, categoryId: categoryId }
+            });
+    
+            if (existingOption) {
+              return res.status(400).json({ success: false, message: "Option already created!" });
+            } else {
+              const createdOption = await Option.create({
+                preferenceId: preferenceId,
+                categoryId: categoryId,
+              });
+    
+              return res.status(200).json({ success: true, message: "Option successfully created" });
+            }
+          } else if (userType === 'Staff') {
+            const existingOption = await Option.findOne({
+              where: { preferenceId: preferenceId, categoryId: categoryId }
+            });
+    
+            if (existingOption) {
+              return res.status(400).json({ success: false, message: "Option already created!" });
+            } else {
+              const createdOption = await Option.create({
+                preferenceId: preferenceId,
+                categoryId: categoryId,
+              });
+    
+              return res.status(200).json({ success: true, message: "Option successfully created" });
+            }
+          } else {
+            return res.status(404).json({ success: false, message: "User type is not eligible" });
           }
-          else if(userType==='Staff'){
-            let check = await Option.findOne({
-              where:{preferenceId:result.preferenceId,categoryId:categoryId}
-            })
-            if(check){
-              return res.status(400).json({ success: false, message: "Option already Created!!" });
-            }else{
-            const done = await Option.create({
-              preferenceId: result.preferenceId,
-              categoryId:categoryId,
-            })
-            return res.status(200).json({ success: true, message: "Option Successfully Created" });
+        } else {
+          const createdPreference = await Preference.create({
+            userId: userId,
+            userType: userType
+          });
+    
+          if (createdPreference) {
+            const createdOption = await Option.create({
+              preferenceId: createdPreference.preferenceId,
+              categoryId: categoryId,
+            });
+    
+            return res.status(200).json({ success: true, message: "Option successfully created" });
           }
         }
-          else{
-            return res.status(404).json({ success: false, message: "User Type Is Not Eligible" });
-          }
-        }else{
-          const go = await Preference.create({
-            userId:userId,
-            userType:userType
-          }) 
-          if(go){
-            const done = await Option.create({
-              preferenceId: go.preferenceId,
-              categoryId:categoryId,});
-              return res.status(200).json({ success: true, message: "Option Successfully Created" });
-          }
-        }
-        
-      }catch (err) {
+      } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Internal Server Error' });
       }

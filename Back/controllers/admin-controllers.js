@@ -120,63 +120,138 @@ module.exports = {
           }
     },
 
-    async ViewPost(req,res){
-      try {
-        const keyword = req.query.keyword;
-        const posts = await Post.findAll({
-          where: {
-            [Op.or]: [
+  //   async ViewPost(req,res){
+  //     try {
+  //       const keyword = req.query.keyword;
+  //       const posts = await Post.findAll({
+  //         where: {
+  //           [Op.or]: [
+  //           { title: { [Op.like]: `%${keyword}%` } },
+  //           { content: { [Op.like]: `%${keyword}%` } },
+  //           { staffName: { [Op.like]: `%${keyword}%` } },
+  //           { eventLocation: { [Op.like]: `%${keyword}%` } }
+  //           ]
+  //          },
+  //         include: [
+  //           { model: Category, attributes: ['name'] },
+  //           { model: Staff, attributes: ['picture'] }
+  //         ],order: [['postId', 'DESC']]
+  //       });
+
+  //       const likes = await Like.findAll({
+  //         attributes: [
+  //           'postId',
+  //           [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+  //         ],
+  //         group: ['postId'],
+  //         raw: true
+  //        });
+
+  //        const likesObj = likes.reduce((acc, like) => {
+  //         const postId = like.postId.toString(); // Convert postId to string for comparison
+  //         const likesCount = like.likes;
+  //         acc[postId] = likesCount;
+  //         return acc;
+  //       }, {});
+        
+  //       const mappedPosts = posts.map(post => {
+  //         const postId = post.postId.toString(); // Convert postId to string for comparison
+  //         const likesCount = likesObj[postId] || 0;
+  //         const { Category, Staff, ...rest } = post.toJSON();
+        
+  //         return {
+  //           ...rest,
+  //           categoryName: Category.name,
+  //           staffImage: Staff.picture,
+  //           likes: likesCount
+  //         };
+  //       });
+        
+
+  //       if (!posts) {
+  //         return res.status(404).json({ message: 'Posts not found' });
+  //       }
+  //       return res.json(mappedPosts);
+  //       } catch (err) {
+  //         console.error(err);
+  //         return res.status(500).json({ message: 'Internal Server Error' });
+  //       }
+  // },
+
+  async ViewPost(req, res) {
+    try {
+      const keyword = req.query.keyword;
+  
+      const posts = await Post.findAll({
+        where: {
+          [Op.or]: [
             { title: { [Op.like]: `%${keyword}%` } },
             { content: { [Op.like]: `%${keyword}%` } },
             { staffName: { [Op.like]: `%${keyword}%` } },
             { eventLocation: { [Op.like]: `%${keyword}%` } }
-            ]
-           },
-          include: [
-            { model: Category, attributes: ['name'] },
-            { model: Staff, attributes: ['picture'] }
-          ],order: [['postId', 'DESC']]
+          ]
+        },
+        include: [
+          { model: Category, attributes: ['name'] },
+          { model: Staff, attributes: ['picture'] }
+        ],
+        order: [['postId', 'DESC']]
+      });
+  
+      const likes = await Like.findAll({
+        attributes: [
+          'postId',
+          [Sequelize.fn('GROUP_CONCAT', Sequelize.col('liked_by_type')), 'likedTypes'],
+          [Sequelize.fn('GROUP_CONCAT', Sequelize.col('liked_by_id')), 'likedIds']
+        ],
+        group: ['postId'],
+        raw: true
+      });
+  
+      const likesObj = likes.reduce((acc, like) => {
+        const postId = like.postId.toString();
+        const likedTypes = like.likedTypes.split(',');
+        const likedIds = like.likedIds.split(',');
+        const likesData = { studentLikes: [], staffLikes: [] };
+  
+        likedTypes.forEach((type, index) => {
+          if (type === 'student') {
+            likesData.studentLikes.push(likedIds[index]);
+          } else if (type === 'staff') {
+            likesData.staffLikes.push(likedIds[index]);
+          }
         });
-
-        const likes = await Like.findAll({
-          attributes: [
-            'postId',
-            [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
-          ],
-          group: ['postId'],
-          raw: true
-         });
-
-         const likesObj = likes.reduce((acc, like) => {
-          const postId = like.postId.toString(); // Convert postId to string for comparison
-          const likesCount = like.likes;
-          acc[postId] = likesCount;
-          return acc;
-        }, {});
-        
-        const mappedPosts = posts.map(post => {
-          const postId = post.postId.toString(); // Convert postId to string for comparison
-          const likesCount = likesObj[postId] || 0;
-          const { Category, Staff, ...rest } = post.toJSON();
-        
-          return {
-            ...rest,
-            categoryName: Category.name,
-            staffImage: Staff.picture,
-            likes: likesCount
-          };
-        });
-        
-
-        if (!posts) {
-          return res.status(404).json({ message: 'Posts not found' });
-        }
-        return res.json(mappedPosts);
-        } catch (err) {
-          console.error(err);
-          return res.status(500).json({ message: 'Internal Server Error' });
-        }
+  
+        acc[postId] = likesData;
+        return acc;
+      }, {});
+  
+      const mappedPosts = posts.map(post => {
+        const postId = post.postId.toString();
+        const likesData = likesObj[postId] || { studentLikes: [], staffLikes: [] };
+        const likesCount = likesData.studentLikes.length + likesData.staffLikes.length;
+        const { Category, Staff, ...rest } = post.toJSON();
+        return {
+          ...rest,
+          categoryName: Category.name,
+          staffImage: Staff.picture,
+          likes: likesCount,
+          studentIds: likesData.studentLikes,
+          staffIds: likesData.staffLikes
+        };
+      });
+  
+      if (!posts) {
+        return res.status(404).json({ message: 'Posts not found' });
+      }
+  
+      return res.json(mappedPosts);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
   },
+  
 
     async GetStudent(req,res){
       try {

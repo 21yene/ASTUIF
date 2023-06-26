@@ -34,6 +34,7 @@ function Dashboard() {
 
     const [name, setName] = useState('');
     const [senderType, setSenderType] = useState('');
+    const [userId, setUserId] = useState('');
     const navigate = useNavigate(); 
 
 	axios.defaults.withCredentials = true;
@@ -45,10 +46,11 @@ function Dashboard() {
 
                 if (res.data.user.user.hasOwnProperty('studentId')) {
                     setSenderType ('Student');
+                    setUserId(res.data.user.user.studentId);
                     setActiveTab(1);
                 } else {
                     setSenderType ('Staff');
-                    // setActiveTab(2);
+                    setUserId(res.data.user.user.staffId);
                 }
             }
             else{
@@ -60,6 +62,33 @@ function Dashboard() {
             navigate("/");
         });
     }, []);
+
+
+    // Get Current User [Database]
+
+
+	const [currentUser, setCurrentUser] = useState('');
+
+	useEffect(() => {
+        ip.get('/api/currentUser', {
+            params: {
+                userId: userId,
+                userType: senderType,
+            },
+        })
+        .then(res => {
+            setCurrentUser(res.data.user);
+        })
+        .catch(err => console.log(err));
+    }, [userId, senderType]);
+    
+    useEffect(() => {
+        if (currentUser && !currentUser.isVerified) {
+            navigate("/");
+        }
+    }, [currentUser]);
+
+
 
 
     // Get All post
@@ -117,19 +146,8 @@ function Dashboard() {
     // Get MyPost
 
     const [myPost, SetMyPost] = useState([]);
-    // const [staffWrite, setStaffWrite] = useState('');
-
-    // const handleSearchStaffChange = (event) => {
-    //     setStaffWrite(event.target.value);
-    // };
 
     useEffect(() => {
-        // ip.get('/api/staff/myPost', {
-        //     params: {
-        //         staffId: name.staffId,
-        //         keyword: staffWrite,
-        //     },
-        // })
 
         ip.get('/api/staff/myPost', {
             params: {
@@ -262,7 +280,7 @@ function Dashboard() {
     // Default User image
 
     let user_img = '';
-    let user_image = name.picture;
+    let user_image = currentUser.picture;
 
     if (user_image === null || user_image === undefined) {
         user_img = user_avatar;
@@ -427,13 +445,13 @@ function Dashboard() {
 
                                 {senderType === 'Student' ? (
                                 <>
-                                    <div className="big">{name.fullname}<MdVerified className='verified-student'/></div>
+                                    <div className="big">{currentUser.fullname}<MdVerified className='verified-student'/></div>
                                     <img src={Student_badge} alt="role" className="role"/>
-                                    <div className="small"><MdSchool className='icon'/>{name.depName}</div>
+                                    <div className="small"><MdSchool className='icon'/>{currentUser.depName}</div>
                                 </>
                                 ):(
                                 <>
-                                    <div className="big">{name.fullname}<MdVerified className='verified-staff'/></div>
+                                    <div className="big">{currentUser.fullname}<MdVerified className='verified-staff'/></div>
                                     <img src={Staff_badge} alt="role" className="role"/>
                                 </>
                                 )}
@@ -602,7 +620,7 @@ function Dashboard() {
                         <div className='entry'><MdEmail className='icon'/>{name.email}</div>
                         <div className='entry'><BsPersonFill className='icon'/>{senderType}</div>
                         {senderType === 'Student' &&(
-                            <div className='entry'><BiBook className='icon'/>{name.depName}</div>
+                            <div className='entry'><BiBook className='icon'/>{currentUser.depName}</div>
                         )}
                         <div className='entry'><MdAddLocationAlt className='icon'/>Ethiopia, Adama</div>
                     </div>

@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import {useNavigate, Link} from 'react-router-dom';
 import axios from "axios";
 
+import ip from '../helpers/Config.js';
 import "../styles/SideBar.css";
 
 import menu_icon from "../assets/icons/bx-menu.png";       //menu icon
-
 import cube_icon from "../assets/logo1.png";       //ASTU logo
 import adobe_icon from "../assets/icons2/bxs-chat.png";       //discussion icon
 import discord_icon from "../assets/icons2/bxs-user-circle.png";       //Profile icon
@@ -48,21 +48,26 @@ function SideBar() {
 
     const [name, setName] = useState('');
     const [senderType, setSenderType] = useState('');
+	const [userId, setUserId] = useState('');
 
 	axios.defaults.withCredentials = true;
     useEffect(() => {
         axios.get('http://localhost:3000/api/user')
         .then(res => {
             if(res.data.status === "Success"){
+				setAuthState(true);
                 setName(res.data.user.user);
 
-                if (res.data.user.user.hasOwnProperty('studentId')) {
+				if (res.data.user.user.hasOwnProperty('studentId')) {
                     setSenderType ('Student');
+					setUserId(res.data.user.user.studentId);
                 } else {
                     setSenderType ('Staff');
+					setUserId(res.data.user.user.staffId);
                 }
             }
             else{
+				setAuthState(false);
                 setName("Something went wrong");
             } 
         })
@@ -70,6 +75,24 @@ function SideBar() {
 
 
 
+
+    // Get Current User [Database]
+
+	const [currentUser, setCurrentUser] = useState('');
+
+	useEffect(() => {
+        ip.get('/api/currentUser', {
+            params: {
+                userId: userId,
+				userType: senderType,
+            },
+        })
+        .then(res => {setCurrentUser(res.data.user);})
+        .catch(err =>console.log(err))
+    }, [userId, senderType]);
+
+
+    
 
 	// Logout function
 
@@ -91,7 +114,7 @@ function SideBar() {
     // Default User image
 
     let user_img = '';
-    let user_image = name.picture;
+    let user_image = currentUser.picture;
 
     if (user_image === null || user_image === undefined) {
         user_img = user_avatar;
@@ -114,7 +137,9 @@ function SideBar() {
                 <ul className="nav-list">
 
                     <div className="upper-nav">
-                    
+
+                        {currentUser.isVerified && (
+                        <>
                         <li>
                             <Link to="/dashboard">
                                 <img src={dribble_icon} alt='icon'/>
@@ -122,6 +147,9 @@ function SideBar() {
                             </Link>
                             <span className="tooltip">Dashboard</span>
                         </li>
+                        </>
+                        )}
+
                         <li>
                             <Link to="/profile">
                             <img src={discord_icon} alt='icon'/>
@@ -129,6 +157,9 @@ function SideBar() {
                             </Link>
                             <span className="tooltip">Profile</span>
                         </li>
+
+                        {currentUser.isVerified && (
+                        <>
                         <li>
                             <Link to="/chat">
                             <img src={adobe_icon} alt='icon'/>
@@ -136,6 +167,8 @@ function SideBar() {
                             </Link>
                             <span className="tooltip">Discussion</span>
                         </li>
+                        </>
+                        )}
                         <li>
                             <Link to="/">
                                 <img src={steam_icon} alt='icon'/>
@@ -152,7 +185,7 @@ function SideBar() {
                         <div className="profile-details">
                             <img src={user_img} alt="profileImg" />
                             <div className="name_job">
-                                <div className="name">{name.fullname}</div>
+                                <div className="name">{currentUser.fullname}</div>
                                 <div className="role">{senderType}</div>
                             </div>
                         </div>

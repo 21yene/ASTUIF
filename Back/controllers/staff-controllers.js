@@ -287,28 +287,53 @@ module.exports = {
               const likes = await Like.findAll({
                 attributes: [
                   'postId',
-                  [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+                  [Sequelize.fn('GROUP_CONCAT', Sequelize.col('liked_by_type')), 'likedTypes'],
+                  [Sequelize.fn('GROUP_CONCAT', Sequelize.col('liked_by_id')), 'likedIds']
                 ],
-                group: ['postId']
+                group: ['postId'],
+                raw: true
               });
-              const mappedPosts = posts.map(post => {
-                const postLikes = likes.find(like => like.postId === post.id);
-                const likesCount = postLikes ? postLikes.likes : 0;
-                const { Category, Staff, ...rest } = post.toJSON();
+      
+      
+             const likesObj = likes.reduce((acc, like) => {
+              const postId = like.postId.toString();
+              const likedTypes = like.likedTypes.split(',');
+              const likedIds = like.likedIds.split(',');
+              const likesData = { studentLikes: [], staffLikes: [] };
+        
+              likedTypes.forEach((type, index) => {
+                if (type === 'student') {
+                  likesData.studentLikes.push(likedIds[index]);
+                } else if (type === 'staff') {
+                  likesData.staffLikes.push(likedIds[index]);
+                }
+              });
+        
+              acc[postId] = likesData;
+              return acc;
+            }, {});
               
-                return {
-                  ...rest,
-                  categoryName: post.Category.name,
-                  staffImage: post.Staff.picture,
-                  likes: likesCount
-                };
-              });
+            const mappedPosts = posts.map(post => {
+              const postId = post.postId.toString();
+              const likesData = likesObj[postId] || { studentLikes: [], staffLikes: [] };
+              const likesCount = likesData.studentLikes.length + likesData.staffLikes.length;
+              const { Category, Staff, ...rest } = post.toJSON();
+              return {
+                ...rest,
+                categoryName: Category.name,
+                staffImage: Staff.picture,
+                likes: likesCount,
+                studentIds: likesData.studentLikes,
+                staffIds: likesData.staffLikes
+              };
+            });
               
       
-              if (!posts) {
-                return res.status(404).json({ message: 'Posts not found' });
-              }
-              return res.json(mappedPosts);
+            if (!posts) {
+              return res.status(404).json({ message: 'Posts not found' });
+            }
+        
+            return res.json(mappedPosts);
         } catch (err) {
             console.error(err);
             return res.status(500).json({ message: 'Internal Server Error' });

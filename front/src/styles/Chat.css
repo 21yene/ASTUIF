@@ -454,13 +454,13 @@
   .chat .messages-chat {
     padding: 25px 35px;
     background-color: white;
-    flex: 1;
-      overflow-y: auto;
+    height: 562px;
+    overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
   }
-  
+
   .chat .messages-null {
     padding: 25px 35px;
     background-color: white;

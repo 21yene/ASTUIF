@@ -51,6 +51,68 @@ function Profile() {
 
 
 
+    // Get Current User [Database]
+
+	const [currentUser, setCurrentUser] = useState('');
+
+	useEffect(() => {
+        ip.get('/api/currentUser', {
+            params: {
+                userId: userId,
+				userType: senderType,
+            },
+        })
+        .then(res => {setCurrentUser(res.data.user);})
+        .catch(err =>console.log(err))
+    }, [userId, senderType]);
+
+
+
+    // Update Post
+
+    const [image, setImage] = useState(null);
+
+    const [formData, setFormData] = useState({
+        fullname: "",
+    });
+
+    const handleUpdatePost = async (event) => {
+        event.preventDefault();
+        try {
+            const updatedFormData = {
+                ...formData,
+                staffId: name.staffId,
+                picture: image,
+            };
+    
+            const response = await ip.put("/api/staff/staffUpdate", updatedFormData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+    
+            setFormData({});
+            setImage("");
+    
+            console.log(response.data);
+            window.location.reload();
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+    
+
+    const handleUpdateChange = (event) => {
+        setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+    };
+
+
     // Upload Image Preview
 
     const [file, setFile] = useState();
@@ -62,8 +124,9 @@ function Profile() {
 
     const twoFunctions = (e) => {
         getFile(e);
-        // handleImageChange(e);
+        handleImageChange(e);
     }
+
 
 
 
@@ -146,7 +209,7 @@ function Profile() {
     // Default User image
 
     let user_img = '';
-    let user_image = name.picture;
+    let user_image = currentUser.picture;
 
     if (user_image === null || user_image === undefined) {
         user_img = user_avatar;
@@ -167,12 +230,12 @@ function Profile() {
                 <form className="account-update"> 
                     <div className="account-div">
                         <label htmlFor="fullname">Full Name</label>
-                        <input type="text" name="fullname" id="fullname" placeholder={name.fullname}   required />
+                        <input type="text" name="fullname" id="fullname" placeholder={currentUser.fullname} onChange={handleUpdateChange} required />
                     </div>
 
                     <div className="account-div">
                         <label htmlFor="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="example@astu.edu.et" value={name.email}   required />
+                        <input type="email" name="email" id="email" placeholder="example@astu.edu.et" value={currentUser.email} />
                     </div>
 
                     <div className="account-div-box">
@@ -184,35 +247,9 @@ function Profile() {
                         )}
                     </div>
 
-
-
-                    {/* 
-                    <div className="form-pair">
-                        <div className="x-y-box">
-                            ..
-                        </div>
-                        <div className="x-y-box">
-                            ..
-                        </div>
-                    </div> 
-                    */}
-
-
-
-                    {/* 
-                    <div className="account-div address">
-                            <div className="select-box">
-                                <select id="depId" name="depId"   required>
-                                    <option hidden>Department</option>
-                                    <option>Computer Science</option>
-                                    <option>Mechanical Engineering</option>
-                                    <option>Civil Engineering</option>
-                                </select>
-                            </div>
-                    </div> */}
                     
                     <div className="flex">
-                        <button className="reg-button">Update</button>
+                        <button className="reg-button" onClick={handleUpdatePost}>Update</button>
 
                         <Link className='password' to="/reset">Change Password</Link>
                     </div>
@@ -251,8 +288,8 @@ function Profile() {
                     <img src={user_img} alt="account-user-img" className="account-user-img"/>
 
                     <div className="card-banner-space"></div>
-                    <div className="card-banner-big">{name.fullname}</div>
-                    <div className="card-banner-small">{name.depName}</div>
+                    <div className="card-banner-big">{currentUser.fullname}</div>
+                    <div className="card-banner-small">{currentUser.depName}</div>
                     <div className="card-banner-tag">{senderType}</div>
                     <div className="card-banner-text">Doloremque, nihil! At ea atque quidem! Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
 
@@ -271,7 +308,10 @@ function Profile() {
             </div>
 
             <HeadIcon />
-            <Notify />
+
+            {senderType === 'Student' &&(
+                <Notify />
+            )}
 
         </div>
     );

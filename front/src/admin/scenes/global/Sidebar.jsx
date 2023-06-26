@@ -10,6 +10,7 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import avatar_img1 from '../../../assets/img_avatar.png'
 import { IoLogOut } from "react-icons/io5";
 import { MdArrowForwardIos} from "react-icons/md";
 
@@ -93,6 +94,15 @@ const Sidebar = () => {
         })
 		.catch (err => console.log(err))
 	};
+  
+  let Staff_img = '';
+  let user_image =name.picture;
+    if (user_image === null || user_image === undefined) {
+        Staff_img = avatar_img1;
+    } else {
+        Staff_img = user_image.replace('Images', '');
+        Staff_img = `http://localhost:3000${Staff_img}`;
+    }
 
   return (
     <Box
@@ -141,11 +151,12 @@ const Sidebar = () => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
+                
                 <img
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`${name.picture}`}style={{
+                  src={Staff_img}style={{
                     cursor: "pointer",
                     borderRadius: "20%",
                     borderColor: "red",

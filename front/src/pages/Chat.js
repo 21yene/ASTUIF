@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import "../styles/Chat.css";
@@ -37,6 +38,8 @@ function Chat() {
     const [creatorId, setCreatorId] = useState([]);
     const [creatorType, setCreatorType] = useState([]);
     const [depts, setDepts] = useState([]);
+    const [currentUser, setCurrentUser] = useState('');
+    const navigate = useNavigate(); 
 
     const [chatData, setChatData] = useState({
         topic: '',
@@ -99,10 +102,9 @@ function Chat() {
     }, []);
 
 
-      // Get Current User
+    // Get Current User
     
-
-	axios.defaults.withCredentials = true;
+    axios.defaults.withCredentials = true;
     useEffect(() => {
         axios.get('http://localhost:3000/api/user')
         .then(res => {
@@ -125,14 +127,42 @@ function Chat() {
                     }
             }
             else{
-                setName("Something went wrong");
-            } 
+              setName("Something went wrong");
+          } 
         })
+        .catch(err => {
+            console.log(err);
+            navigate("/");
+        });
     }, []);
 
 
 
-      // send message
+  // Get Current User [Database]
+
+
+	useEffect(() => {
+        ip.get('/api/currentUser', {
+            params: {
+                userId: userId,
+                userType: senderType,
+            },
+        })
+        .then(res => {
+            setCurrentUser(res.data.user);
+        })
+        .catch(err => console.log(err));
+  }, [userId, senderType]);
+    
+  useEffect(() => {
+        if (currentUser && !currentUser.isVerified) {
+            navigate("/");
+        }
+  }, [currentUser]);
+
+
+
+    // send message
 
     const sendMessage = async () => {
         const type= userType;
@@ -499,12 +529,19 @@ function Chat() {
                                 let user_img = '';
                                 let user_image = messages.picture;
 
-                                if (user_image === null || user_image === undefined) {
+                                if (user_image === null || user_image === undefined || !currentUser) {
                                 user_img = user_avatar;
                                 } else {
                                 user_img = user_image.replace('Images', '');
                                 user_img = `http://localhost:3000${user_img}`;
                                 }
+
+                                // if (user_image) {
+                                //     user_img = user_image.replace('Images', '');
+                                //     user_img = `http://localhost:3000${user_img}`;
+                                // } else {
+                                //     user_img = user_avatar;
+                                // }
 
                             return (
                             <>
