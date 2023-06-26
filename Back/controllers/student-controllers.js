@@ -140,7 +140,7 @@ module.exports = {
   async getVerification(req, res){
     try {
       const {email, userId , userType} = req.body;
-      const result = await Student.findOne({where:{studentId:userId,email:email}})
+      const result = await Student.findOne({where:{email:email}})
       if(userType==='Student'){
         if(!result.isVerified){
           sendVerificationEmail(result.email)

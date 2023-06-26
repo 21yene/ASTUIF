@@ -100,7 +100,7 @@ module.exports = {
             function canBeSummarized(text) {
                var englishRegex = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$/;
                 var words = text.trim().split(/\s+/);
-                return englishRegex.test(text) && words.length >= 300;
+                return englishRegex.test(text) && words.length >= 150;
             }
             
             let summarizable= canBeSummarized(req.body.content);

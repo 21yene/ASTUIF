@@ -682,42 +682,85 @@ module.exports = {
       }
   },
 
+  // async getRsvp(req, res) {
+  //   try {
+  //     const { userType, userId } = req.query;
+  //     const totalRsvp = await RSVP.count({
+  //       where: { status: false, userType: userType, forUser: userId }
+  //     });
+  
+  //     const result = await RSVP.findAll({
+  //       where: { status: false, userType: userType, forUser: userId },
+  //       attributes: ['postId']
+  //     });
+  
+  //     const rsvpData = [];
+  //     for (const rsvp of result) {
+  //       const post = await Post.findOne({
+  //         attributes: ['title'],
+  //         where: { postId: rsvp.postId }
+  //       });
+
+  //       if (post) {
+  //         const Text = {
+  //           ...rsvp.toJSON(),
+  //           text: `You have received a notification for ${post.title}`
+  //         };
+  //         rsvpData.push(Text);
+  //       } else {
+  //         console.log(`Post not found for postId: ${rsvp.postId}`);
+  //       }
+  //     }
+  //     res.status(200).json({success:true,totalRsvp,rsvpData});
+  
+  //   } catch (err) {
+  //     console.log(err);
+  //     res.status(500).json({ message: 'server error' });
+  //   }
+  // },
+
   async getRsvp(req, res) {
     try {
       const { userType, userId } = req.query;
-      const totalRsvp = await RSVP.count({
-        where: { status: false, userType: userType, forUser: userId }
-      });
   
-      const result = await RSVP.findAll({
+      const rsvps = await RSVP.findAll({
         where: { status: false, userType: userType, forUser: userId },
         attributes: ['postId']
       });
   
       const rsvpData = [];
-      for (const rsvp of result) {
-        const post = await Post.findOne({
-          attributes: ['title'],
-          where: { postId: rsvp.postId }
-        });
 
-        if (post) {
-          const Text = {
-            ...rsvp.toJSON(),
-            text: `You have received a notification for ${post.title}`
-          };
-          rsvpData.push(Text);
-        } else {
-          console.log(`Post not found for postId: ${rsvp.postId}`);
+      let val=0;
+  
+      for (const rsvp of rsvps) {
+        const postId = rsvp.postId;
+  
+        try {
+          const post = await Post.findOne({
+            attributes: ['title'],
+            where: { postId: postId }
+          });
+  
+          if (post) {
+            const text = `You have received a notification for ${post.title}`;
+            rsvpData.push({ ...rsvp.toJSON(), text });
+          } else {
+            val = val +1 ;
+          }
+        } catch (err) {
+          console.log(`Error retrieving post for postId: ${postId}`, err);
         }
       }
-      res.status(200).json({success:true,totalRsvp,rsvpData});
   
+      const totalRsvp = rsvps.length-val;
+  
+      res.status(200).json({ success: true, totalRsvp, rsvpData });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: 'server error' });
+      res.status(500).json({ message: 'Server error' });
     }
   },
+  
 
   async putRsvp(req,res){
       try{

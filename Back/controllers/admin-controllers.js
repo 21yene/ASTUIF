@@ -137,22 +137,32 @@ module.exports = {
             { model: Staff, attributes: ['picture'] }
           ]
         });
+
         const likes = await Like.findAll({
           attributes: [
             'postId',
             [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
           ],
-          group: ['postId']
+          group: ['postId'],
+          raw: true
          });
+
+         const likesObj = likes.reduce((acc, like) => {
+          const postId = like.postId.toString(); // Convert postId to string for comparison
+          const likesCount = like.likes;
+          acc[postId] = likesCount;
+          return acc;
+        }, {});
+        
         const mappedPosts = posts.map(post => {
-          const postLikes = likes.find(like => like.postId === post.id);
-          const likesCount = postLikes ? postLikes.likes : 0;
+          const postId = post.postId.toString(); // Convert postId to string for comparison
+          const likesCount = likesObj[postId] || 0;
           const { Category, Staff, ...rest } = post.toJSON();
         
           return {
             ...rest,
-            categoryName: post.Category.name,
-            staffImage: post.Staff.picture,
+            categoryName: Category.name,
+            staffImage: Staff.picture,
             likes: likesCount
           };
         });
