@@ -13,20 +13,74 @@ import { BsFileEarmarkPlusFill } from "react-icons/bs";
 import { VscVerified } from "react-icons/vsc";
 import { FcAddDatabase } from "react-icons/fc";
 
-
-
-
+import { io } from "socket.io-client";
 
 function Chat() {
 
-    //Update Pop-Up Functionality
-
-    // const [delChat, setDelChat]=useState(false);
     const [deletePop, setDeletePop]=useState(false);
     const [settingPop, setSettingPop]=useState(false);
     const [create, setCreate]=useState(false);
+    const [name, setName] = useState('');
+    const [senderType, setSenderType] = useState('');
+    const [userType, setUserType] = useState('');
+    const [userId, setUserId] = useState('');
+    const [prefer, setPrefer] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('general');
+    const [passId, setPassId] = useState('');
+    const [messages, setMessages] = useState('');
+    const [activeChat, setActiveChat] = useState('0');
+    const [activeChatID, setActiveChatID] = useState(null);
+    const [chats, setChats] = useState([]);
+    const [message, setMessage] = useState([]);
+    const [chatId, setChatId] = useState(null);
+    const [topic, setTopic] = useState([]);
+    const [creatorId, setCreatorId] = useState([]);
+    const [creatorType, setCreatorType] = useState([]);
+    const [depts, setDepts] = useState([]);
+
+    const [chatData, setChatData] = useState({
+        topic: '',
+        restrictedMode: '0',
+        categoryId: '',
+    });
 
     const dropdownRef = useRef(null);
+    const chatContainerRef = useRef(null);
+
+    useEffect(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+      }, [messages,activeChatID]);
+
+      const [socket, setSocket] = useState(io("http://localhost:8000"));
+
+      useEffect(() => {
+        const skt = io("http://localhost:8000");
+    
+        setSocket(skt);
+        socketOperation();
+      }, [chatId,activeChat]);
+    
+      function socketOperation() {
+       
+        socket.on("breadcastMessage", (data) => {
+          const msg = {
+            from: data.from,
+            message: data.message,
+            senderType: data.senderType,
+            userId: data.userId,
+          };
+          if(activeChatID===data.chatId){
+            getAllMessages();
+          }
+          
+    
+          // setMessage((oldMessage) => [...oldMessage, msg]);
+          // console.log(data);
+        });
+      }
+
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -43,14 +97,10 @@ function Chat() {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, []);
+
+
+      // Get Current User
     
-
-    // Get Current User
-
-    const [name, setName] = useState('');
-    const [senderType, setSenderType] = useState('');
-    const [userType, setUserType] = useState('');
-    const [userId, setUserId] = useState('');
 
 	axios.defaults.withCredentials = true;
     useEffect(() => {
@@ -63,12 +113,16 @@ function Chat() {
                     setSenderType('Student');
                     setUserType('student');
                     setUserId(res.data.user.user.studentId);
-                } else {
-                    setSenderType('Staff');
-                    setUserType('staff');
+                } else if(res.data.user.user.hasOwnProperty("staffId")) {
+                    setSenderType("Staff");
+                    setUserType("staff");
                     setUserId(res.data.user.user.staffId);
-                }
-
+                    }
+                    else {
+                    setSenderType("Admin");
+                    setUserType("admin");
+                    setUserId(res.data.user.user.adminId);
+                    }
             }
             else{
                 setName("Something went wrong");
@@ -78,9 +132,7 @@ function Chat() {
 
 
 
-    // send message
-
-    const [messages, setMessages] = useState('');
+      // send message
 
     const sendMessage = async () => {
         const type= userType;
@@ -98,7 +150,13 @@ function Chat() {
         const data = {message: message, userId: user, senderType: type, chatId: chatId};
 
         const response = await axios.post('http://localhost:3000/api/student/conv', data);
-        console.log(response.data);
+        
+        socket.emit("messageSent", {
+            data,
+            name,
+            chatId
+          });
+
         setMessages('');        // clear input field
         } catch (error) {
             console.error(error);
@@ -109,16 +167,14 @@ function Chat() {
         setMessages(event.target.value);
     };
 
-
-
-    // Create Chat
-
-
-    const [chatData, setChatData] = useState({
-        topic: '',
-        restrictedMode: '0',
-        categoryId: '',
-    });
+    const onInputKeyDown = (event) => {
+        if (event.target.KEY === "enter") {
+          sendMessage();
+        }
+      };
+    
+      // Create Chat
+    
     
     const handleChatChange = (e) => {
         setChatData({ ...chatData, [e.target.name]: e.target.value });
@@ -170,10 +226,7 @@ function Chat() {
     };
 
 
-
-    // get user preferences
-
-    const [prefer, setPrefer] = useState(false);
+// Check if user has preferences
 
     useEffect(() => {
         ip.get('/api/staff/getOpt', {
@@ -191,12 +244,7 @@ function Chat() {
         .catch(err => console.log(err));
     }, [userId, userType]);
 
-
-
-    // OPtion change Advanced or General
-
-    const [selectedOption, setSelectedOption] = useState('general');
-    const [passId, setPassId] = useState('');
+  // OPtion change Advanced or General
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
@@ -210,10 +258,7 @@ function Chat() {
 
     // Get Chat API
 
-    const [chats, setChats] = useState([]);
-
     useEffect(() => {
-        // ip.get(`/api/student/getchat?userType=${userType}&userId=${userId}`)
         ip.get('/api/student/getchat', {
             params: {
                 userType: userType,
@@ -229,44 +274,40 @@ function Chat() {
     }, [passId, userType]);
 
 
+      // Get Conversation API
 
-    // Get Conversation API
-
-    const [message, setMessage] = useState([]);
-    const [chatId, setChatId] = useState(null);
-    const [topic, setTopic] = useState([]);
-    const [creatorId, setCreatorId] = useState([]);
-    const [creatorType, setCreatorType] = useState([]);
-
-    useEffect(() => {
+      useEffect(() => {
+        getAllMessages();
+      }, [chatId,activeChat]);
+    
+      function getAllMessages() {
         ip.get(`/api/student/getconv?chatId=${chatId}`)
-        .then(res => {setMessage(res.data.Results);})
-        .catch(err => console.log(err));
-    }, [chatId]);
+          .then((res) => {
+            setMessage(res.data.Results);
+          })
+          .catch((err) => console.log(err));
+      }
 
     
     const handleChatBtn = (newChatId) => {      // Function to handle changing chatId
         setChatId(newChatId);
     };
 
-
-
-    // Active Click Chat
-
-    const [activeChat, setActiveChat] = useState('0');
-    const [activeChatID, setActiveChatID] = useState(null);
+  // Active Click Chat
 
     const handleChatClick = (chat) => {
         setActiveChat(chat);
         // setConversation(false);
         handleClickDiv1();
+
+        socket.emit("activeChatClicked", {
+            name,
+            userId,
+            userType,
+          });
     }
 
-
-
     // Get Department
-
-    const [depts, setDepts] = useState([]);
 
     useEffect(() => { 
         ip.get('/api/student/getDep')
@@ -274,8 +315,7 @@ function Chat() {
         .catch(err => console.log(err));
     }, []);
 
-
-    // Delete Chat
+    // delete chat topic
 
     const deleteChat = () => {
         const requestBody = {
@@ -287,7 +327,6 @@ function Chat() {
         ip.delete('/api/staff/deleteChat', { data: requestBody })
         .then(response => {
             console.log(response.data);
-            // console.log(requestBody);
             setDeletePop(!deletePop);
             window.location.reload();
         })
@@ -295,17 +334,15 @@ function Chat() {
     };
 
 
-    // Default chat user image
+    // let user_img = '';
+    // let user_image = messages.picture;
 
-    let user_img = '';
-    let user_image = messages.picture;
-
-    if (user_image === null || user_image === undefined) {
-        user_img = user_avatar;
-    } else {
-        user_img = user_image.replace('Images', '');
-        user_img = `http://localhost:3000${user_img}`;
-    }
+    // if (user_image === null || user_image === undefined) {
+    //     user_img = user_avatar;
+    // } else {
+    //     user_img = user_image.replace('Images', '');
+    //     user_img = `http://localhost:3000${user_img}`;
+    // }
 
 
 
@@ -393,7 +430,7 @@ function Chat() {
                                     <p className="name">{chat.topic}</p>
                                     <p className="message">Let's meet for a coffee CSS word-wrap property is used to break the long words.</p>
                                 </div>
-                                <div className="timer">{chat.chatId}</div>
+                                <div className="timer">{chat.for}</div>
                                 
                             </div>
 
@@ -453,7 +490,7 @@ function Chat() {
                         </div>
 
                         
-                        <div class="messages-chat"> 
+                        <div class="messages-chat" ref={chatContainerRef}> 
 
                         {message.map((messages, i) => (
                         <div key={i}>
@@ -491,7 +528,6 @@ function Chat() {
                                     <p class="text">{messages.message}</p>
                                     </div>
                                 </div>
-                                {/* <div class="response-time"> 15h04</div> */}
                             </div>
 
                             ) : (
@@ -532,7 +568,7 @@ function Chat() {
 
 
                         <div class="footer-chat">
-                            <input type="text" className="write-message" placeholder="Type your message here" value={messages} onChange={handleMessageChange}/>
+                            <input type="text" className="write-message" placeholder="Type your message here" value={messages} onChange={handleMessageChange} onKeyDown={onInputKeyDown}/>
                             <button className='send_button' onClick={sendMessage}><IoSend className="icon"/></button>
                         </div>
 

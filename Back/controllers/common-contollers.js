@@ -492,6 +492,17 @@ module.exports = {
         try {
           const { userType, userId } = req.query; 
           let chats = await Chat.findAll();
+
+          if (chats) { // Replace "true" with your actual condition
+            chats = await Promise.all(chats.map(async (chat) => {
+              const category = await Category.findByPk(chat.categoryId);
+              return {
+                ...chat.toJSON(),
+                for: category ? category.name : null,
+              };
+            }));
+          }
+
           if (true) {
             chats = chats.filter(chat => {
               if (chat.creatorType === userType || !chat.restrictedMode) {

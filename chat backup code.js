@@ -39,6 +39,16 @@ function Chat() {
   const [userId, setUserId] = useState("");
 
   const [messages, setMessages] = useState("");
+  const [scroll, setScroll] = useState("");
+
+
+  const chatContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages,activeChatID]);
 
   const [chatData, setChatData] = useState({
     topic: "",
@@ -66,8 +76,10 @@ function Chat() {
         senderType: data.senderType,
         userId: data.userId,
       };
-
-      getAllMessages();
+      if(activeChatID===data.chatId){
+        getAllMessages();
+      }
+      
 
       // setMessage((oldMessage) => [...oldMessage, msg]);
       // console.log(data);
@@ -102,14 +114,18 @@ function Chat() {
         setName(res.data.user.user);
 
         if (res.data.user.user.hasOwnProperty("studentId")) {
-          // sender type declaration
           setSenderType("Student");
           setUserType("student");
           setUserId(res.data.user.user.studentId);
-        } else {
+        } else if(res.data.user.user.hasOwnProperty("staffId")) {
           setSenderType("Staff");
           setUserType("staff");
           setUserId(res.data.user.user.staffId);
+        }
+         else {
+          setSenderType("Admin");
+          setUserType("admin");
+          setUserId(res.data.user.user.adminId);
         }
 
         // if (res.data.user.user.pref !== null) {
@@ -153,9 +169,9 @@ function Chat() {
       socket.emit("messageSent", {
         data,
         name,
+        chatId
       });
 
-      // console.log(response.data);
       setMessages(""); // clear input field
     } catch (error) {
       console.error(error);
@@ -277,8 +293,8 @@ function Chat() {
       .catch((err) => console.log(err));
   }, [passId, userType]);
 
-  // Get Conversation API
 
+  // Get Conversation API
   
 
   useEffect(() => {
@@ -286,10 +302,10 @@ function Chat() {
   }, [chatId,activeChat]);
 
   function getAllMessages() {
-    // console.log('chatid', chatId);
+   
     ip.get(`/api/student/getconv?chatId=${chatId}`)
       .then((res) => {
-        // console.log("RES",res)
+     
         setMessage(res.data.Results);
       })
       .catch((err) => console.log(err));
@@ -519,7 +535,7 @@ function Chat() {
                   )}
                 </div>
 
-                <div class="messages-chat">
+                <div class="messages-chat" ref={chatContainerRef}>
                   {message.map((messages, i) => (
                     <div key={i}>
                       {/* {console.log(message)} */}

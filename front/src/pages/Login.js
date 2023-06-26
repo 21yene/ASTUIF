@@ -19,7 +19,6 @@ function Login() {
 
     const navigate = useNavigate();             // define navigation
     const [error, setError] = useState('');     // define error
-    const [authState, setAuthState]=useState(false);
 
     axios.defaults.withCredentials = true;
     const handleSubmit = async (event) => {
@@ -33,14 +32,7 @@ function Login() {
             if (response.data.error) {
                 alert(response.data.error);
             } else {
-                if (response.data.user.hasOwnProperty('adminId')){
-                    console.log('welcome admin')
-                    navigate("/admin");
-                }else{
-                setAuthState(true);
-                navigate("/"); 
-                }
-                
+                navigate("/");
             }
         } catch (error) {
             if (error.response.status === 401) {
@@ -113,12 +105,18 @@ function Login() {
                             <option hidden>Login As</option>
                             <option value="student">Student</option>
                             <option value="staff">Staff</option>
+                            <option value="admin">Admin</option>
                         </select>
+
+                        <p class="signup-link forgot"><a href="/forgot">Forgot Password</a></p>
                     </div>
 
 
+
+
                     <button class="submit" type="submit">Log in</button>
-                    <div className="error">{error}</div>
+                    {/* <p class="signup-link">No account? <a href="/register"> Create an Account</a></p> */}
+                    <div className="error-log">{error}</div>
                 </form>
 
             </div>

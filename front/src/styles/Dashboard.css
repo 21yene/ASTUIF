@@ -17,9 +17,65 @@
     padding-left: 70px;
     padding-right: 50px;
     display: flex;
+    position: relative;
     /* gap: 50px; */
 }
 
+
+
+/* -- Search Bar -- */
+
+
+.Dashboard .search-bar {
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    max-width: 190px;
+
+    position: absolute;
+    top: 25px;
+    right: 225px;
+}
+
+.Dashboard .search-staff{
+    position: absolute;
+    top: 25px;
+    right: 305px;
+}
+
+
+.Dashboard .search-bar input {
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 2.5rem;
+    border: 2px solid rgb(187, 187, 187);
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: .3s ease;
+}
+
+.Dashboard .search-bar .input::placeholder {
+    color: #9e9ea7;
+}
+
+.Dashboard .search-bar .input:focus, .Dashboard input:hover {
+    outline: none;
+    border-color: rgba(234,76,137,0.4);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.Dashboard .search-bar .icon {
+    position: absolute;
+    left: 1rem;
+    fill: #9e9ea7;
+    width: 1rem;
+    height: 1rem;
+}
 
 
 /* === NAV SIDE === */
@@ -37,7 +93,7 @@
     background-color: #ffffff;
     position: absolute;
     top: 25px;
-    right: 245px;
+    right: 135px;
     color: #707070;
     cursor: pointer;
 }
@@ -531,7 +587,16 @@
 .field-one .left .small{
     display: flex;
     align-items: center;
+    color: #e75d18;
+    font-size: 14px;
+    font-weight: 600;
     gap: 10px;
+}
+
+.field-one .left .small .icon{
+    color: #e75d18;
+    height: 25px;
+    width: 25px;
 }
 
 .field-one .detail .left .icon{
@@ -719,10 +784,105 @@
 @media only screen and (max-width: 780px) {
 
     .Dashboard{
-        padding: 0;
         padding-top: 90px;
+        padding-left: 80px;
+        padding-right: 0px;
+        padding-bottom: 95px;
+    }
+
+    .Dashboard .search-bar {
+        position: absolute;
+        top: 420px;
+        right: 20px;
+    }
+
+    .Dashboard .search-staff {
+        position: absolute;
+        top: 370px;
+        right: 20px;
+    }
+    
+
+    .field-one .profile {
+        width: 100%;
+        position: relative;
+        right: 10px;
+    }
+
+    .field-one .profile .bgr {
+        height: 100px;
+    }
+
+    .field-one .detail .user-img {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        height: 6rem;
+        width: 6rem;
+    }
+
+    .field-one .detail .user-img {
+        height: 7rem;
+        width: 7rem;
+    }
+
+    .field-one .left .big {
+        font-size: 15px;
+    }
+
+    .field-one .detail .edit-btn {
+        padding: 8px 9px;
+        font-weight: 400;
+        font-size: 13px;
     }
 
 
+    /* -- Posts */
+
+    .field-one .posts {
+        position: relative;
+        right: 20px;
+        top: 50px;
+    }
+
+    .field-one .posts .post-list {
+        padding: 0px;
+        position: relative;
+        left: 25px;
+        top: 20px;
+    }
+
+    .field-one .posts .post-list .no-post{
+        width: 320px;
+    }
+
+    /* Modal */
+
+
+    .create-modal {
+        position: fixed;
+        width: 90%;
+    }
+
+    .modal-right{
+        position: fixed;
+        right: 13px;
+        width: 80%;
+    }
+
+    .publish-box .image {
+        position: absolute;
+        left: 245px;
+    }
+
+    .publish-form .publish-radio {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .publish-form select {
+        font-size: 14px;
+    }
 
 }
