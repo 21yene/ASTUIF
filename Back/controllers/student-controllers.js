@@ -216,7 +216,7 @@ module.exports = {
     
           const update = await Staff.update({ password: hashedPassword }, { where: { staffId: result.staffId } });
           if (update) {
-            await sendNewPasswordEmail(email, newpassword, result.fullname);
+            sendNewPasswordEmail(email, newpassword, result.fullname);
             return res.status(200).json({ success: true, message: "Check your email address. Your new password has been successfully sent!" });
           }
         }else{
@@ -232,7 +232,7 @@ module.exports = {
     
           const update = await Student.update({ password: hashedPassword }, { where: { studentId: result.studentId } });
           if (update) {
-            await sendNewPasswordEmail(email, newpassword, result.fullname);
+            sendNewPasswordEmail(email, newpassword, result.fullname);
             return res.status(200).json({ success: true, message: "Check your email address. Your new password has been successfully sent!" });
           }
         }else{

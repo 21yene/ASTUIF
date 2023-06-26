@@ -177,6 +177,7 @@ module.exports = {
           return res.status(500).json({ message: 'Internal Server Error' });
         }
   },
+
     async GetStudent(req,res){
       try {
           const student = await Student.findAll();
@@ -189,6 +190,7 @@ module.exports = {
           return res.status(500).json({ message: 'Internal Server Error' });
         }
   },
+
     async GetStaff(req,res){
       try {
           const staff = await Staff.findAll();
@@ -201,6 +203,7 @@ module.exports = {
           return res.status(500).json({ message: 'Internal Server Error' });
         }
   },
+  
     async getAllData(req,res){
       try {
         const counts = {};

@@ -10,6 +10,8 @@ router.get('/getAllData',AdminController.getAllData)
 router.post('/login',Common.login)
 router.get('/logout',Common.logout)
 router.get('/user',Common.user)
+
+router.get('/currentUser',Common.getCurrent)
 router.get('/get',AdminController.GetStudent)
 router.get('/getStaff',AdminController.GetStaff)
 

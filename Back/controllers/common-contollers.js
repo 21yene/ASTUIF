@@ -147,6 +147,70 @@ module.exports = {
           return res.status(500).json({ message: 'Internal server error' });
         }
       },
+
+      async getCurrent(req, res) {
+        try {
+          const { userId, userType } = req.query;
+          
+          let user = null;
+          if (userType === 'Student') {
+            user = await Student.findOne({ where: { userId } });
+          } else if (userType === 'Staff') {
+            user = await Staff.findOne({ where: { staffId:userId } });
+          } 
+          else {
+            return res.status(400).json({ message: 'Invalid request' });
+          }
+
+          if (!user) {
+            return res.status(401).json({ message: 'User Not Found' });
+          }
+
+          if(userType){
+            if(userType === 'Student'){
+                const { studentId, fullname, email, picture, year, depId } = user;
+                const { ShortedName: ShortedName,name: depName} = await Department.findOne({ where: { depId: depId } });
+                const done = await Preference.findOne({where:{userId:studentId,userType:userType}})
+                let pref;
+                if(done){
+                  const result= await Option.findAll({where:{preferenceId:done.preferenceId},include:[Category]})
+                  const data = result.map(result => ({
+                    optionId: result.optionId,
+                    YourPreference: result.Category.name
+                      }
+                    ));
+                    pref=data;
+                }else{pref=done}
+
+          
+              return res.status(200).json({user: { studentId, fullname, email, picture, year, depId, depName,ShortedName, pref } });
+              }
+            
+            else if (userType === 'Staff') {
+                const { staffId, fullname, email, picture, isVerified } = user;
+                const done = await Preference.findOne({where:{userId:staffId,userType:userType}})
+                let pref;
+                if(done){
+                  const result= await Option.findAll({where:{preferenceId:done.preferenceId},include:[Category]})
+                  const data = result.map(result => ({
+                    optionId: result.optionId,
+                    YourPreference: result.Category.name
+                      }
+                    ));
+                    pref=data;
+                }else{pref=done}
+                return res.status(200).json({user: { staffId, fullname, email, picture, isVerified,pref } });
+              } 
+            else {
+              return res.status(400).json({ message: 'Invalid request from front' });
+            }
+          }
+  
+        } catch (error) {
+          console.error(error);
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+      },
     
       async logout(req, res) {
         try {
@@ -774,7 +838,6 @@ module.exports = {
     }
   },
   
-
   async putRsvp(req,res){
       try{
         const {rsvpData, userType, userId  } = req.body;
