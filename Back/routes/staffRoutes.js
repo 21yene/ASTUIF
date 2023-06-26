@@ -7,9 +7,10 @@ const StudentController = require('../controllers/student-controllers')
 const Common = require('../controllers/common-contollers')
 
 router.post('/stReg',StaffController.upload(),StaffController.Register)
+router.put('/staffUpdate',StaffController.upload(),StaffController.UpdateStaff)
 
 router.post('/post',StaffController.post(),StaffController.AddPost)
-router.put('/updatePost',StaffController.UpdatePost)
+router.put('/updatePost',StaffController.post(),StaffController.UpdatePost)
 router.delete('/deletePost',StaffController.DeletePost)
 router.delete('/deleteChat',Common.DeleteChat)
 
@@ -40,7 +41,7 @@ router.get('/getconv',Common.getConv)
 router.post('/forgetPassword',StudentController.forgetPassword)
 router.post('/changePassword',StudentController.changePassword)
 
-router.get('/searchPost',Common.SearchPost)
+router.get('/searchPost',Common.SearchPost) //for guest
 
 router.get('/searchStaff',Common.SearchStaff)
 router.get('/searchStudent',Common.SearchStudent)

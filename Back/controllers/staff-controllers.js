@@ -82,6 +82,37 @@ module.exports = {
         }
     },
 
+    async UpdateStaff(req, res) {
+        try {
+          const { fullname, staffId } = req.body;
+          const picture = req.file ? req.file.path : null;
+          const stuf = await Staff.findOne({ where: { staffId } });
+      
+          if (stuf) {
+            if (stuf.picture) {
+              const pictureString = stuf.picture.toString();
+              if (fs.existsSync(pictureString)) {
+                fs.unlinkSync(pictureString);
+              }
+            }
+      
+            await Staff.update(
+              { fullname: fullname, picture: picture },
+              { where: { staffId: staffId } }
+            );
+      
+            return res
+              .status(200)
+              .json({ message: 'Profile update Successful', success: true });
+          } else {
+            return res.status(400).json({ message: 'Staff Not Found', success: false });
+          }
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ message: 'Failed to update Staff' });
+        }
+    },
+
     async AddPost(req,res){
         try {
             const result = await Staff.findOne({ where: { staffId: req.body.staffId } });
@@ -285,15 +316,32 @@ module.exports = {
     },
 
     async UpdatePost(req,res){
-        const result = await Post.update(req.body,{
-            where: {
-                postId: req.body.postId
+        const {postId , content , title , eventLocation , categoryId, staffId } = req.body;
+        const image = req.file ? req.file.path : null;
+        
+        const stud = await Post.findOne({ where: { postId: postId } });
+
+        if (stud) {
+            if(stud.staffId.toString()===staffId){
+               if (stud.image) {
+              const imagedone = stud.image.toString();
+              if (fs.existsSync(imagedone)) {
+                fs.unlinkSync(imagedone);
+              }
             }
-        })
-        res.send({
-            success : true,
-            data: result
-        })
+            await Post.update(
+              {  content , title , eventLocation , categoryId, image },
+              {  where: { postId: postId } }
+            );
+            return res .status(200).json({ message: 'Post update Successful', success: true }); 
+            }
+            else{
+            return res.status(400).json({ message: "You're Eligable to Update this Post", success: false });
+            }
+          } 
+        else {
+            return res.status(400).json({ message: 'Post Not Found', success: false });
+         }
     },
 
     async DeletePost(req,res){

@@ -390,7 +390,6 @@ module.exports = {
               };
             });
             
-    
             if (!posts) {
               return res.status(404).json({ message: 'Posts not found' });
             }

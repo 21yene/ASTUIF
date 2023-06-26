@@ -118,6 +118,37 @@ module.exports = {
     }
   },
 
+  async UpdateStudent(req, res) {
+    try {
+      const { fullname, year, studentId } = req.body;
+      const picture = req.file ? req.file.path : null;
+      const stud = await Student.findOne({ where: { studentId } });
+  
+      if (stud) {
+        if (stud.picture) {
+          const pictureString = stud.picture.toString();
+          if (fs.existsSync(pictureString)) {
+            fs.unlinkSync(pictureString);
+          }
+        }
+  
+        await Student.update(
+          { fullname: fullname, year: year, picture: picture },
+          { where: { studentId: studentId } }
+        );
+  
+        return res
+          .status(200)
+          .json({ message: 'Profile update Successful', success: true });
+      } else {
+        return res.status(400).json({ message: 'Student Not Found', success: false });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to update Student' });
+    }
+  },
+  
   async VerifyStudent(req, res){
     try {
       const { token } = req.query;
