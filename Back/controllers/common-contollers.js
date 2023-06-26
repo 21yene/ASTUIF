@@ -191,27 +191,35 @@ module.exports = {
           include: [
             { model: Category, attributes: ['name'] },
             { model: Staff, attributes: ['picture'] }
-          ]
+          ],order:[['createdAt','DESC']]
         });
+
+
         const likes = await Like.findAll({
           attributes: [
             'postId',
             [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
           ],
-          group: ['postId']
-        });
+          group: ['postId'],
+          raw: true
+         });
 
-        
+         const likesObj = likes.reduce((acc, like) => {
+          const postId = like.postId.toString(); // Convert postId to string for comparison
+          const likesCount = like.likes;
+          acc[postId] = likesCount;
+          return acc;
+        }, {});
         
         const mappedPosts = posts.map(post => {
-          const postLikes = likes.find(like => like.postId === post.id);
-          const likesCount = postLikes ? postLikes.likes : 0;
+          const postId = post.postId.toString(); // Convert postId to string for comparison
+          const likesCount = likesObj[postId] || 0;
           const { Category, Staff, ...rest } = post.toJSON();
         
           return {
             ...rest,
-            categoryName: post.Category.name,
-            staffImage: post.Staff.picture,
+            categoryName: Category.name,
+            staffImage: Staff.picture,
             likes: likesCount
           };
         });
@@ -332,18 +340,61 @@ module.exports = {
     async SearchPost(req,res){
         const keyword = req.query.keyword;
         try {
+          
+          const depCat = await Category.findOne({ where: { name: 'ALL' } });
+          const categoryIds = [];
+           if (depCat) {
+                 categoryIds.push(depCat.categoryId);
+           }
             const posts = await Post.findAll({
-            where: {
+            where: {categoryId: categoryIds,
                 [Op.or]: [
                 { title: { [Op.like]: `%${keyword}%` } },
                 { content: { [Op.like]: `%${keyword}%` } },
                 { staffName: { [Op.like]: `%${keyword}%` } },
                 { eventLocation: { [Op.like]: `%${keyword}%` } }
                 ]
-            }
+            },
+            include: [
+              { model: Category, attributes: ['name'] },
+              { model: Staff, attributes: ['picture'] }
+            ],order:[['postId','DESC']]
+            });
+
+            const likes = await Like.findAll({
+              attributes: [
+                'postId',
+                [Sequelize.fn('COUNT', Sequelize.col('likeId')), 'likes']
+              ],
+              group: ['postId'],
+              raw: true
+             });
+    
+             const likesObj = likes.reduce((acc, like) => {
+              const postId = like.postId.toString(); // Convert postId to string for comparison
+              const likesCount = like.likes;
+              acc[postId] = likesCount;
+              return acc;
+            }, {});
+            
+            const mappedPosts = posts.map(post => {
+              const postId = post.postId.toString(); // Convert postId to string for comparison
+              const likesCount = likesObj[postId] || 0;
+              const { Category, Staff, ...rest } = post.toJSON();
+            
+              return {
+                ...rest,
+                categoryName: Category.name,
+                staffImage: Staff.picture,
+                likes: likesCount
+              };
             });
             
-            res.json(posts);
+    
+            if (!posts) {
+              return res.status(404).json({ message: 'Posts not found' });
+            }
+            return res.json(mappedPosts);
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: 'Server error' });
@@ -681,43 +732,6 @@ module.exports = {
           res.status(500).json({message: 'server error'});
       }
   },
-
-  // async getRsvp(req, res) {
-  //   try {
-  //     const { userType, userId } = req.query;
-  //     const totalRsvp = await RSVP.count({
-  //       where: { status: false, userType: userType, forUser: userId }
-  //     });
-  
-  //     const result = await RSVP.findAll({
-  //       where: { status: false, userType: userType, forUser: userId },
-  //       attributes: ['postId']
-  //     });
-  
-  //     const rsvpData = [];
-  //     for (const rsvp of result) {
-  //       const post = await Post.findOne({
-  //         attributes: ['title'],
-  //         where: { postId: rsvp.postId }
-  //       });
-
-  //       if (post) {
-  //         const Text = {
-  //           ...rsvp.toJSON(),
-  //           text: `You have received a notification for ${post.title}`
-  //         };
-  //         rsvpData.push(Text);
-  //       } else {
-  //         console.log(`Post not found for postId: ${rsvp.postId}`);
-  //       }
-  //     }
-  //     res.status(200).json({success:true,totalRsvp,rsvpData});
-  
-  //   } catch (err) {
-  //     console.log(err);
-  //     res.status(500).json({ message: 'server error' });
-  //   }
-  // },
 
   async getRsvp(req, res) {
     try {

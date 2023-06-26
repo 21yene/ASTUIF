@@ -41,6 +41,7 @@ router.post('/forgetPassword',StudentController.forgetPassword)
 router.post('/changePassword',StudentController.changePassword)
 
 router.get('/searchPost',Common.SearchPost)
+
 router.get('/searchStaff',Common.SearchStaff)
 router.get('/searchStudent',Common.SearchStudent)
 

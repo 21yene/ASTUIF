@@ -135,7 +135,7 @@ module.exports = {
           include: [
             { model: Category, attributes: ['name'] },
             { model: Staff, attributes: ['picture'] }
-          ]
+          ],order: [['postId', 'DESC']]
         });
 
         const likes = await Like.findAll({

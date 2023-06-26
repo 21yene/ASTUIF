@@ -25,8 +25,13 @@ async function sendVerificationEmail(email) {
     from: USER,
     to: email,
     subject: 'Email Verification For ASTU Interactive Feed',
-    text: `Please verify your email address by clicking the following link: ${verificationLink}`,
+    html: `
+      <p>Dear ${email}!</p>
+      <p>Please verify your email address by clicking the following link:</p>
+      <a href="${verificationLink}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Verify Email</a>
+    `,
   };
+  
 
   await transporter.sendMail(mailOptions);
 }
