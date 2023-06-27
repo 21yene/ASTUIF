@@ -9,7 +9,7 @@ import SideBar from '../components/SideBar';
 import HeadIcon from '../components/HeadIcon';
 import Notify from '../components/Notify';
 import PostItem from "../helpers/PostItem";
-import ip from '../helpers/Config.js';
+import {ip,realip} from '../helpers/Config.js';
 
 import { MdEmail, MdAddLocationAlt, MdVerified, MdOutlineCreate, MdDescription, MdSchool } from "react-icons/md";
 import { BsFillBookmarkPlusFill, BsFillPeopleFill, BsPersonFill, BsPinMapFill} from "react-icons/bs";
@@ -39,7 +39,7 @@ function Dashboard() {
 
 	axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -286,7 +286,7 @@ function Dashboard() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `http://localhost:3000${user_img}`;
+        user_img = `${ip}${user_img}`;
     }
 
 

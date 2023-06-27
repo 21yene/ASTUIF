@@ -7,7 +7,10 @@ import "../styles/login.css";
 import astu_logo from "../assets/badges/AstuFeed_badge.png";
 import login_graphics from "../assets/login-graphic.png";
 import { BiShowAlt, BiHide, BiCheckCircle } from "react-icons/bi";
-import ip from '../helpers/Config.js';
+import { ip, realip } from '../helpers/Config';
+
+// Rest of your code...
+
 
 function Reset() {
 
@@ -18,9 +21,9 @@ function Reset() {
     const [userEmail, setUserEmail] = useState('');
     const navigate = useNavigate();
 
-	axios.defaults.withCredentials = true;
+    axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 if (res.data.user.user.hasOwnProperty('studentId')) {

@@ -3,7 +3,7 @@ import "../styles/Profile.css";
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import {useNavigate, Link} from 'react-router-dom';
-import ip from '../helpers/Config.js';
+import {ip,realip} from '../helpers/Config.js';
 
 import SideBar from '../components/SideBar';      //SideBar
 import HeadIcon from '../components/HeadIcon';      //HeadIcon
@@ -23,9 +23,10 @@ function Profile() {
     const [userId, setUserId] = useState('');
     const navigate = useNavigate(); 
 
+
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -54,7 +55,7 @@ function Profile() {
     // Get Current User [Database]
 
 	const [currentUser, setCurrentUser] = useState('');
-
+    axios.defaults.withCredentials = true;
 	useEffect(() => {
         ip.get('/api/currentUser', {
             params: {
@@ -146,7 +147,7 @@ function Profile() {
                 userType: senderType,
             };
         
-            const response = await axios.post('http://localhost:3000/api/staff/createOpt', data);
+            const response = await ip.post('/api/staff/createOpt', data);
             window.location.reload();
             setMessage(response.data.message);
             setError('');
@@ -215,7 +216,7 @@ function Profile() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `http://localhost:3000${user_img}`;
+        user_img = `${ip}${user_img}`;
     }
 
 

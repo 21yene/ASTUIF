@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
-import ip from '../helpers/Config.js';
+import {ip,realip} from '../helpers/Config.js';
 import "../styles/Home.css";
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
@@ -27,7 +27,7 @@ function Home() {
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
 				setAuthState(true);

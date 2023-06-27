@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2023 at 06:59 PM
+-- Generation Time: Jun 27, 2023 at 05:54 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -43,7 +43,7 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`adminId`, `fullname`, `email`, `password`, `picture`, `createdAt`, `updatedAt`) VALUES
 (1, 'Abraham Mekuria Bayssie', 'biruk@gmail.com', '$2b$10$gk4D1C4yjzoEmXMjUYtpGeq1kBeaCm4kfGUhQit/rNRhSdiNillVa', NULL, '2023-06-25 12:17:43', '2023-06-25 12:17:43'),
-(2, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$ehh0Wc7IHMprtnmWLMyN1OtErwQEpfqwgLReFZ/qHdZICH.ulKXCO', NULL, '2023-06-25 12:17:43', '2023-06-25 12:17:43');
+(2, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$ehh0Wc7IHMprtnmWLMyN1OtErwQEpfqwgLReFZ/qHdZICH.ulKXCO', 'Images\\\\Stud_Image\\\\1687788778437.png\r\n', '2023-06-25 12:17:43', '2023-06-25 12:17:43');
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,8 @@ CREATE TABLE `chats` (
 INSERT INTO `chats` (`chatId`, `creatorType`, `categoryId`, `topic`, `restrictedMode`, `createdAt`, `updatedAt`, `creatorId`) VALUES
 (1, 'student', 8, 'hello everyone', 0, '2023-06-08 07:40:32', '2023-06-08 07:40:32', 4),
 (2, 'student', 8, 'hello student', 1, '2023-06-08 07:43:30', '2023-06-08 07:43:30', 4),
-(3, 'staff', 8, 'hello teacher', 1, '2023-06-08 07:43:50', '2023-06-08 07:43:50', 10);
+(3, 'staff', 8, 'hello teacher', 1, '2023-06-08 07:43:50', '2023-06-08 07:43:50', 10),
+(4, 'student', 14, 'hello cse', 1, '2023-06-26 22:07:57', '2023-06-26 22:07:57', 1);
 
 -- --------------------------------------------------------
 
@@ -324,7 +325,20 @@ CREATE TABLE `likes` (
 INSERT INTO `likes` (`likeId`, `liked_by_type`, `liked_by_id`, `createdAt`, `updatedAt`, `postId`) VALUES
 (2, 'student', '3', '2023-06-26 11:17:19', '2023-06-26 11:17:19', 1),
 (3, 'student', '3', '2023-06-26 11:22:34', '2023-06-26 11:22:34', 2),
-(4, 'student', '3', '2023-06-26 12:45:55', '2023-06-26 12:45:55', 8);
+(4, 'student', '3', '2023-06-26 12:45:55', '2023-06-26 12:45:55', 8),
+(5, 'student', '3', '2023-06-26 20:29:15', '2023-06-26 20:29:15', 24),
+(6, 'student', '3', '2023-06-26 20:29:38', '2023-06-26 20:29:38', 23),
+(10, 'student', '8', '2023-06-26 21:08:08', '2023-06-26 21:08:08', 24),
+(11, 'staff', '8', '2023-06-26 21:18:09', '2023-06-26 21:18:09', 24),
+(12, 'staff', '8', '2023-06-26 21:18:22', '2023-06-26 21:18:22', 8),
+(24, 'staff', '1', '2023-06-27 00:09:51', '2023-06-27 00:09:51', 8),
+(25, 'student', '1', '2023-06-27 00:10:01', '2023-06-27 00:10:01', 8),
+(28, 'student', '1', '2023-06-27 01:04:09', '2023-06-27 01:04:09', 22),
+(29, 'student', '1', '2023-06-27 01:07:13', '2023-06-27 01:07:13', 23),
+(30, 'student', '1', '2023-06-27 01:07:42', '2023-06-27 01:07:42', 21),
+(33, 'student', '1', '2023-06-27 01:34:39', '2023-06-27 01:34:39', 24),
+(35, 'staff', '10', '2023-06-27 01:36:31', '2023-06-27 01:36:31', 23),
+(36, 'staff', '10', '2023-06-27 01:36:37', '2023-06-27 01:36:37', 21);
 
 -- --------------------------------------------------------
 
@@ -355,8 +369,10 @@ INSERT INTO `options` (`optionId`, `preferenceId`, `categoryId`, `createdAt`, `u
 (15, 7, 5, '2023-06-15 17:17:38', '2023-06-15 17:17:38'),
 (16, 8, 5, '2023-06-15 17:17:43', '2023-06-15 17:17:43'),
 (17, 9, 5, '2023-06-15 17:18:05', '2023-06-15 17:18:05'),
-(19, 10, 8, '2023-06-15 20:50:50', '2023-06-15 20:50:50'),
-(22, 12, 12, '2023-06-26 04:58:35', '2023-06-26 04:58:35');
+(30, 15, 9, '2023-06-26 22:38:49', '2023-06-26 22:38:49'),
+(31, 15, 12, '2023-06-26 22:39:01', '2023-06-26 22:39:01'),
+(32, 12, 14, '2023-06-27 01:37:57', '2023-06-27 01:37:57'),
+(33, 12, 11, '2023-06-27 01:38:08', '2023-06-27 01:38:08');
 
 -- --------------------------------------------------------
 
@@ -429,8 +445,8 @@ INSERT INTO `preferences` (`preferenceId`, `userId`, `userType`, `createdAt`, `u
 (7, 2, '', '2023-06-15 17:17:38', '2023-06-15 17:17:38'),
 (8, 2, '', '2023-06-15 17:17:43', '2023-06-15 17:17:43'),
 (9, 2, 'Student', '2023-06-15 17:18:05', '2023-06-15 17:18:05'),
-(10, 1, 'Student', '2023-06-15 20:50:50', '2023-06-15 20:50:50'),
-(12, 10, 'Staff', '2023-06-26 04:58:35', '2023-06-26 04:58:35');
+(12, 10, 'Staff', '2023-06-26 04:58:35', '2023-06-26 04:58:35'),
+(15, 1, 'Student', '2023-06-26 22:07:16', '2023-06-26 22:07:16');
 
 -- --------------------------------------------------------
 
@@ -582,8 +598,8 @@ INSERT INTO `staffs` (`staffId`, `fullname`, `email`, `password`, `picture`, `is
 (7, 'Yonas Muliye Fite', 'yonas@gmail.com', '$2b$10$GjuwPQLB.iNzDM7l0yTmNeVFWv0PKFTItlziFL6LU2T4ELwLh0Jzu', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
 (8, 'Henok Belayneh Eridaw', 'henok@gmail.com', '$2b$10$up/i4O/GdcZtrlexRjAxNOER.BiGC/PxOSoi2gpdTQoolUuk4qZaC', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
 (9, 'Daniel Fantahun Gebremeskel', 'daniel@gmail.com', '$2b$10$3VFSmszY1qiuLeu2UkvhOOjYVKrkf5MtE8EO3.d4na01DyYCqd.dm', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
-(10, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$ehh0Wc7IHMprtnmWLMyN1OtErwQEpfqwgLReFZ/qHdZICH.ulKXCO', NULL, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32'),
-(11, 'Milkias solomon', 'seifegabriel9@gmail.com', '$2b$10$0rLpGp9/h6N/gFpA/euJqeqCqN7DAO0mdFqKJM50f6PqfkCBRkXUS', 'Images\\Staff_Image\\1686331192426.jpg', 0, '2023-06-09 17:19:52', '2023-06-24 09:30:14');
+(10, 'Nebiyu Mohammed Bedaso', 'nebiyu@gmail.com', '$2b$10$RMhd.h1a1fJ60eEUTEJOqerQh4Opqm/MlFdmO6jHkPVoOmGA1rIbS', NULL, 1, '2023-06-08 06:03:32', '2023-06-27 01:42:30'),
+(11, 'Milkias solomon', 'seifegabriel9@gmail.com', '$2b$10$LZxta5QH40UnLMMBOm6N9uDHhHVqf/UKciog6/ylwVW2l9/tmaM7W', 'Images\\Staff_Image\\1686331192426.jpg', 0, '2023-06-09 17:19:52', '2023-06-27 01:43:39');
 
 -- --------------------------------------------------------
 
@@ -609,7 +625,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`studentId`, `fullname`, `email`, `password`, `picture`, `year`, `isVerified`, `createdAt`, `updatedAt`, `depId`) VALUES
-(1, 'Aysanew Yonas Neway', 'aysanew@gmail.com', '$2b$10$/0zHeV42w/0O7ljNyuneKOv4xP8G6tCrnmmfukRXR1dAHGm4v40iK', 'jjj', 5, 0, '2023-06-08 06:03:32', '2023-06-08 06:03:32', 1),
+(1, 'Aysanew Yonas Neway', 'aysanew@gmail.com', '$2b$10$/0zHeV42w/0O7ljNyuneKOv4xP8G6tCrnmmfukRXR1dAHGm4v40iK', NULL, 5, 1, '2023-06-08 06:03:32', '2023-06-08 06:03:32', 1),
 (2, 'Bereket Honelign Alene', 'bereket@gmail.com', '$2b$10$Z65JemF7WoBj5EU5IC.CXe.iiMwkku5Rj3PjP5evagmMP5xPwoqEq', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 1),
 (3, 'yohanis', 'bekalu@gmail.com', '$2b$10$GIAnAnRVeDjVD.kaBL0Wdu6TDGMKTnwFzZcDXzwgGDjXDk4crRXe2', 'Images\\Stud_Image\\1687788778437.png', 3, 0, '2023-06-08 06:03:33', '2023-06-26 14:12:58', 2),
 (4, 'Tamiru Belachew Hailemariyam', 'tamiru@gmail.com', '$2b$10$GhuxAK5AfXYQTgb2CdvGBe7ETIs8T8lMXCb8Dwa9BAGlgn5/M37Xy', NULL, 5, 0, '2023-06-08 06:03:33', '2023-06-08 06:03:33', 2),
@@ -796,7 +812,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `chats`
 --
 ALTER TABLE `chats`
-  MODIFY `chatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `chatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `conversations`
@@ -814,13 +830,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `likeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `likeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `options`
 --
 ALTER TABLE `options`
-  MODIFY `optionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `optionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -832,7 +848,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `preferences`
 --
 ALTER TABLE `preferences`
-  MODIFY `preferenceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `preferenceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `rsvps`

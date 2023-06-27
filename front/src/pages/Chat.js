@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import "../styles/Chat.css";
-import ip from '../helpers/Config.js';
+import {ip,realip} from '../helpers/Config.js';
 import SideBar from '../components/SideBar';
 import user_avatar from '../assets/user_avatar.png';
 
@@ -56,10 +56,10 @@ function Chat() {
         }
       }, [messages,activeChatID]);
 
-      const [socket, setSocket] = useState(io("http://localhost:8000"));
+      const [socket, setSocket] = useState(io(`${realip}`));
 
       useEffect(() => {
-        const skt = io("http://localhost:8000");
+        const skt = io(`${realip}`);
     
         setSocket(skt);
         socketOperation();
@@ -106,7 +106,7 @@ function Chat() {
     
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -179,7 +179,7 @@ function Chat() {
         try {
         const data = {message: message, userId: user, senderType: type, chatId: chatId};
 
-        const response = await axios.post('http://localhost:3000/api/student/conv', data);
+        const response = await ip.post('/api/student/conv', data);
         
         socket.emit("messageSent", {
             data,
@@ -226,7 +226,7 @@ function Chat() {
             restrictedMode: chatData.restrictedMode,
         };
     
-        axios.post('http://localhost:3000/api/student/chat', payload)
+        ip.post('/api/student/chat', payload)
         .then((response) => {
             console.log('Chat created successfully:', response.data);
             setCreate(false);

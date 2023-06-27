@@ -1,7 +1,10 @@
 import React from 'react';
 import {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
-import ip from '../helpers/Config.js';
+import { ip, realip } from '../helpers/Config';
+
+// Rest of your code...
+
 
 import "../styles/Notify.css";
 
@@ -19,9 +22,9 @@ function Notify() {
     const [userType, setUserType] = useState('');
     const [userId, setUserId] = useState('');
 
-	axios.defaults.withCredentials = true;
+	
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);

@@ -1,7 +1,7 @@
 const { Op, Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const axios = require('axios');
+const {sumip,frontip} = require('../config/Config.js')
 const path = require('path');
 const fs = require('fs');
 const {Staff , Post, Student,Like, Category , RSVP, Department, School} = require('../models/schema');
@@ -402,7 +402,7 @@ async function summarizer() {
         });
         const task = async () => {
             for (const post of result) {
-            const summary = await axios.post('http://127.0.0.1:4000', { content: post.content })
+            const summary = await sumip.post('/', { content: post.content })
             if(summary.data.status){
 
                 await Post.update({ summarizable: summary.data.summerized }, { where: { postId: post.postId } });

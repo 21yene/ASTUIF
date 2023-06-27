@@ -14,7 +14,7 @@ import avatar_img1 from '../../../assets/img_avatar.png'
 import { IoLogOut } from "react-icons/io5";
 import { MdArrowForwardIos} from "react-icons/md";
 
-import ip from "../../../helpers/Config.js";
+import {ip,realip} from "../../../helpers/Config.js";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();

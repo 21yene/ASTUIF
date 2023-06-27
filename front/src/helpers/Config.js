@@ -1,7 +1,12 @@
 import axios from 'axios';
-axios.defaults.withCredentials = true;
+
+// Rest of your code...
+
 const ip = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'https://astuifback.hagrie.com',
+});
+const realip = axios.create({
+    baseURL: 'https://ts.hagrie.com',
 });
 
-export default ip;
+export { realip, ip };

@@ -13,7 +13,10 @@ import { IoLogOut } from "react-icons/io5";
 import logo from "../assets/logo2.png";
 import profile_img from "../assets/img_avatar.png";
 import user_avatar from '../assets/user_avatar.png';
-import ip from '../helpers/Config.js';
+import { ip, realip } from '../helpers/Config';
+
+// Rest of your code...
+
 
 function NavBar() {
 
@@ -28,9 +31,9 @@ function NavBar() {
 	const [userEmail, setUserEmail] = useState('');
 	const [userId, setUserId] = useState('');
 
-	axios.defaults.withCredentials = true;
+	
     useEffect(() => {
-        axios.get('http://localhost:3000/api/user')
+        ip.get('/api/user')
         .then(res => {
             if(res.data.status === "Success"){
 				setAuthState(true);
@@ -144,7 +147,7 @@ function NavBar() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `http://localhost:3000${user_img}`;
+        user_img = `${ip}${user_img}`;
     }
     
 

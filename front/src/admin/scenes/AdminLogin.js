@@ -5,7 +5,7 @@ import astu_logo from '../../assets/badges/AstuFeed_badge.png';
 import login_graphics from '../../assets/login-graphic.png';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
 import axios from 'axios';
-import ip from '../../helpers/Config.js';
+import {ip,realip} from "../../helpers/Config.js";
 
 function Login() {
   const [loginData, setLoginData] = useState({

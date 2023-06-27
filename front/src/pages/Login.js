@@ -4,6 +4,7 @@ import "../styles/login.css";
 import astu_logo from "../assets/badges/AstuFeed_badge.png";
 import login_graphics from "../assets/login-graphic.png";
 import { BiShowAlt, BiHide } from "react-icons/bi";
+import {ip,realip} from '../helpers/Config.js';
 
 import axios from "axios";
 
@@ -20,12 +21,13 @@ function Login() {
     const navigate = useNavigate();             // define navigation
     const [error, setError] = useState('');     // define error
 
-    axios.defaults.withCredentials = true;
+   
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(
-                'http://localhost:3000/api/login',
+            axios.defaults.withCredentials = true;
+            const response = await ip.post(
+                '/api/login',
                 loginData,
                 { withCredentials: true }
             );
