@@ -26,12 +26,12 @@ function App() {
           <Routes>
             <Route path='/' exact element={<Home />} />
             <Route path="/about" exact element={<About/>} />
-            <Route path="/login" exact element={<Login/>} />
+            <Route path="/login" exact element={<Login/>} /> 
+            <Route path="/forgot" exact element={<Forgot/>} />
+            <Route path="/reset" exact element={<Reset/>} />
             <Route path="/register" exact element={<Register/>} />
             <Route path="/dashboard" exact element={<Dashboard/>} />
             <Route path="/profile" exact element={<Profile/>} />
-            <Route path="/forgot" exact element={<Forgot/>} />
-            <Route path="/reset" exact element={<Reset/>} />
             <Route path="/chat" exact element={<Chat/>} />
             <Route path="/admin" exact element={<AdminDashboard/>} />
             <Route path="/admin/login" exact element={<AdminLogin/>} />

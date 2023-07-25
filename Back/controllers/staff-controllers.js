@@ -4,6 +4,7 @@ const multer = require('multer');
 const {sumip,frontip} = require('../config/Config.js')
 const path = require('path');
 const fs = require('fs');
+const axios = require('axios');
 const {Staff , Post, Student,Like, Category , RSVP, Department, School} = require('../models/schema');
 
 const storage = multer.diskStorage({

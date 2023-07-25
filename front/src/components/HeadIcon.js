@@ -5,10 +5,7 @@ import {useState, useEffect, useRef} from 'react';
 
 import "../styles/NavBar.css";
 import "../styles/HeadIcon.css";
-import { ip, realip } from '../helpers/Config';
-
-// Rest of your code...
-
+import ip from '../helpers/Config.js';
 
 import { FaUser } from "react-icons/fa";
 import { BsFillChatRightTextFill } from "react-icons/bs";
@@ -48,7 +45,7 @@ function HeadIcon() {
 	// Logout function
 
 	const logout = () => {
-		ip.get('/api/logout')
+		axios.get('http://localhost:3000/api/logout')
         .then(res => {
             if(res.data.message === "Success"){
 				setAuthState(false);
@@ -69,9 +66,9 @@ function HeadIcon() {
 	const [senderType, setSenderType] = useState('');
 	const [userId, setUserId] = useState('');
 
-	
+	axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('ip/api/user')
+        axios.get('http://localhost:3000/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -117,8 +114,10 @@ function HeadIcon() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `${ip}${user_img}`;
+        user_img = `http://localhost:3000${user_img}`;
     }
+
+
     return (
         <div className='HeadIcon'>
                         <img onClick={()=> setOpen(!open)} src={user_img} alt='Profile-img' className='profile-img' />

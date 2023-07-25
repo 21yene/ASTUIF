@@ -3,7 +3,7 @@ import {useNavigate, Link} from 'react-router-dom';
 import "../styles/Register.css";
 
 import { useState, useEffect } from 'react';
-import {ip,realip} from '../helpers/Config.js';
+import ip from '../helpers/Config.js';
 
 import login_graphics from "../assets/login-graphic.png";
 import astu_logo from "../assets/badges/AstuFeed_badge.png";

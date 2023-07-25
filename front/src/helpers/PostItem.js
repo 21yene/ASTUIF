@@ -1,8 +1,8 @@
 import React from "react";
 import {useState, useEffect, useRef} from 'react';
 import Modal from 'react-modal';
-import { ip, realip } from './Config';
-
+import ip from '../helpers/Config.js';
+import axios from "axios";
 
 import date_icon from "../assets/date_icon.png";
 import map_icon from "../assets/map_icon.png";
@@ -39,9 +39,9 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
     const [senderType, setSenderType] = useState('');
     const [userId, setUserId] = useState('');
 
-	
+	axios.defaults.withCredentials = true;
     useEffect(() => {
-        ip.get('/api/user')
+        axios.get('http://localhost:3000/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -249,7 +249,7 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
         Staff_img = avatar_img1;
     } else {
         Staff_img = user_image.replace('Images', '');
-        Staff_img = `${ip}${Staff_img}`;
+        Staff_img = `http://localhost:3000${Staff_img}`;
     }
 
     // Like Post api
@@ -287,9 +287,6 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
             }
         }
         }, [likedStd,likedStf,didLike,userId,userType]);
-
-    console.log('likedStd:', likedStd, 'likedStf:', likedStf, 'currentUserID:', currentUserID, 'userType:', userType, 'didLike:', didLike);
-
 
 
     // Like Logic
@@ -528,14 +525,23 @@ function PostItem({ user_image, user_name, user_badge, card_image, tag, title, d
                                 )}
                             </div>
                             
-
-                            <div className="like-heart">
+                            {userId && (
+                                <div className="like-heart">
                                 <label className="like-container">
                                     <input type="checkbox" onClick={() => {handleLike(); handleLikePost();}} />
                                     <BsFillHeartFill className={`svg ${liked ? 'svg-red' : ''}`} />
                                 </label>
                                 <p>{likeCount}</p>
-                            </div>
+                                </div> 
+                            )}
+
+                            {/* <div className="like-heart">
+                                <label className="like-container">
+                                    <input type="checkbox" onClick={() => {handleLike(); handleLikePost();}} />
+                                    <BsFillHeartFill className={`svg ${liked ? 'svg-red' : ''}`} />
+                                </label>
+                                <p>{likeCount}</p>
+                            </div> */}
                         </div>
         </div>
     );

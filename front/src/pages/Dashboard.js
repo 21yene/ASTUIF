@@ -9,7 +9,7 @@ import SideBar from '../components/SideBar';
 import HeadIcon from '../components/HeadIcon';
 import Notify from '../components/Notify';
 import PostItem from "../helpers/PostItem";
-import {ip,realip} from '../helpers/Config.js';
+import ip from '../helpers/Config.js';
 
 import { MdEmail, MdAddLocationAlt, MdVerified, MdOutlineCreate, MdDescription, MdSchool } from "react-icons/md";
 import { BsFillBookmarkPlusFill, BsFillPeopleFill, BsPersonFill, BsPinMapFill} from "react-icons/bs";
@@ -29,6 +29,12 @@ import user_avatar from '../assets/user_avatar.png';
 function Dashboard() {
 
     const [Visible, setVisible] = useState(false);
+    const [switchValue, setSwitchValue] = useState(0);
+
+
+    const handleSwitchChange = () => {
+        setSwitchValue((prevValue) => (prevValue === 0 ? 1 : 0));
+      };
 
     // Get Current User
 
@@ -39,7 +45,7 @@ function Dashboard() {
 
 	axios.defaults.withCredentials = true;
     useEffect(() => {
-        ip.get('/api/user')
+        axios.get('http://localhost:3000/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -195,6 +201,7 @@ function Dashboard() {
         staffId: "",
         categoryId: "",
         eventLocation: "",
+        rsvp: 0,
     });
 
     const handlePost = async (event) => {
@@ -286,7 +293,7 @@ function Dashboard() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `${ip}${user_img}`;
+        user_img = `http://localhost:3000${user_img}`;
     }
 
 
@@ -395,10 +402,15 @@ function Dashboard() {
 
                             {/* -- Switch RSVP -- */}
 
-                            {/* <div className='switch-box'>
+                            <div className="switch-box">
                                 <span>RSVP</span>
-                                <input className="switch" type="checkbox"/>
-                            </div> */}
+                                <input
+                                    className="switch"
+                                    type="checkbox"
+                                    checked={switchValue === 1}
+                                    onChange={handleSwitchChange}
+                                />
+                            </div>
 
                             {/* Location */}
 

@@ -3,7 +3,7 @@ import "../styles/Profile.css";
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import {useNavigate, Link} from 'react-router-dom';
-import {ip,realip} from '../helpers/Config.js';
+import ip from '../helpers/Config.js';
 
 import SideBar from '../components/SideBar';      //SideBar
 import HeadIcon from '../components/HeadIcon';      //HeadIcon
@@ -23,10 +23,9 @@ function Profile() {
     const [userId, setUserId] = useState('');
     const navigate = useNavigate(); 
 
-
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        ip.get('/api/user')
+        axios.get('http://localhost:3000/api/user')
         .then(res => {
             if(res.data.status === "Success"){
                 setName(res.data.user.user);
@@ -55,7 +54,7 @@ function Profile() {
     // Get Current User [Database]
 
 	const [currentUser, setCurrentUser] = useState('');
-    axios.defaults.withCredentials = true;
+
 	useEffect(() => {
         ip.get('/api/currentUser', {
             params: {
@@ -147,7 +146,7 @@ function Profile() {
                 userType: senderType,
             };
         
-            const response = await ip.post('/api/staff/createOpt', data);
+            const response = await axios.post('http://localhost:3000/api/staff/createOpt', data);
             window.location.reload();
             setMessage(response.data.message);
             setError('');
@@ -216,7 +215,7 @@ function Profile() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `${ip}${user_img}`;
+        user_img = `http://localhost:3000${user_img}`;
     }
 
 
@@ -292,7 +291,12 @@ function Profile() {
                     <div className="card-banner-big">{currentUser.fullname}</div>
                     <div className="card-banner-small">{currentUser.depName}</div>
                     <div className="card-banner-tag">{senderType}</div>
-                    <div className="card-banner-text">Doloremque, nihil! At ea atque quidem! Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+
+                    {!currentUser.isVerified ? (
+                        <div className="card-banner-verified">this is a non-verified user of the Astu Interactive Feed website. login to participate and contribute to the platform</div>
+                    ) : (
+                        <div className="card-banner-text">This is a verified member of the ASTU Interactive Feed website is a valuable contributor to the platform.</div>
+                    )}
 
                     <div className="card-banner-options">
                     {options.map((option, i) => (

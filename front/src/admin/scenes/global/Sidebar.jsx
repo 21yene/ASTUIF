@@ -14,7 +14,8 @@ import avatar_img1 from '../../../assets/img_avatar.png'
 import { IoLogOut } from "react-icons/io5";
 import { MdArrowForwardIos} from "react-icons/md";
 
-import {ip,realip} from "../../../helpers/Config.js";
+import ip from "../../../helpers/Config.js";
+import axios from "axios";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -43,8 +44,9 @@ const Sidebar = () => {
   const [authState, setAuthState]=useState(false);
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
   useEffect(() => {
-    ip.get("api/user")
+    axios.get("http://localhost:3000/api/user")
       .then((res) => {
         if (res.data.status === "Success") {
           setName(res.data.user.user);
@@ -80,13 +82,13 @@ const Sidebar = () => {
     return <div>Loading...</div>;
   }
 
+  // axios.defaults.withCredentials = true;
   const logout = () => {
-		ip.get('api/logout')
+		axios.get('http://localhost:3000/api/logout')
         .then(res => {
             if(res.data.message === "Success"){
 				setAuthState(false);
-				navigate('/admin/login');
-				window.location.reload();
+				navigate('/');
             }
             else{
 				alert("error");

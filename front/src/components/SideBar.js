@@ -2,10 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import {useNavigate, Link} from 'react-router-dom';
 import axios from "axios";
 
-import { ip, realip } from '../helpers/Config.js';
-
-// Rest of your code...
-
+import ip from '../helpers/Config.js';
 import "../styles/SideBar.css";
 
 import menu_icon from "../assets/icons/bx-menu.png";       //menu icon
@@ -53,9 +50,9 @@ function SideBar() {
     const [senderType, setSenderType] = useState('');
 	const [userId, setUserId] = useState('');
 
-	
+	axios.defaults.withCredentials = true;
     useEffect(() => {
-        ip.get('/api/user')
+        axios.get('http://localhost:3000/api/user')
         .then(res => {
             if(res.data.status === "Success"){
 				setAuthState(true);
@@ -100,7 +97,7 @@ function SideBar() {
 	// Logout function
 
 	const logout = () => {
-		ip.get('/api/logout')
+		axios.get('http://localhost:3000/api/logout')
         .then(res => {
             if(res.data.message === "Success"){
 				setAuthState(false);
@@ -123,7 +120,7 @@ function SideBar() {
         user_img = user_avatar;
     } else {
         user_img = user_image.replace('Images', '');
-        user_img = `${ip}${user_img}`;
+        user_img = `http://localhost:3000${user_img}`;
     }
 
 

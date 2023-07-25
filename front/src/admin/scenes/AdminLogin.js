@@ -5,7 +5,7 @@ import astu_logo from '../../assets/badges/AstuFeed_badge.png';
 import login_graphics from '../../assets/login-graphic.png';
 import { BiShowAlt, BiHide } from 'react-icons/bi';
 import axios from 'axios';
-import {ip,realip} from "../../helpers/Config.js";
+import ip from "../../helpers/Config.js";
 
 function Login() {
   const [loginData, setLoginData] = useState({
@@ -20,8 +20,9 @@ function Login() {
   const navigate = useNavigate(); // define navigation
   const [error, setError] = useState('');
 
+  axios.defaults.withCredentials = true;
   useEffect(() => {
-    ip.get('api/user')
+    axios.get('http://localhost:3000/api/user')
       .then((res) => {
         if (res.data.status === 'Success') {
           if (res.data.user.user.hasOwnProperty('adminId')) {
@@ -45,7 +46,7 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await ip.post('api/login', loginData, { withCredentials: true });
+      const response = await axios.post('http://localhost:3000/api/login', loginData, { withCredentials: true });
       if (response.data.error) {
         alert(response.data.error);
       } else {
